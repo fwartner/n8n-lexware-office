@@ -21,7 +21,7 @@ import {
 	RecurringTemplateResource,
 	VoucherlistResource
 } from './index';
-import { LEXWARE_RESOURCE_TYPES } from '../constants';
+import { LEXWARE_RESOURCE_TYPES, LEXWARE_PAGINATION_LIMITS, LEXWARE_PAGINATION_PARAMS, LEXWARE_DEFAULT_SORT_OPTIONS } from '../constants';
 
 export class ResourceFactory {
 	private credentials: ILexwareCredentials;
@@ -150,7 +150,7 @@ export class ResourceFactory {
 	}
 
 	private async executeGetAll(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
-		const paginationParams = this.buildPaginationParams(params);
+		const paginationParams = this.buildPaginationParams(params, resourceType);
 		
 		// Handle country-specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.COUNTRY) {
@@ -937,15 +937,93 @@ export class ResourceFactory {
 		return resource.getAll(paginationParams);
 	}
 
-	private buildPaginationParams(params: Record<string, any>): Record<string, any> {
+	private buildPaginationParams(params: Record<string, any>, resourceType?: string): Record<string, any> {
 		if (params.returnAll) {
 			return {};
 		}
 		
-		return {
-			size: Math.min(params.limit || 50, 250),
-			page: 0,
+		// Get endpoint-specific pagination limits
+		const limits = this.getPaginationLimits(resourceType);
+		const limit = Math.min(params.limit || limits.DEFAULT, limits.MAX);
+		
+		const paginationParams: Record<string, any> = {
+			[LEXWARE_PAGINATION_PARAMS.SIZE]: limit,
 		};
+		
+		// Add page-based pagination if specified
+		if (params.page !== undefined) {
+			paginationParams[LEXWARE_PAGINATION_PARAMS.PAGE] = Math.max(0, params.page);
+		} else {
+			paginationParams[LEXWARE_PAGINATION_PARAMS.PAGE] = 0;
+		}
+		
+		// Add sorting if specified
+		if (params.sort) {
+			paginationParams[LEXWARE_PAGINATION_PARAMS.SORT] = params.sort;
+		}
+		
+		// Add cursor-based pagination if supported
+		if (params.cursor) {
+			paginationParams[LEXWARE_PAGINATION_PARAMS.CURSOR] = params.cursor;
+		}
+		
+		// Add offset-based pagination if specified
+		if (params.offset !== undefined) {
+			paginationParams[LEXWARE_PAGINATION_PARAMS.OFFSET] = Math.max(0, params.offset);
+		}
+		
+		return paginationParams;
+	}
+
+	private getPaginationLimits(resourceType?: string): { DEFAULT: number; MAX: number; MIN: number } {
+		if (!resourceType) {
+			return { DEFAULT: 50, MAX: 250, MIN: 1 };
+		}
+		
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.CONTACT:
+				return LEXWARE_PAGINATION_LIMITS.CONTACTS;
+			case LEXWARE_RESOURCE_TYPES.ARTICLE:
+				return LEXWARE_PAGINATION_LIMITS.ARTICLES;
+			case LEXWARE_RESOURCE_TYPES.VOUCHER:
+				return LEXWARE_PAGINATION_LIMITS.VOUCHERS;
+			case LEXWARE_RESOURCE_TYPES.INVOICE:
+				return LEXWARE_PAGINATION_LIMITS.INVOICES;
+			case LEXWARE_RESOURCE_TYPES.QUOTATION:
+				return LEXWARE_PAGINATION_LIMITS.QUOTATIONS;
+			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+				return LEXWARE_PAGINATION_LIMITS.CREDIT_NOTES;
+			case LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION:
+				return LEXWARE_PAGINATION_LIMITS.ORDER_CONFIRMATIONS;
+			case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+				return LEXWARE_PAGINATION_LIMITS.DELIVERY_NOTES;
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return LEXWARE_PAGINATION_LIMITS.DUNNINGS;
+			case LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE:
+				return LEXWARE_PAGINATION_LIMITS.DOWN_PAYMENT_INVOICES;
+			case LEXWARE_RESOURCE_TYPES.FILE:
+				return LEXWARE_PAGINATION_LIMITS.FILES;
+			case LEXWARE_RESOURCE_TYPES.PROFILE:
+				return LEXWARE_PAGINATION_LIMITS.PROFILE;
+			case LEXWARE_RESOURCE_TYPES.COUNTRY:
+				return LEXWARE_PAGINATION_LIMITS.COUNTRIES;
+			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+				return LEXWARE_PAGINATION_LIMITS.PAYMENT_CONDITIONS;
+			case LEXWARE_RESOURCE_TYPES.PAYMENT:
+				return LEXWARE_PAGINATION_LIMITS.PAYMENTS;
+			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
+				return LEXWARE_PAGINATION_LIMITS.POSTING_CATEGORIES;
+			case LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT:
+				return LEXWARE_PAGINATION_LIMITS.PRINT_LAYOUTS;
+			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
+				return LEXWARE_PAGINATION_LIMITS.EVENT_SUBSCRIPTIONS;
+			case LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE:
+				return LEXWARE_PAGINATION_LIMITS.RECURRING_TEMPLATES;
+			case LEXWARE_RESOURCE_TYPES.VOUCHERLIST:
+				return LEXWARE_PAGINATION_LIMITS.VOUCHERLIST;
+			default:
+				return { DEFAULT: 50, MAX: 250, MIN: 1 };
+		}
 	}
 
 	private async executeFinalize(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {

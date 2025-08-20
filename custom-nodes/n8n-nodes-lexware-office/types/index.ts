@@ -1593,6 +1593,25 @@ export interface ILexwarePaginationParams {
 	size?: number;
 	page?: number;
 	sort?: string;
+	cursor?: string;
+	limit?: number;
+	offset?: number;
+}
+
+export interface ILexwarePaginationMetadata {
+	totalCount?: number;
+	totalPages?: number;
+	currentPage?: number;
+	hasNextPage?: boolean;
+	hasPreviousPage?: boolean;
+	nextCursor?: string;
+	previousCursor?: string;
+	pageSize?: number;
+}
+
+export interface ILexwarePaginationResponse<T> {
+	data: T[];
+	pagination?: ILexwarePaginationMetadata;
 }
 
 export interface ILexwareVoucherListParams extends ILexwarePaginationParams {
