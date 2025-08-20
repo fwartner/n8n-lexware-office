@@ -27,19 +27,19 @@ npm install n8n-nodes-lexware-office
 
 ```
 n8n-lexware-office/
-├── custom-nodes/
-│   └── n8n-nodes-lexware-office/     # Main package directory
-│       ├── dist/                      # Compiled JavaScript files
-│       ├── nodes/                     # Node implementations
-│       ├── credentials/               # Credential types
-│       ├── resources/                 # API resource handlers
-│       ├── utils/                     # Utility functions
-│       ├── types/                     # TypeScript type definitions
-│       ├── constants/                 # Constants and enums
-│       ├── package.json              # Package configuration
-│       ├── tsconfig.json             # TypeScript configuration
-│       └── README.md                 # Detailed documentation
-└── README.md                         # This file
+├── n8n-nodes-lexware-office/          # Main package directory
+│   ├── dist/                          # Compiled JavaScript files
+│   ├── nodes/                         # Node implementations
+│   ├── credentials/                   # Credential types
+│   ├── resources/                     # API resource handlers
+│   ├── utils/                         # Utility functions
+│   ├── types/                         # TypeScript type definitions
+│   ├── constants/                     # Constants and enums
+│   ├── package.json                   # Package configuration
+│   ├── tsconfig.json                  # TypeScript configuration
+│   └── README.md                      # Detailed documentation
+├── README.md                          # This file
+└── .gitignore                         # Git ignore rules
 ```
 
 ## 🔧 Features
@@ -75,9 +75,9 @@ n8n-lexware-office/
 
 ## 📚 Documentation
 
-- **[Installation Guide](custom-nodes/n8n-nodes-lexware-office/INSTALLATION.md)**: Detailed setup instructions
-- **[API Documentation](custom-nodes/n8n-nodes-lexware-office/README.md)**: Complete API reference
-- **[Resource Guides](custom-nodes/n8n-nodes-lexware-office/CONTACT_RESOURCE_README.md)**: Specific resource documentation
+- **[Installation Guide](n8n-nodes-lexware-office/INSTALLATION.md)**: Detailed setup instructions
+- **[API Documentation](n8n-nodes-lexware-office/README.md)**: Complete API reference
+- **[Resource Guides](n8n-nodes-lexware-office/CONTACT_RESOURCE_README.md)**: Specific resource documentation
 
 ## 🛠️ Development
 
@@ -92,7 +92,7 @@ n8n-lexware-office/
 ```bash
 # Clone the repository
 git clone https://github.com/fwartner/n8n-nodes-lexware-office.git
-cd n8n-nodes-lexware-office/custom-nodes/n8n-nodes-lexware-office
+cd n8n-nodes-lexware-office/n8n-nodes-lexware-office
 
 # Install dependencies
 npm install
@@ -163,7 +163,7 @@ npm install -g .
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](custom-nodes/n8n-nodes-lexware-office/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](n8n-nodes-lexware-office/LICENSE) file for details.
 
 ## 🆘 Support
 
