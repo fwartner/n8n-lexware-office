@@ -17,7 +17,8 @@ import {
 	PaymentResource,
 	PostingCategoryResource,
 	PrintLayoutResource,
-	EventSubscriptionResource
+	EventSubscriptionResource,
+	RecurringTemplateResource
 } from './index';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
 
@@ -50,6 +51,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY, new PostingCategoryResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT, new PrintLayoutResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE, new RecurringTemplateResource(this.credentials));
 	}
 
 	getResource(resourceType: string): any {
@@ -125,6 +127,8 @@ export class ResourceFactory {
 				return resource.get(params.printLayoutId);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.get(params.eventSubscriptionId);
+			case LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE:
+				return resource.get(params.templateId);
 			default:
 				throw new Error(`Get operation not supported for resource type: ${resourceType}`);
 		}
@@ -176,6 +180,11 @@ export class ResourceFactory {
 		// Handle print layout specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT) {
 			return this.executePrintLayoutGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle recurring template specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE) {
+			return this.executeRecurringTemplateGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -717,6 +726,64 @@ export class ResourceFactory {
 		}
 	}
 
+	private async executeRecurringTemplateGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle recurring template specific filtering
+		if (params.templateType) {
+			return resource.getByType(params.templateType, paginationParams);
+		}
+		
+		if (params.status) {
+			return resource.getByStatus(params.status, paginationParams);
+		}
+		
+		if (params.isActive === true) {
+			return resource.getActive(paginationParams);
+		}
+		
+		if (params.isActive === false) {
+			return resource.getInactive(paginationParams);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.recurrenceType) {
+			return resource.getByRecurrenceType(params.recurrenceType, paginationParams);
+		}
+		
+		if (params.category) {
+			return resource.getByCategory(params.category, paginationParams);
+		}
+		
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		if (params.expiringWithinDays) {
+			return resource.getExpiringSoon(params.expiringWithinDays, paginationParams);
+		}
+		
+		if (params.minGenerationCount) {
+			return resource.getWithHighGenerationCount(params.minGenerationCount, paginationParams);
+		}
+		
+		if (params.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+		
+		if (params.currency) {
+			return resource.getByCurrency(params.currency, paginationParams);
+		}
+		
+		if (params.tag) {
+			return resource.getByTag(params.tag, paginationParams);
+		}
+		
+		// Default: get all recurring templates
+		return resource.getAll(paginationParams);
+	}
+
 	private buildPaginationParams(params: Record<string, any>): Record<string, any> {
 		if (params.returnAll) {
 			return {};
@@ -799,6 +866,8 @@ export class ResourceFactory {
 					return resource.validatePaymentData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE:
+					return resource.validateTemplateData(params.additionalFields || {});
 				default:
 					return [];
 			}

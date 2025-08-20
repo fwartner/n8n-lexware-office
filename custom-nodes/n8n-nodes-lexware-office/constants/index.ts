@@ -18,6 +18,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	POSTING_CATEGORIES: '/v1/posting-categories',
 	PRINT_LAYOUTS: '/v1/print-layouts',
 	EVENT_SUBSCRIPTIONS: '/v1/event-subscriptions',
+	RECURRING_TEMPLATES: '/v1/recurring-templates',
 } as const;
 
 export const LEXWARE_RESOURCE_TYPES = {
@@ -39,6 +40,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	POSTING_CATEGORY: 'postingCategory',
 	PRINT_LAYOUT: 'printLayout',
 	EVENT_SUBSCRIPTION: 'eventSubscription',
+	RECURRING_TEMPLATE: 'recurringTemplate',
 } as const;
 
 export const LEXWARE_OPERATIONS = {
@@ -613,4 +615,45 @@ export const LEXWARE_QUOTATION_LEAD_TIME_UNITS = {
 	DAYS: 'days',
 	WEEKS: 'weeks',
 	MONTHS: 'months',
+} as const;
+
+export const LEXWARE_RECURRING_TEMPLATE_TYPES = {
+	INVOICE: 'invoice',
+	QUOTATION: 'quotation',
+	ORDER_CONFIRMATION: 'orderConfirmation',
+	DELIVERY_NOTE: 'deliveryNote',
+} as const;
+
+export const LEXWARE_RECURRING_TEMPLATE_STATUSES = {
+	ACTIVE: 'active',
+	INACTIVE: 'inactive',
+	DRAFT: 'draft',
+	ARCHIVED: 'archived',
+} as const;
+
+export const LEXWARE_RECURRING_TEMPLATE_RECURRENCE_TYPES = {
+	DAILY: 'daily',
+	WEEKLY: 'weekly',
+	MONTHLY: 'monthly',
+	QUARTERLY: 'quarterly',
+	YEARLY: 'yearly',
+	CUSTOM: 'custom',
+} as const;
+
+export const LEXWARE_RECURRING_TEMPLATE_DAYS_OF_WEEK = {
+	MONDAY: 1,
+	TUESDAY: 2,
+	WEDNESDAY: 3,
+	THURSDAY: 4,
+	FRIDAY: 5,
+	SATURDAY: 6,
+	SUNDAY: 7,
+} as const;
+
+export const LEXWARE_RECURRING_TEMPLATE_WEEKS_OF_MONTH = {
+	FIRST: 1,
+	SECOND: 2,
+	THIRD: 3,
+	FOURTH: 4,
+	LAST: 5,
 } as const;

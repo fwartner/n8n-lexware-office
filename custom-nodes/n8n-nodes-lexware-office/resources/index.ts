@@ -16,4 +16,5 @@ export { PaymentResource } from './PaymentResource';
 export { PostingCategoryResource } from './PostingCategoryResource';
 export { PrintLayoutResource } from './PrintLayoutResource';
 export { EventSubscriptionResource } from './EventSubscriptionResource';
+export { RecurringTemplateResource } from './RecurringTemplateResource';
 export { ResourceFactory } from './ResourceFactory';

@@ -106,6 +106,10 @@ export class LexwareOffice implements INodeType {
 						name: 'Event Subscription',
 						value: LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION,
 					},
+					{
+						name: 'Recurring Template',
+						value: LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
+					},
 				],
 				default: LEXWARE_RESOURCE_TYPES.CONTACT,
 			},
@@ -127,6 +131,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE,
 							LEXWARE_RESOURCE_TYPES.DUNNING,
 							LEXWARE_RESOURCE_TYPES.FILE,
+							LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
 						],
 					},
 				},
@@ -203,6 +208,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.COUNTRY,
 							LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION,
 							LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION,
+							LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
 						],
 					},
 				},
@@ -3037,6 +3043,204 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Search subscriptions by description or tags',
 			},
+			// Recurring Template specific fields
+			{
+				displayName: 'Template ID',
+				name: 'templateId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET],
+					},
+				},
+				description: 'The ID of the recurring template',
+			},
+			{
+				displayName: 'Template Type',
+				name: 'templateType',
+				type: 'options',
+				options: [
+					{ name: 'Invoice', value: 'invoice' },
+					{ name: 'Quotation', value: 'quotation' },
+					{ name: 'Order Confirmation', value: 'orderConfirmation' },
+					{ name: 'Delivery Note', value: 'deliveryNote' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by template type',
+			},
+			{
+				displayName: 'Status',
+				name: 'status',
+				type: 'options',
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Active', value: 'active' },
+					{ name: 'Inactive', value: 'inactive' },
+					{ name: 'Draft', value: 'draft' },
+					{ name: 'Archived', value: 'archived' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by template status',
+			},
+			{
+				displayName: 'Active Status',
+				name: 'isActive',
+				type: 'options',
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Active Only', value: 'true' },
+					{ name: 'Inactive Only', value: 'false' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by active status',
+			},
+			{
+				displayName: 'Contact ID',
+				name: 'contactId',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by contact ID',
+			},
+			{
+				displayName: 'Recurrence Type',
+				name: 'recurrenceType',
+				type: 'options',
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Daily', value: 'daily' },
+					{ name: 'Weekly', value: 'weekly' },
+					{ name: 'Monthly', value: 'monthly' },
+					{ name: 'Quarterly', value: 'quarterly' },
+					{ name: 'Yearly', value: 'yearly' },
+					{ name: 'Custom', value: 'custom' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by recurrence type',
+			},
+			{
+				displayName: 'Category',
+				name: 'category',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by category',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search templates by name or description',
+			},
+			{
+				displayName: 'Expiring Within Days',
+				name: 'expiringWithinDays',
+				type: 'number',
+				default: 30,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter templates expiring within specified days',
+			},
+			{
+				displayName: 'Min Generation Count',
+				name: 'minGenerationCount',
+				type: 'number',
+				default: 10,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter templates with minimum generation count',
+			},
+			{
+				displayName: 'Language',
+				name: 'language',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by language code (e.g., de, en)',
+			},
+			{
+				displayName: 'Currency',
+				name: 'currency',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by currency code (e.g., EUR, USD)',
+			},
+			{
+				displayName: 'Tag',
+				name: 'tag',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by tag',
+			},
 			// Common fields for creation
 			{
 				displayName: 'Additional Fields',
@@ -3881,6 +4085,26 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			}
 			if (operation === LEXWARE_OPERATIONS.CREATE) {
 				params.eventType = this.getNodeParameter('eventType', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE:
+			if (operation === LEXWARE_OPERATIONS.GET) {
+				params.templateId = this.getNodeParameter('templateId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.templateType = this.getNodeParameter('templateType', i, '') as string;
+				params.status = this.getNodeParameter('status', i, '') as string;
+				params.isActive = this.getNodeParameter('isActive', i, '') as string;
+				params.contactId = this.getNodeParameter('contactId', i, '') as string;
+				params.recurrenceType = this.getNodeParameter('recurrenceType', i, '') as string;
+				params.category = this.getNodeParameter('category', i, '') as string;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.expiringWithinDays = this.getNodeParameter('expiringWithinDays', i, 30) as number;
+				params.minGenerationCount = this.getNodeParameter('minGenerationCount', i, 10) as number;
+				params.language = this.getNodeParameter('language', i, '') as string;
+				params.currency = this.getNodeParameter('currency', i, '') as string;
+				params.tag = this.getNodeParameter('tag', i, '') as string;
 			}
 			break;
 	}

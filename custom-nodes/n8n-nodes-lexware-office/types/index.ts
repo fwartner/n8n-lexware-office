@@ -1408,6 +1408,97 @@ export interface ILexwarePrintLayout {
 	};
 }
 
+export interface ILexwareRecurringTemplate {
+	id: string;
+	name: string;
+	description?: string;
+	
+	// Template type and category
+	templateType: 'invoice' | 'quotation' | 'orderConfirmation' | 'deliveryNote';
+	category?: string;
+	
+	// Recurrence settings
+	recurrenceType: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' | 'custom';
+	recurrenceInterval: number; // Every X days/weeks/months/etc.
+	recurrenceDayOfWeek?: number; // 1-7 (Monday-Sunday) for weekly
+	recurrenceDayOfMonth?: number; // 1-31 for monthly
+	recurrenceMonthOfYear?: number; // 1-12 for yearly
+	recurrenceWeekOfMonth?: number; // 1-5 for monthly
+	recurrenceEndDate?: string;
+	recurrenceMaxOccurrences?: number;
+	
+	// Template content
+	contactId?: string;
+	contactName?: string;
+	lineItems?: Array<{
+		id?: string;
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
+		name: string;
+		description?: string;
+		quantity?: number;
+		unitName?: string;
+		unitPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxRatePercentage: number;
+		};
+		articleId?: string;
+		articleNumber?: string;
+		discountPercentage?: number;
+		discountAmount?: number;
+	}>;
+	
+	// Voucher settings
+	voucherDate?: string;
+	dueDate?: string;
+	paymentTerms?: number;
+	paymentTermsLabel?: string;
+	paymentTermsLabelTemplate?: string;
+	
+	// Tax and financial settings
+	taxType?: string;
+	taxRate?: number;
+	taxSubType?: string;
+	currency?: string;
+	exchangeRate?: number;
+	
+	// Document settings
+	language?: string;
+	note?: string;
+	title?: string;
+	printLayoutId?: string;
+	
+	// Status and lifecycle
+	status: 'active' | 'inactive' | 'draft' | 'archived';
+	isActive: boolean;
+	lastGenerated?: string;
+	nextGenerationDate?: string;
+	generationCount: number;
+	maxGenerations?: number;
+	
+	// Enhanced properties from the official API
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	createdBy?: string;
+	updatedBy?: string;
+	
+	// Additional metadata
+	tags?: string[];
+	customFields?: Record<string, any>;
+	notes?: string;
+	internalNotes?: string;
+	
+	// Validation and constraints
+	validationRules?: {
+		requiredFields?: string[];
+		allowedValues?: Record<string, any[]>;
+		formatRules?: Record<string, string>;
+	};
+}
+
 export interface ILexwareApiResponse<T> {
 	data: T;
 	status: number;
