@@ -3917,6 +3917,75 @@ export class LexwareOffice implements INodeType {
 				default: LEXWARE_DEFAULT_VALUES.DEFAULT_PAGE_SIZE,
 				description: 'Max number of results to return',
 			},
+			{
+				displayName: 'Page',
+				name: 'page',
+				type: 'number',
+				displayOptions: {
+					show: {
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+						returnAll: [false],
+					},
+				},
+				typeOptions: {
+					minValue: 0,
+				},
+				default: 0,
+				description: 'Page number (0-based)',
+			},
+			{
+				displayName: 'Sort',
+				name: 'sort',
+				type: 'options',
+				displayOptions: {
+					show: {
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'Created At (Ascending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.CREATED_AT_ASC },
+					{ name: 'Created At (Descending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.CREATED_AT_DESC },
+					{ name: 'Updated At (Ascending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.UPDATED_AT_ASC },
+					{ name: 'Updated At (Descending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.UPDATED_AT_DESC },
+					{ name: 'Voucher Date (Ascending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.VOUCHER_DATE_ASC },
+					{ name: 'Voucher Date (Descending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.VOUCHER_DATE_DESC },
+					{ name: 'Name (Ascending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.NAME_ASC },
+					{ name: 'Name (Descending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.NAME_DESC },
+					{ name: 'ID (Ascending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.ID_ASC },
+					{ name: 'ID (Descending)', value: LEXWARE_DEFAULT_SORT_OPTIONS.ID_DESC },
+				],
+				default: LEXWARE_DEFAULT_SORT_OPTIONS.CREATED_AT_DESC,
+				description: 'Sort order for results',
+			},
+			{
+				displayName: 'Cursor',
+				name: 'cursor',
+				type: 'string',
+				displayOptions: {
+					show: {
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+						returnAll: [false],
+					},
+				},
+				default: '',
+				description: 'Cursor for cursor-based pagination',
+			},
+			{
+				displayName: 'Offset',
+				name: 'offset',
+				type: 'number',
+				displayOptions: {
+					show: {
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+						returnAll: [false],
+					},
+				},
+				typeOptions: {
+					minValue: 0,
+				},
+				default: 0,
+				description: 'Offset for offset-based pagination',
+			},
 		],
 	};
 
