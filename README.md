@@ -330,6 +330,112 @@ A dedicated test workflow is included (`dunning-test-workflow.json`) that demons
 6. Getting all dunnings with pagination
 7. Error handling and validation
 
+## Enhanced File Endpoints
+
+The File endpoints have been significantly enhanced based on the [official Lexware API documentation](https://developers.lexware.io/docs/#files-endpoint) to provide comprehensive file management capabilities:
+
+### **Advanced File Management**
+- **Comprehensive File Types**: Support for all business document types (invoices, credit notes, quotations, delivery notes, dunnings, receipts, vouchers)
+- **Smart Categorization**: Business-focused categories (sales, purchase, financial, administrative)
+- **Content Type Support**: Full MIME type support including images, documents, PDFs, and e-invoices
+- **Access Control**: Granular access levels (private, public, restricted)
+
+### **Enhanced Data Structure**
+- **File Metadata**: Extended properties including description, tags, category, and custom fields
+- **Processing Status**: Track file processing from pending to completed/failed
+- **E-Invoice Support**: Native support for XRechnung, ZUGFeRD, and other e-invoice formats
+- **File Relationships**: Associate files with contacts, articles, and vouchers
+- **Security Features**: Checksum validation and file integrity verification
+
+### **Available Operations**
+- **`getAll`** with advanced filtering options
+- **`get`** by file ID
+- **`upload`** with comprehensive metadata
+- **`update`** metadata and properties
+- **`delete`** files
+- **`download`** file content
+- **`getByType`** for type-based filtering
+- **`getByCategory`** for category-based filtering
+- **`getByContentType`** for MIME type filtering
+- **`getByAccessLevel`** for access control filtering
+- **`getByProcessingStatus`** for status filtering
+- **`getEInvoices`** for e-invoice files
+- **`getByContact`** for contact-associated files
+- **`getByArticle`** for article-associated files
+- **`search`** by text term
+- **`getByDateRange`** for date-based filtering
+- **`getArchived`** / **`getPublic`** for status filtering
+- **`updateMetadata`** for property updates
+- **`archive`** / **`unarchive`** for status management
+- **`changeAccessLevel`** for security management
+- **`getPreviewUrl`** / **`getThumbnailUrl`** for file access
+- **`getDeeplink`** for direct Lexware access
+
+### **File Types Supported**
+- **Business Documents**: Invoices, credit notes, quotations, delivery notes, dunnings
+- **Receipts & Vouchers**: Receipts, vouchers, bookkeeping documents
+- **E-Invoices**: XRechnung, ZUGFeRD, XML formats
+- **Images & Media**: JPEG, PNG, GIF, TIFF, WEBP, PDF
+- **Office Documents**: Word, Excel, PowerPoint
+- **Archives**: ZIP, RAR, 7-Zip
+
+### **Usage Examples**
+
+#### Upload File with Metadata
+```json
+{
+  "resource": "file",
+  "operation": "upload",
+  "additionalFields": {
+    "fileName": "invoice-2024-001.pdf",
+    "contentType": "application/pdf",
+    "type": "invoice",
+    "category": "sales",
+    "description": "Q1 2024 invoice for consulting services",
+    "tags": ["invoice", "consulting", "q1-2024"],
+    "accessLevel": "private"
+  }
+}
+```
+
+#### Filter Files by Type and Category
+```json
+{
+  "resource": "file",
+  "operation": "getAll",
+  "fileType": "invoice",
+  "category": "sales",
+  "isArchived": false,
+  "limit": 20
+}
+```
+
+#### Search E-Invoice Files
+```json
+{
+  "resource": "file",
+  "operation": "getAll",
+  "isEInvoice": true,
+  "contentType": "application/xml",
+  "processingStatus": "completed"
+}
+```
+
+#### Update File Metadata
+```json
+{
+  "resource": "file",
+  "operation": "update",
+  "fileId": "file-123",
+  "additionalFields": {
+    "description": "Updated invoice description",
+    "category": "financial",
+    "tags": ["updated", "financial", "api"],
+    "accessLevel": "restricted"
+  }
+}
+```
+
 ## Enhanced Event Subscription Endpoints
 
 The Event Subscription endpoints have been significantly enhanced based on the [official Lexware API documentation](https://developers.lexware.io/docs/#event-subscriptions-endpoint) to provide comprehensive webhook and event management capabilities:
@@ -465,6 +571,10 @@ For issues and questions:
 ## Changelog
 
 ### Latest Updates
+- **NEW**: Enhanced File endpoints with comprehensive file management capabilities
+- **NEW**: Advanced file filtering, categorization, and e-invoice support
+- **NEW**: Support for all file types including business documents, images, and archives
+- **NEW**: File access control, processing status tracking, and metadata management
 - **NEW**: Enhanced Event Subscription endpoints with comprehensive webhook management
 - **NEW**: Advanced filtering, search, and security features for event subscriptions
 - **NEW**: Support for all Lexware business event types with comprehensive coverage

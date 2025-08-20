@@ -132,6 +132,11 @@ export class ResourceFactory {
 			return this.executeEventSubscriptionGetAll(resource, paginationParams, params);
 		}
 		
+		// Handle file specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.FILE) {
+			return this.executeFileGetAll(resource, paginationParams, params);
+		}
+		
 		return resource.getAll(paginationParams);
 	}
 
@@ -224,6 +229,60 @@ export class ResourceFactory {
 		}
 		
 		// Default: get all event subscriptions
+		return resource.getAll(paginationParams);
+	}
+
+	private async executeFileGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle file specific filtering
+		if (params.fileType) {
+			return resource.getByType(params.fileType, paginationParams);
+		}
+		
+		if (params.category) {
+			return resource.getByCategory(params.category, paginationParams);
+		}
+		
+		if (params.contentType) {
+			return resource.getByContentType(params.contentType, paginationParams);
+		}
+		
+		if (params.accessLevel) {
+			return resource.getByAccessLevel(params.accessLevel, paginationParams);
+		}
+		
+		if (params.processingStatus) {
+			return resource.getByProcessingStatus(params.processingStatus, paginationParams);
+		}
+		
+		if (params.isEInvoice === true) {
+			return resource.getEInvoices(paginationParams);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.articleId) {
+			return resource.getByArticle(params.articleId, paginationParams);
+		}
+		
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		if (params.startDate && params.endDate) {
+			return resource.getByDateRange(params.startDate, params.endDate, paginationParams);
+		}
+		
+		if (params.isArchived === true) {
+			return resource.getArchived(paginationParams);
+		}
+		
+		if (params.isArchived === false) {
+			return resource.getPublic(paginationParams);
+		}
+		
+		// Default: get all files
 		return resource.getAll(paginationParams);
 	}
 

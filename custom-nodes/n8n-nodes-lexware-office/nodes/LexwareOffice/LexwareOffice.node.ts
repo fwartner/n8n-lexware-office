@@ -533,10 +533,183 @@ export class LexwareOffice implements INodeType {
 				displayOptions: {
 					show: {
 						resource: [LEXWARE_RESOURCE_TYPES.FILE],
-						operation: [LEXWARE_OPERATIONS.GET],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
 					},
 				},
 				description: 'The ID of the file',
+			},
+			{
+				displayName: 'File Type',
+				name: 'fileType',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'Invoice', value: 'invoice' },
+					{ name: 'Credit Note', value: 'credit_note' },
+					{ name: 'Quotation', value: 'quotation' },
+					{ name: 'Delivery Note', value: 'delivery_note' },
+					{ name: 'Dunning', value: 'dunning' },
+					{ name: 'Receipt', value: 'receipt' },
+					{ name: 'Voucher', value: 'voucher' },
+					{ name: 'Image', value: 'image' },
+					{ name: 'PDF', value: 'pdf' },
+					{ name: 'Contract', value: 'contract' },
+					{ name: 'Other', value: 'other' },
+				],
+				description: 'Type of file to filter by',
+			},
+			{
+				displayName: 'Category',
+				name: 'category',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'Sales', value: 'sales' },
+					{ name: 'Purchase', value: 'purchase' },
+					{ name: 'Financial', value: 'financial' },
+					{ name: 'Administrative', value: 'administrative' },
+					{ name: 'Invoices', value: 'invoices' },
+					{ name: 'Receipts', value: 'receipts' },
+					{ name: 'Contracts', value: 'contracts' },
+					{ name: 'Images', value: 'images' },
+					{ name: 'Scans', value: 'scans' },
+					{ name: 'Documents', value: 'documents' },
+				],
+				description: 'Category of file to filter by',
+			},
+			{
+				displayName: 'Content Type',
+				name: 'contentType',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'MIME type to filter by (e.g., image/jpeg, application/pdf)',
+			},
+			{
+				displayName: 'Access Level',
+				name: 'accessLevel',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Private', value: 'private' },
+					{ name: 'Public', value: 'public' },
+					{ name: 'Restricted', value: 'restricted' },
+				],
+				description: 'Access level to filter by',
+			},
+			{
+				displayName: 'Processing Status',
+				name: 'processingStatus',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Pending', value: 'pending' },
+					{ name: 'Processing', value: 'processing' },
+					{ name: 'Completed', value: 'completed' },
+					{ name: 'Failed', value: 'failed' },
+				],
+				description: 'Processing status to filter by',
+			},
+			{
+				displayName: 'E-Invoice Only',
+				name: 'isEInvoice',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter for e-invoice files only',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search files by description or tags',
+			},
+			{
+				displayName: 'Start Date',
+				name: 'startDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'End Date',
+				name: 'endDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Archived Status',
+				name: 'isArchived',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.FILE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Files', value: '' },
+					{ name: 'Active Only', value: 'false' },
+					{ name: 'Archived Only', value: 'true' },
+				],
+				description: 'Filter by archived status',
 			},
 			// Country specific fields
 			{
@@ -1284,8 +1457,20 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			break;
 			
 		case LEXWARE_RESOURCE_TYPES.FILE:
-			if (operation === LEXWARE_OPERATIONS.GET) {
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.fileId = this.getNodeParameter('fileId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.fileType = this.getNodeParameter('fileType', i, '') as string;
+				params.category = this.getNodeParameter('category', i, '') as string;
+				params.contentType = this.getNodeParameter('contentType', i, '') as string;
+				params.accessLevel = this.getNodeParameter('accessLevel', i, '') as string;
+				params.processingStatus = this.getNodeParameter('processingStatus', i, '') as string;
+				params.isEInvoice = this.getNodeParameter('isEInvoice', i, false) as boolean;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.startDate = this.getNodeParameter('startDate', i, '') as string;
+				params.endDate = this.getNodeParameter('endDate', i, '') as string;
+				params.isArchived = this.getNodeParameter('isArchived', i, '') as string;
 			}
 			break;
 			

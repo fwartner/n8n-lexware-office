@@ -342,6 +342,45 @@ export interface ILexwareFile {
 	fileName?: string;
 	fileSize?: number;
 	contentType?: string;
+	// Enhanced properties from the official API
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	// File metadata
+	description?: string;
+	tags?: string[];
+	category?: string;
+	// File content and format
+	encoding?: string;
+	checksum?: string;
+	checksumAlgorithm?: 'md5' | 'sha1' | 'sha256';
+	// File associations
+	contactId?: string;
+	articleId?: string;
+	// File status and permissions
+	isPublic?: boolean;
+	isArchived?: boolean;
+	accessLevel?: 'private' | 'public' | 'restricted';
+	// File processing
+	processingStatus?: 'pending' | 'processing' | 'completed' | 'failed';
+	processingError?: string;
+	// E-invoice support (XML format)
+	isEInvoice?: boolean;
+	eInvoiceFormat?: 'xrechnung' | 'zugferd' | 'other';
+	eInvoiceVersion?: string;
+	// File relationships
+	parentFileId?: string;
+	relatedFiles?: string[];
+	// Download and access
+	downloadUrl?: string;
+	previewUrl?: string;
+	thumbnailUrl?: string;
+	// File validation
+	isValid?: boolean;
+	validationErrors?: string[];
+	// Custom metadata
+	customFields?: Record<string, any>;
 }
 
 export interface ILexwareProfile {

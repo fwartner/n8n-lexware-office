@@ -303,6 +303,102 @@ export const LEXWARE_WEBHOOK_SECURITY = {
 	},
 } as const;
 
+export const LEXWARE_FILE_TYPES = {
+	// Document types
+	INVOICE: 'invoice',
+	CREDIT_NOTE: 'credit_note',
+	QUOTATION: 'quotation',
+	DELIVERY_NOTE: 'delivery_note',
+	DUNNING: 'dunning',
+	ORDER_CONFIRMATION: 'order_confirmation',
+	
+	// Receipt and voucher types
+	RECEIPT: 'receipt',
+	VOUCHER: 'voucher',
+	BOOKKEEPING: 'bookkeeping',
+	
+	// E-invoice formats
+	EINVOICE_XRECHNUNG: 'einvoice_xrechnung',
+	EINVOICE_ZUGFERD: 'einvoice_zugferd',
+	EINVOICE_XML: 'einvoice_xml',
+	
+	// Image and media types
+	IMAGE: 'image',
+	SCAN: 'scan',
+	PHOTO: 'photo',
+	PDF: 'pdf',
+	
+	// Other types
+	CONTRACT: 'contract',
+	LETTER: 'letter',
+	OTHER: 'other',
+} as const;
+
+export const LEXWARE_FILE_CATEGORIES = {
+	// Business documents
+	SALES: 'sales',
+	PURCHASE: 'purchase',
+	FINANCIAL: 'financial',
+	ADMINISTRATIVE: 'administrative',
+	
+	// Document types
+	INVOICES: 'invoices',
+	RECEIPTS: 'receipts',
+	CONTRACTS: 'contracts',
+	CORRESPONDENCE: 'correspondence',
+	
+	// Media types
+	IMAGES: 'images',
+	SCANS: 'scans',
+	DOCUMENTS: 'documents',
+	ARCHIVES: 'archives',
+} as const;
+
+export const LEXWARE_FILE_ACCESS_LEVELS = {
+	PRIVATE: 'private',
+	PUBLIC: 'public',
+	RESTRICTED: 'restricted',
+} as const;
+
+export const LEXWARE_FILE_PROCESSING_STATUSES = {
+	PENDING: 'pending',
+	PROCESSING: 'processing',
+	COMPLETED: 'completed',
+	FAILED: 'failed',
+} as const;
+
+export const LEXWARE_FILE_CHECKSUM_ALGORITHMS = {
+	MD5: 'md5',
+	SHA1: 'sha1',
+	SHA256: 'sha256',
+} as const;
+
+export const LEXWARE_SUPPORTED_CONTENT_TYPES = {
+	// Images
+	JPEG: 'image/jpeg',
+	PNG: 'image/png',
+	GIF: 'image/gif',
+	TIFF: 'image/tiff',
+	WEBP: 'image/webp',
+	
+	// Documents
+	PDF: 'application/pdf',
+	DOC: 'application/msword',
+	DOCX: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+	XLS: 'application/vnd.ms-excel',
+	XLSX: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+	
+	// E-invoices
+	XML: 'application/xml',
+	ZUGFERD: 'application/vnd.etsi.zugferd+xml',
+	XRECHNUNG: 'application/vnd.etsi.xrechnung+xml',
+	
+	// Archives
+	ZIP: 'application/zip',
+	RAR: 'application/x-rar-compressed',
+	SEVEN_ZIP: 'application/x-7z-compressed',
+} as const;
+
 export const LEXWARE_COUNTRY_PROPERTIES = {
 	EU_MEMBER: 'euMember',
 	TAX_CLASSIFICATION: 'taxClassification',
