@@ -320,17 +320,16 @@ export class VoucherlistResource {
 	 * Get voucher statistics
 	 */
 	async getStatistics(params?: Record<string, any>): Promise<any> {
-		const queryParams = new URLSearchParams();
-		
-		if (params?.voucherType) queryParams.append('voucherType', params.voucherType);
-		if (params?.voucherStatus) queryParams.append('voucherStatus', params.voucherStatus);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.contactId) queryParams.append('contactId', params.contactId);
-		if (params?.voucherDateFrom) queryParams.append('voucherDateFrom', params.voucherDateFrom);
-		if (params?.voucherDateTo) queryParams.append('voucherDateTo', params.voucherDateTo);
+		const apiParams = {
+			voucherType: params?.voucherType || '',
+			voucherStatus: params?.voucherStatus || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			contactId: params?.contactId || '',
+			voucherDateFrom: params?.voucherDateFrom || '',
+			voucherDateTo: params?.voucherDateTo || '',
+		};
 
-		const url = queryParams.toString() ? `${LEXWARE_API_ENDPOINTS.VOUCHERLIST}/statistics?${queryParams.toString()}` : `${LEXWARE_API_ENDPOINTS.VOUCHERLIST}/statistics`;
-		return this.apiClient.get<any>(url);
+		return this.apiClient.get<any>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}/statistics`, apiParams);
 	}
 
 	/**
