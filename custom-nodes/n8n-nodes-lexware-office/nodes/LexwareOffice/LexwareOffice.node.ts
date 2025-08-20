@@ -110,6 +110,10 @@ export class LexwareOffice implements INodeType {
 						name: 'Recurring Template',
 						value: LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
 					},
+					{
+						name: 'Voucherlist',
+						value: LEXWARE_RESOURCE_TYPES.VOUCHERLIST,
+					},
 				],
 				default: LEXWARE_RESOURCE_TYPES.CONTACT,
 			},
@@ -132,6 +136,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.DUNNING,
 							LEXWARE_RESOURCE_TYPES.FILE,
 							LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
+							LEXWARE_RESOURCE_TYPES.VOUCHERLIST,
 						],
 					},
 				},
@@ -209,6 +214,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION,
 							LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION,
 							LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
+							LEXWARE_RESOURCE_TYPES.VOUCHERLIST,
 						],
 					},
 				},
@@ -3241,6 +3247,287 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Filter by tag',
 			},
+			// Voucherlist specific fields
+			{
+				displayName: 'Voucher Type',
+				name: 'voucherType',
+				type: 'options',
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Sales Invoice', value: 'salesinvoice' },
+					{ name: 'Sales Credit Note', value: 'salescreditnote' },
+					{ name: 'Purchase Invoice', value: 'purchaseinvoice' },
+					{ name: 'Purchase Credit Note', value: 'purchasecreditnote' },
+					{ name: 'Invoice', value: 'invoice' },
+					{ name: 'Down Payment Invoice', value: 'downpaymentinvoice' },
+					{ name: 'Credit Note', value: 'creditnote' },
+					{ name: 'Order Confirmation', value: 'orderconfirmation' },
+					{ name: 'Quotation', value: 'quotation' },
+					{ name: 'Delivery Note', value: 'deliverynote' },
+					{ name: 'Dunning', value: 'dunning' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by voucher type',
+			},
+			{
+				displayName: 'Voucher Status',
+				name: 'voucherStatus',
+				type: 'options',
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Draft', value: 'draft' },
+					{ name: 'Open', value: 'open' },
+					{ name: 'Paid', value: 'paid' },
+					{ name: 'Paid Off', value: 'paidoff' },
+					{ name: 'Voided', value: 'voided' },
+					{ name: 'Transferred', value: 'transferred' },
+					{ name: 'SEPA Debit', value: 'sepadebit' },
+					{ name: 'Overdue', value: 'overdue' },
+					{ name: 'Accepted', value: 'accepted' },
+					{ name: 'Rejected', value: 'rejected' },
+					{ name: 'Unchecked', value: 'unchecked' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by voucher status',
+			},
+			{
+				displayName: 'Archived Status',
+				name: 'archived',
+				type: 'options',
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Archived Only', value: 'true' },
+					{ name: 'Public Only', value: 'false' },
+				],
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by archived status',
+			},
+			{
+				displayName: 'Contact ID',
+				name: 'contactId',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by contact ID',
+			},
+			{
+				displayName: 'Voucher Date From',
+				name: 'voucherDateFrom',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter vouchers from this date',
+			},
+			{
+				displayName: 'Voucher Date To',
+				name: 'voucherDateTo',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter vouchers until this date',
+			},
+			{
+				displayName: 'Created Date From',
+				name: 'createdDateFrom',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter vouchers created from this date',
+			},
+			{
+				displayName: 'Created Date To',
+				name: 'createdDateTo',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter vouchers created until this date',
+			},
+			{
+				displayName: 'Updated Date From',
+				name: 'updatedDateFrom',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter vouchers updated from this date',
+			},
+			{
+				displayName: 'Updated Date To',
+				name: 'updatedDateTo',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter vouchers updated until this date',
+			},
+			{
+				displayName: 'Voucher Number',
+				name: 'voucherNumber',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search vouchers by number',
+			},
+			{
+				displayName: 'Is Recurring',
+				name: 'isRecurring',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter recurring vouchers only',
+			},
+			{
+				displayName: 'Is Closing Invoice',
+				name: 'isClosingInvoice',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter closing invoices only',
+			},
+			{
+				displayName: 'Is XRechnung',
+				name: 'isXRechnung',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter XRechnung vouchers only',
+			},
+			{
+				displayName: 'Currency',
+				name: 'currency',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by currency code (e.g., EUR, USD)',
+			},
+			{
+				displayName: 'Language',
+				name: 'language',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by language code (e.g., de, en)',
+			},
+			{
+				displayName: 'Min Amount',
+				name: 'minAmount',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Minimum amount for filtering',
+			},
+			{
+				displayName: 'Max Amount',
+				name: 'maxAmount',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Maximum amount for filtering',
+			},
+			{
+				displayName: 'Tag',
+				name: 'tag',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.VOUCHERLIST],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by tag',
+			},
 			// Common fields for creation
 			{
 				displayName: 'Additional Fields',
@@ -4104,6 +4391,30 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.minGenerationCount = this.getNodeParameter('minGenerationCount', i, 10) as number;
 				params.language = this.getNodeParameter('language', i, '') as string;
 				params.currency = this.getNodeParameter('currency', i, '') as string;
+				params.tag = this.getNodeParameter('tag', i, '') as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.VOUCHERLIST:
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.voucherType = this.getNodeParameter('voucherType', i, '') as string;
+				params.voucherStatus = this.getNodeParameter('voucherStatus', i, '') as string;
+				params.archived = this.getNodeParameter('archived', i, '') as string;
+				params.contactId = this.getNodeParameter('contactId', i, '') as string;
+				params.voucherDateFrom = this.getNodeParameter('voucherDateFrom', i, '') as string;
+				params.voucherDateTo = this.getNodeParameter('voucherDateTo', i, '') as string;
+				params.createdDateFrom = this.getNodeParameter('createdDateFrom', i, '') as string;
+				params.createdDateTo = this.getNodeParameter('createdDateTo', i, '') as string;
+				params.updatedDateFrom = this.getNodeParameter('updatedDateFrom', i, '') as string;
+				params.updatedDateTo = this.getNodeParameter('updatedDateTo', i, '') as string;
+				params.voucherNumber = this.getNodeParameter('voucherNumber', i, '') as string;
+				params.isRecurring = this.getNodeParameter('isRecurring', i, false) as boolean;
+				params.isClosingInvoice = this.getNodeParameter('isClosingInvoice', i, false) as boolean;
+				params.isXRechnung = this.getNodeParameter('isXRechnung', i, false) as boolean;
+				params.currency = this.getNodeParameter('currency', i, '') as string;
+				params.language = this.getNodeParameter('language', i, '') as string;
+				params.minAmount = this.getNodeParameter('minAmount', i, 0) as number;
+				params.maxAmount = this.getNodeParameter('maxAmount', i, 0) as number;
 				params.tag = this.getNodeParameter('tag', i, '') as string;
 			}
 			break;

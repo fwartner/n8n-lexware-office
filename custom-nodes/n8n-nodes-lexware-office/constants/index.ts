@@ -19,6 +19,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	PRINT_LAYOUTS: '/v1/print-layouts',
 	EVENT_SUBSCRIPTIONS: '/v1/event-subscriptions',
 	RECURRING_TEMPLATES: '/v1/recurring-templates',
+	VOUCHERLIST: '/v1/voucherlist',
 } as const;
 
 export const LEXWARE_RESOURCE_TYPES = {
@@ -41,6 +42,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	PRINT_LAYOUT: 'printLayout',
 	EVENT_SUBSCRIPTION: 'eventSubscription',
 	RECURRING_TEMPLATE: 'recurringTemplate',
+	VOUCHERLIST: 'voucherlist',
 } as const;
 
 export const LEXWARE_OPERATIONS = {

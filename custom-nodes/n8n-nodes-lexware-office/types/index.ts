@@ -1499,6 +1499,90 @@ export interface ILexwareRecurringTemplate {
 	};
 }
 
+export interface ILexwareVoucherList {
+	id: string;
+	voucherType: string;
+	voucherStatus: string;
+	voucherNumber: string;
+	voucherDate: string;
+	contactId: string;
+	contactName?: string;
+	
+	// Enhanced properties from the official API
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	createdBy?: string;
+	updatedBy?: string;
+	
+	// Voucher details
+	title?: string;
+	note?: string;
+	language?: string;
+	currency?: string;
+	
+	// Financial information
+	totalNetAmount?: number;
+	totalGrossAmount?: number;
+	totalTaxAmount?: number;
+	totalDiscountAmount?: number;
+	totalShippingAmount?: number;
+	
+	// Payment and tax information
+	paymentTerms?: number;
+	paymentTermsLabel?: string;
+	paymentTermsLabelTemplate?: string;
+	taxType?: string;
+	taxRate?: number;
+	taxSubType?: string;
+	
+	// Dates and timing
+	dueDate?: string;
+	shippingDate?: string;
+	deliveryDate?: string;
+	
+	// Status and lifecycle
+	archived?: boolean;
+	isRecurring?: boolean;
+	recurringTemplateId?: string;
+	isClosingInvoice?: boolean;
+	closingInvoiceId?: string;
+	
+	// Related vouchers
+	relatedVouchers?: Array<{
+		id: string;
+		type: string;
+		number?: string;
+		date?: string;
+		status?: string;
+		amount?: number;
+		currency?: string;
+	}>;
+	
+	// XRechnung support
+	isXRechnung?: boolean;
+	xrechnungVersion?: string;
+	xrechnungProfile?: string;
+	
+	// Distance sales support
+	distanceSalesPrinciple?: string;
+	euDestinationCountry?: string;
+	
+	// Additional metadata
+	tags?: string[];
+	customFields?: Record<string, any>;
+	notes?: string;
+	internalNotes?: string;
+	
+	// Validation and constraints
+	validationRules?: {
+		requiredFields?: string[];
+		allowedValues?: Record<string, any[]>;
+		formatRules?: Record<string, string>;
+	};
+}
+
 export interface ILexwareApiResponse<T> {
 	data: T;
 	status: number;

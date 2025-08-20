@@ -18,7 +18,8 @@ import {
 	PostingCategoryResource,
 	PrintLayoutResource,
 	EventSubscriptionResource,
-	RecurringTemplateResource
+	RecurringTemplateResource,
+	VoucherlistResource
 } from './index';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
 
@@ -52,6 +53,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT, new PrintLayoutResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE, new RecurringTemplateResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.VOUCHERLIST, new VoucherlistResource(this.credentials));
 	}
 
 	getResource(resourceType: string): any {
@@ -185,6 +187,11 @@ export class ResourceFactory {
 		// Handle recurring template specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE) {
 			return this.executeRecurringTemplateGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle voucherlist specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.VOUCHERLIST) {
+			return this.executeVoucherlistGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -781,6 +788,76 @@ export class ResourceFactory {
 		}
 		
 		// Default: get all recurring templates
+		return resource.getAll(paginationParams);
+	}
+
+	private async executeVoucherlistGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle voucherlist specific filtering
+		if (params?.voucherType) {
+			return resource.getByType(params.voucherType, paginationParams);
+		}
+		
+		if (params?.voucherStatus) {
+			return resource.getByStatus(params.voucherStatus, paginationParams);
+		}
+		
+		if (params?.archived === true) {
+			return resource.getArchived(paginationParams);
+		}
+		
+		if (params?.archived === false) {
+			return resource.getPublic(paginationParams);
+		}
+		
+		if (params?.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params?.voucherDateFrom && params?.voucherDateTo) {
+			return resource.getByDateRange(params.voucherDateFrom, params.voucherDateTo, paginationParams);
+		}
+		
+		if (params?.createdDateFrom && params?.createdDateTo) {
+			return resource.getByCreationDateRange(params.createdDateFrom, params.createdDateTo, paginationParams);
+		}
+		
+		if (params?.updatedDateFrom && params?.updatedDateTo) {
+			return resource.getByUpdateDateRange(params.updatedDateFrom, params.updatedDateTo, paginationParams);
+		}
+		
+		if (params?.voucherNumber) {
+			return resource.searchByNumber(params.voucherNumber, paginationParams);
+		}
+		
+		if (params?.isRecurring === true) {
+			return resource.getRecurring(paginationParams);
+		}
+		
+		if (params?.isClosingInvoice === true) {
+			return resource.getClosingInvoices(paginationParams);
+		}
+		
+		if (params?.isXRechnung === true) {
+			return resource.getXRechnung(paginationParams);
+		}
+		
+		if (params?.currency) {
+			return resource.getByCurrency(params.currency, paginationParams);
+		}
+		
+		if (params?.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+		
+		if (params?.minAmount && params?.maxAmount) {
+			return resource.getByAmountRange(params.minAmount, params.maxAmount, paginationParams);
+		}
+		
+		if (params?.tag) {
+			return resource.getByTag(params.tag, paginationParams);
+		}
+		
+		// Default: get all vouchers
 		return resource.getAll(paginationParams);
 	}
 
