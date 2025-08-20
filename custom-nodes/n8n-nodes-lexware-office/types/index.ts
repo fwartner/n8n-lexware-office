@@ -626,10 +626,245 @@ export interface ILexwareFile {
 }
 
 export interface ILexwareProfile {
+	// Basic identification
 	userEmail: string;
 	userId?: string;
 	companyName?: string;
 	organizationId?: string;
+	
+	// Enhanced properties from the official API
+	version?: number;
+	createdAt?: string;
+	updatedAt?: string;
+	
+	// Company information
+	company?: {
+		name: string;
+		legalName?: string;
+		tradeName?: string;
+		registrationNumber?: string;
+		taxNumber?: string;
+		vatNumber?: string;
+		address?: {
+			street?: string;
+			zipCode?: string;
+			city?: string;
+			country?: string;
+			countryCode?: string;
+		};
+		contact?: {
+			phone?: string;
+			fax?: string;
+			website?: string;
+			email?: string;
+		};
+		banking?: {
+			bankName?: string;
+			accountHolder?: string;
+			iban?: string;
+			bic?: string;
+			accountNumber?: string;
+			bankCode?: string;
+		};
+	};
+	
+	// User information
+	user?: {
+		id: string;
+		email: string;
+		firstName?: string;
+		lastName?: string;
+		displayName?: string;
+		role?: string;
+		permissions?: string[];
+		lastLogin?: string;
+		status?: 'active' | 'inactive' | 'suspended';
+		preferences?: Record<string, any>;
+	};
+	
+	// Organization settings
+	organization?: {
+		id: string;
+		name: string;
+		type?: 'business' | 'freelancer' | 'association' | 'other';
+		industry?: string;
+		size?: 'micro' | 'small' | 'medium' | 'large';
+		foundingDate?: string;
+		timezone?: string;
+		language?: string;
+		currency?: string;
+		locale?: string;
+		settings?: Record<string, any>;
+	};
+	
+	// Business features and capabilities
+	businessFeatures?: {
+		invoicing?: boolean;
+		accounting?: boolean;
+		contactManagement?: boolean;
+		fileManagement?: boolean;
+		reporting?: boolean;
+		multiUser?: boolean;
+		apiAccess?: boolean;
+		webhookSupport?: boolean;
+		xrechnungSupport?: boolean;
+		distanceSalesSupport?: boolean;
+		euServicesSupport?: boolean;
+		recurringInvoices?: boolean;
+		creditNotes?: boolean;
+		deliveryNotes?: boolean;
+		dunning?: boolean;
+		paymentTracking?: boolean;
+		taxManagement?: boolean;
+		multiCurrency?: boolean;
+		multiLanguage?: boolean;
+		customFields?: boolean;
+		workflowAutomation?: boolean;
+		integrations?: string[];
+		compliance?: {
+			gdpr?: boolean;
+			sox?: boolean;
+			iso?: boolean;
+			industry?: string[];
+		};
+	};
+	
+	// Tax configuration
+	taxConfiguration?: {
+		defaultTaxType?: string;
+		defaultTaxRate?: number;
+		taxTypes?: Array<{
+			id: string;
+			name: string;
+			rate: number;
+			description?: string;
+			active?: boolean;
+		}>;
+		smallBusiness?: boolean;
+		smallBusinessThreshold?: number;
+		euVatRules?: boolean;
+		distanceSalesPrinciple?: string;
+		reverseCharge?: boolean;
+		taxExemptions?: string[];
+	};
+	
+	// Payment configuration
+	paymentConfiguration?: {
+		defaultCurrency?: string;
+		supportedCurrencies?: string[];
+		defaultPaymentTerms?: number;
+		paymentMethods?: string[];
+		bankingInfo?: {
+			accountHolder?: string;
+			iban?: string;
+			bic?: string;
+			bankName?: string;
+		};
+		invoiceSettings?: {
+			numberingFormat?: string;
+			nextNumber?: number;
+			prefix?: string;
+			suffix?: string;
+			startDate?: string;
+		};
+	};
+	
+	// Document settings
+	documentSettings?: {
+		defaultLanguage?: string;
+		supportedLanguages?: string[];
+		defaultPrintLayout?: string;
+		printLayouts?: string[];
+		logo?: {
+			url?: string;
+			width?: number;
+			height?: number;
+			format?: string;
+		};
+		headerTemplate?: string;
+		footerTemplate?: string;
+		watermark?: boolean;
+		digitalSignature?: boolean;
+	};
+	
+	// API and integration settings
+	apiSettings?: {
+		enabled?: boolean;
+		rateLimit?: number;
+		webhookUrl?: string;
+		webhookSecret?: string;
+		allowedOrigins?: string[];
+		apiKeys?: Array<{
+			id: string;
+			name: string;
+			permissions?: string[];
+			lastUsed?: string;
+			createdAt?: string;
+		}>;
+		integrations?: Array<{
+			name: string;
+			enabled?: boolean;
+			config?: Record<string, any>;
+		}>;
+	};
+	
+	// Subscription and billing
+	subscription?: {
+		plan?: string;
+		planType?: 'free' | 'basic' | 'professional' | 'enterprise' | 'custom';
+		status?: 'active' | 'trial' | 'expired' | 'cancelled' | 'suspended';
+		startDate?: string;
+		endDate?: string;
+		trialEndDate?: string;
+		nextBillingDate?: string;
+		amount?: number;
+		currency?: string;
+		billingCycle?: 'monthly' | 'quarterly' | 'yearly';
+		features?: string[];
+		limits?: {
+			contacts?: number;
+			invoices?: number;
+			storage?: number;
+			apiCalls?: number;
+			users?: number;
+		};
+		usage?: {
+			contacts?: number;
+			invoices?: number;
+			storage?: number;
+			apiCalls?: number;
+			users?: number;
+		};
+	};
+	
+	// System information
+	system?: {
+		version?: string;
+		environment?: 'development' | 'staging' | 'production';
+		maintenanceMode?: boolean;
+		lastMaintenance?: string;
+		nextMaintenance?: string;
+		backupFrequency?: string;
+		lastBackup?: string;
+		uptime?: number;
+		performance?: {
+			responseTime?: number;
+			throughput?: number;
+			errorRate?: number;
+		};
+	};
+	
+	// Additional metadata
+	tags?: string[];
+	customFields?: Record<string, any>;
+	notes?: string;
+	
+	// Validation and constraints
+	validationRules?: {
+		requiredFields?: string[];
+		allowedValues?: Record<string, any[]>;
+		formatRules?: Record<string, string>;
+	};
 }
 
 export interface ILexwareCountry {

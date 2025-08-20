@@ -512,3 +512,51 @@ export const LEXWARE_PRINT_LAYOUT_FORMATS = {
 	XML: 'xml',
 	JSON: 'json',
 } as const;
+
+export const LEXWARE_PROFILE_ORGANIZATION_TYPES = {
+	BUSINESS: 'business',
+	FREELANCER: 'freelancer',
+	ASSOCIATION: 'association',
+	OTHER: 'other',
+} as const;
+
+export const LEXWARE_PROFILE_ORGANIZATION_SIZES = {
+	MICRO: 'micro',
+	SMALL: 'small',
+	MEDIUM: 'medium',
+	LARGE: 'large',
+} as const;
+
+export const LEXWARE_PROFILE_USER_STATUSES = {
+	ACTIVE: 'active',
+	INACTIVE: 'inactive',
+	SUSPENDED: 'suspended',
+} as const;
+
+export const LEXWARE_PROFILE_SUBSCRIPTION_PLAN_TYPES = {
+	FREE: 'free',
+	BASIC: 'basic',
+	PROFESSIONAL: 'professional',
+	ENTERPRISE: 'enterprise',
+	CUSTOM: 'custom',
+} as const;
+
+export const LEXWARE_PROFILE_SUBSCRIPTION_STATUSES = {
+	ACTIVE: 'active',
+	TRIAL: 'trial',
+	EXPIRED: 'expired',
+	CANCELLED: 'cancelled',
+	SUSPENDED: 'suspended',
+} as const;
+
+export const LEXWARE_PROFILE_SUBSCRIPTION_BILLING_CYCLES = {
+	MONTHLY: 'monthly',
+	QUARTERLY: 'quarterly',
+	YEARLY: 'yearly',
+} as const;
+
+export const LEXWARE_PROFILE_SYSTEM_ENVIRONMENTS = {
+	DEVELOPMENT: 'development',
+	STAGING: 'staging',
+	PRODUCTION: 'production',
+} as const;

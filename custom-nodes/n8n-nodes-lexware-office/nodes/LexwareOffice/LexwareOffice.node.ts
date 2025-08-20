@@ -1674,6 +1674,552 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Filter by resolution (DPI)',
 			},
+			// Profile specific fields
+			{
+				displayName: 'Company Name',
+				name: 'companyName',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company name for profile update',
+			},
+			{
+				displayName: 'Legal Name',
+				name: 'legalName',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Legal company name',
+			},
+			{
+				displayName: 'Trade Name',
+				name: 'tradeName',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Trade name for the company',
+			},
+			{
+				displayName: 'Registration Number',
+				name: 'registrationNumber',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company registration number',
+			},
+			{
+				displayName: 'Tax Number',
+				name: 'taxNumber',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company tax number',
+			},
+			{
+				displayName: 'VAT Number',
+				name: 'vatNumber',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company VAT number (EU format)',
+			},
+			{
+				displayName: 'Street',
+				name: 'street',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company street address',
+			},
+			{
+				displayName: 'ZIP Code',
+				name: 'zipCode',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company ZIP/postal code',
+			},
+			{
+				displayName: 'City',
+				name: 'city',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company city',
+			},
+			{
+				displayName: 'Country',
+				name: 'country',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company country',
+			},
+			{
+				displayName: 'Phone',
+				name: 'phone',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company phone number',
+			},
+			{
+				displayName: 'Website',
+				name: 'website',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company website URL',
+			},
+			{
+				displayName: 'Bank Name',
+				name: 'bankName',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company bank name',
+			},
+			{
+				displayName: 'Account Holder',
+				name: 'accountHolder',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Bank account holder name',
+			},
+			{
+				displayName: 'IBAN',
+				name: 'iban',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company IBAN',
+			},
+			{
+				displayName: 'BIC',
+				name: 'bic',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company BIC/SWIFT code',
+			},
+			{
+				displayName: 'First Name',
+				name: 'firstName',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'User first name',
+			},
+			{
+				displayName: 'Last Name',
+				name: 'lastName',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'User last name',
+			},
+			{
+				displayName: 'Organization Type',
+				name: 'organizationType',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'Business', value: 'business' },
+					{ name: 'Freelancer', value: 'freelancer' },
+					{ name: 'Association', value: 'association' },
+					{ name: 'Other', value: 'other' },
+				],
+				description: 'Organization type',
+			},
+			{
+				displayName: 'Industry',
+				name: 'industry',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Organization industry',
+			},
+			{
+				displayName: 'Organization Size',
+				name: 'organizationSize',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'Micro', value: 'micro' },
+					{ name: 'Small', value: 'small' },
+					{ name: 'Medium', value: 'medium' },
+					{ name: 'Large', value: 'large' },
+				],
+				description: 'Organization size',
+			},
+			{
+				displayName: 'Founding Date',
+				name: 'foundingDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Organization founding date (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Timezone',
+				name: 'timezone',
+				type: 'options',
+				default: 'Europe/Berlin',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'UTC', value: 'UTC' },
+					{ name: 'Europe/Berlin', value: 'Europe/Berlin' },
+					{ name: 'Europe/London', value: 'Europe/London' },
+					{ name: 'America/New_York', value: 'America/New_York' },
+					{ name: 'Asia/Tokyo', value: 'Asia/Tokyo' },
+				],
+				description: 'Organization timezone',
+			},
+			{
+				displayName: 'Language',
+				name: 'language',
+				type: 'options',
+				default: 'de',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'German', value: 'de' },
+					{ name: 'English', value: 'en' },
+					{ name: 'French', value: 'fr' },
+					{ name: 'Italian', value: 'it' },
+					{ name: 'Spanish', value: 'es' },
+				],
+				description: 'Organization language',
+			},
+			{
+				displayName: 'Currency',
+				name: 'currency',
+				type: 'options',
+				default: 'EUR',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'Euro', value: 'EUR' },
+					{ name: 'US Dollar', value: 'USD' },
+					{ name: 'Swiss Franc', value: 'CHF' },
+					{ name: 'British Pound', value: 'GBP' },
+					{ name: 'Japanese Yen', value: 'JPY' },
+				],
+				description: 'Organization currency',
+			},
+			{
+				displayName: 'Default Tax Rate',
+				name: 'defaultTaxRate',
+				type: 'number',
+				default: 19,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Default tax rate percentage',
+			},
+			{
+				displayName: 'Small Business',
+				name: 'smallBusiness',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether the organization is a small business',
+			},
+			{
+				displayName: 'Small Business Threshold',
+				name: 'smallBusinessThreshold',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Small business threshold amount',
+			},
+			{
+				displayName: 'EU VAT Rules',
+				name: 'euVatRules',
+				type: 'boolean',
+				default: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether EU VAT rules apply',
+			},
+			{
+				displayName: 'Distance Sales Principle',
+				name: 'distanceSalesPrinciple',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Distance sales principle for EU services',
+			},
+			{
+				displayName: 'Default Payment Terms',
+				name: 'defaultPaymentTerms',
+				type: 'number',
+				default: 30,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Default payment terms in days',
+			},
+			{
+				displayName: 'Default Print Layout',
+				name: 'defaultPrintLayout',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Default print layout ID',
+			},
+			{
+				displayName: 'Logo URL',
+				name: 'logoUrl',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Company logo URL',
+			},
+			{
+				displayName: 'Webhook URL',
+				name: 'webhookUrl',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Webhook URL for notifications',
+			},
+			{
+				displayName: 'Webhook Secret',
+				name: 'webhookSecret',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Webhook secret for security',
+			},
+			{
+				displayName: 'API Rate Limit',
+				name: 'apiRateLimit',
+				type: 'number',
+				default: 2,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'API rate limit (requests per second)',
+			},
+			{
+				displayName: 'Environment',
+				name: 'environment',
+				type: 'options',
+				default: 'production',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'Development', value: 'development' },
+					{ name: 'Staging', value: 'staging' },
+					{ name: 'Production', value: 'production' },
+				],
+				description: 'System environment',
+			},
+			{
+				displayName: 'Maintenance Mode',
+				name: 'maintenanceMode',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether system is in maintenance mode',
+			},
+			{
+				displayName: 'Backup Frequency',
+				name: 'backupFrequency',
+				type: 'string',
+				default: 'daily',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PROFILE],
+						operation: [LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Backup frequency (daily, weekly, monthly)',
+			},
 			{
 				displayName: 'Payment Type',
 				name: 'paymentType',
@@ -2624,6 +3170,88 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.footerEnabled = this.getNodeParameter('footerEnabled', i, false) as boolean;
 				params.templateVersion = this.getNodeParameter('templateVersion', i, '') as string;
 				params.resolution = this.getNodeParameter('resolution', i, 300) as number;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.PROFILE:
+			if (operation === LEXWARE_OPERATIONS.UPDATE) {
+				// Company information
+				if (this.getNodeParameter('companyName', i, '') as string) {
+					params.additionalFields = {
+						...params.additionalFields,
+						company: {
+							...params.additionalFields?.company,
+							name: this.getNodeParameter('companyName', i, '') as string,
+							legalName: this.getNodeParameter('legalName', i, '') as string,
+							tradeName: this.getNodeParameter('tradeName', i, '') as string,
+							registrationNumber: this.getNodeParameter('registrationNumber', i, '') as string,
+							taxNumber: this.getNodeParameter('taxNumber', i, '') as string,
+							vatNumber: this.getNodeParameter('vatNumber', i, '') as string,
+							address: {
+								street: this.getNodeParameter('street', i, '') as string,
+								zipCode: this.getNodeParameter('zipCode', i, '') as string,
+								city: this.getNodeParameter('city', i, '') as string,
+								country: this.getNodeParameter('country', i, '') as string,
+							},
+							contact: {
+								phone: this.getNodeParameter('phone', i, '') as string,
+								website: this.getNodeParameter('website', i, '') as string,
+							},
+							banking: {
+								bankName: this.getNodeParameter('bankName', i, '') as string,
+								accountHolder: this.getNodeParameter('accountHolder', i, '') as string,
+								iban: this.getNodeParameter('iban', i, '') as string,
+								bic: this.getNodeParameter('bic', i, '') as string,
+							},
+						},
+						user: {
+							...params.additionalFields?.user,
+							firstName: this.getNodeParameter('firstName', i, '') as string,
+							lastName: this.getNodeParameter('lastName', i, '') as string,
+						},
+						organization: {
+							...params.additionalFields?.organization,
+							type: this.getNodeParameter('organizationType', i, '') as string,
+							industry: this.getNodeParameter('industry', i, '') as string,
+							size: this.getNodeParameter('organizationSize', i, '') as string,
+							foundingDate: this.getNodeParameter('foundingDate', i, '') as string,
+							timezone: this.getNodeParameter('timezone', i, 'Europe/Berlin') as string,
+							language: this.getNodeParameter('language', i, 'de') as string,
+							currency: this.getNodeParameter('currency', i, 'EUR') as string,
+						},
+						taxConfiguration: {
+							...params.additionalFields?.taxConfiguration,
+							defaultTaxRate: this.getNodeParameter('defaultTaxRate', i, 19) as number,
+							smallBusiness: this.getNodeParameter('smallBusiness', i, false) as boolean,
+							smallBusinessThreshold: this.getNodeParameter('smallBusinessThreshold', i, 0) as number,
+							euVatRules: this.getNodeParameter('euVatRules', i, true) as boolean,
+							distanceSalesPrinciple: this.getNodeParameter('distanceSalesPrinciple', i, '') as string,
+						},
+						paymentConfiguration: {
+							...params.additionalFields?.paymentConfiguration,
+							defaultPaymentTerms: this.getNodeParameter('defaultPaymentTerms', i, 30) as number,
+						},
+						documentSettings: {
+							...params.additionalFields?.documentSettings,
+							defaultPrintLayout: this.getNodeParameter('defaultPrintLayout', i, '') as string,
+							logo: {
+								url: this.getNodeParameter('logoUrl', i, '') as string,
+							},
+						},
+						apiSettings: {
+							...params.additionalFields?.apiSettings,
+							webhookUrl: this.getNodeParameter('webhookUrl', i, '') as string,
+							webhookSecret: this.getNodeParameter('webhookSecret', i, '') as string,
+							rateLimit: this.getNodeParameter('apiRateLimit', i, 2) as number,
+						},
+						system: {
+							...params.additionalFields?.system,
+							environment: this.getNodeParameter('environment', i, 'production') as string,
+							maintenanceMode: this.getNodeParameter('maintenanceMode', i, false) as boolean,
+							backupFrequency: this.getNodeParameter('backupFrequency', i, 'daily') as string,
+						},
+					};
+				}
 			}
 			break;
 			
