@@ -14,6 +14,17 @@ export class InvoiceResource {
 	}
 
 	/**
+	 * Helper method to ensure all voucherlist calls include required parameters
+	 */
+	private ensureVoucherlistParams(params: Record<string, any>): Record<string, any> {
+		return {
+			...params,
+			voucherType: 'invoice',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
+		};
+	}
+
+	/**
 	 * Retrieve a specific invoice by ID
 	 * @param invoiceId - The unique identifier of the invoice
 	 * @returns Promise<ILexwareInvoice> - The invoice data
@@ -29,9 +40,11 @@ export class InvoiceResource {
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareInvoice[]> {
 		// Use voucherlist endpoint with invoice filter
+		// The voucherlist endpoint requires voucherStatus, so we need to ensure it's always present
 		const queryParams = {
 			...params,
 			voucherType: 'invoice',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
 		};
 		return this.apiClient.get<ILexwareInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
@@ -113,6 +126,7 @@ export class InvoiceResource {
 		const statusParams = {
 			...params,
 			voucherType: 'invoice',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
 			invoiceStatus: status,
 		};
 		return this.apiClient.get<ILexwareInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, statusParams);
