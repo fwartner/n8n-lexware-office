@@ -36,6 +36,9 @@ export const LEXWARE_OPERATIONS = {
 	GET: 'get',
 	GET_ALL: 'getAll',
 	UPDATE: 'update',
+	FINALIZE: 'finalize',
+	DOCUMENT: 'document',
+	DOWNLOAD_FILE: 'downloadFile',
 } as const;
 
 export const LEXWARE_VOUCHER_TYPES = {
@@ -49,11 +52,36 @@ export const LEXWARE_VOUCHER_TYPES = {
 	ORDER_CONFIRMATION: 'orderconfirmation',
 	QUOTATION: 'quotation',
 	DELIVERY_NOTE: 'deliverynote',
+	DUNNING: 'dunning',
 } as const;
 
 export const LEXWARE_CONTACT_TYPES = {
 	COMPANY: 'company',
 	PERSON: 'person',
+} as const;
+
+export const LEXWARE_CONTACT_ROLES = {
+	CUSTOMER: 'customer',
+	VENDOR: 'vendor',
+	EMPLOYEE: 'employee',
+} as const;
+
+export const LEXWARE_ADDRESS_TYPES = {
+	BILLING: 'billing',
+	SHIPPING: 'shipping',
+} as const;
+
+export const LEXWARE_SALUTATIONS = {
+	MR: 'Mr.',
+	MS: 'Ms.',
+	MRS: 'Mrs.',
+	DR: 'Dr.',
+	PROF: 'Prof.',
+} as const;
+
+export const LEXWARE_DISCOUNT_TYPES = {
+	PERCENTAGE: 'percentage',
+	AMOUNT: 'amount',
 } as const;
 
 export const LEXWARE_ARTICLE_TYPES = {
@@ -125,10 +153,28 @@ export const LEXWARE_CREDIT_NOTE_STATUSES = {
 	VOIDED: 'voided',
 } as const;
 
+export const LEXWARE_LANGUAGES = {
+	GERMAN: 'de',
+	ENGLISH: 'en',
+} as const;
+
+export const LEXWARE_CREDIT_NOTE_TYPES = {
+	SALES_CREDIT_NOTE: 'salescreditnote',
+	PURCHASE_CREDIT_NOTE: 'purchasecreditnote',
+} as const;
+
 export const LEXWARE_DELIVERY_NOTE_STATUSES = {
 	DRAFT: 'draft',
 	OPEN: 'open',
 	DELIVERED: 'delivered',
+} as const;
+
+export const LEXWARE_DELIVERY_TYPES = {
+	STANDARD: 'standard',
+	EXPRESS: 'express',
+	PICKUP: 'pickup',
+	COURIER: 'courier',
+	POSTAL: 'postal',
 } as const;
 
 export const LEXWARE_DUNNING_STATUSES = {
@@ -167,4 +213,50 @@ export const LEXWARE_ERROR_MESSAGES = {
 	RATE_LIMIT_EXCEEDED: 'Rate limit exceeded',
 	NETWORK_ERROR: 'Network error',
 	UNKNOWN_ERROR: 'Unknown error occurred',
+} as const;
+
+export const LEXWARE_COUNTRY_PROPERTIES = {
+	EU_MEMBER: 'euMember',
+	TAX_CLASSIFICATION: 'taxClassification',
+	XRECHNUNG_SUPPORT: 'supportsXRechnung',
+	DISTANCE_SALES: 'supportsDistanceSales',
+	CURRENCY: 'currency',
+	LANGUAGE: 'language',
+	TIMEZONE: 'timezone',
+	PHONE_CODE: 'phoneCode',
+	POSTAL_CODE_FORMAT: 'postalCodeFormat',
+	DATE_FORMAT: 'dateFormat',
+	NUMBER_FORMAT: 'numberFormat',
+} as const;
+
+export const LEXWARE_COUNTRY_FILTERS = {
+	EU: 'eu',
+	TAX_TYPE: 'taxType',
+	VALID_TAX_RATES: 'validTaxRates',
+	XRECHNUNG: 'xrechnung',
+	DISTANCE_SALES: 'distanceSales',
+	DATE: 'date',
+} as const;
+
+export const LEXWARE_COMMON_COUNTRY_CODES = {
+	GERMANY: 'DE',
+	AUSTRIA: 'AT',
+	SWITZERLAND: 'CH',
+	FRANCE: 'FR',
+	ITALY: 'IT',
+	SPAIN: 'ES',
+	NETHERLANDS: 'NL',
+	BELGIUM: 'BE',
+	LUXEMBOURG: 'LU',
+	UNITED_STATES: 'US',
+	UNITED_KINGDOM: 'GB',
+	CANADA: 'CA',
+	AUSTRALIA: 'AU',
+	JAPAN: 'JP',
+	CHINA: 'CN',
+	INDIA: 'IN',
+	BRAZIL: 'BR',
+	MEXICO: 'MX',
+	RUSSIA: 'RU',
+	SOUTH_AFRICA: 'ZA',
 } as const;

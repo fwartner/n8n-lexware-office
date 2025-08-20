@@ -150,6 +150,39 @@ export class LexwareOffice implements INodeType {
 						description: 'Update a resource',
 						action: 'Update a resource',
 					},
+					{
+						name: 'Finalize',
+						value: LEXWARE_OPERATIONS.FINALIZE,
+						description: 'Finalize a dunning (change status from draft to open)',
+						action: 'Finalize a dunning',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+							},
+						},
+					},
+					{
+						name: 'Document',
+						value: LEXWARE_OPERATIONS.DOCUMENT,
+						description: 'Render a dunning document as PDF',
+						action: 'Render a dunning document',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+							},
+						},
+					},
+					{
+						name: 'Download File',
+						value: LEXWARE_OPERATIONS.DOWNLOAD_FILE,
+						description: 'Download a dunning file',
+						action: 'Download a dunning file',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+							},
+						},
+					},
 				],
 				default: LEXWARE_OPERATIONS.GET,
 			},
@@ -237,6 +270,72 @@ export class LexwareOffice implements INodeType {
 					},
 				},
 				description: 'The ID of the article',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search articles by name or description',
+			},
+			{
+				displayName: 'Category ID',
+				name: 'categoryId',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter articles by category ID',
+			},
+			{
+				displayName: 'Article Type',
+				name: 'articleType',
+				type: 'options',
+				options: [
+					{ name: 'Service', value: 'service' },
+					{ name: 'Material', value: 'material' },
+					{ name: 'Custom', value: 'custom' },
+				],
+				default: 'service',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter articles by type',
+			},
+			{
+				displayName: 'Archived Status',
+				name: 'archived',
+				type: 'options',
+				options: [
+					{ name: 'Active Only', value: false },
+					{ name: 'Archived Only', value: true },
+					{ name: 'All Articles', value: undefined },
+				],
+				default: undefined,
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter articles by archived status',
 			},
 			// Voucher specific fields
 			{
@@ -379,10 +478,30 @@ export class LexwareOffice implements INodeType {
 				displayOptions: {
 					show: {
 						resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
-						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
+						operation: [
+							LEXWARE_OPERATIONS.GET, 
+							LEXWARE_OPERATIONS.UPDATE, 
+							LEXWARE_OPERATIONS.FINALIZE, 
+							LEXWARE_OPERATIONS.DOCUMENT,
+							LEXWARE_OPERATIONS.DOWNLOAD_FILE
+						],
 					},
 				},
 				description: 'The ID of the dunning',
+			},
+			{
+				displayName: 'File ID',
+				name: 'fileId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+						operation: [LEXWARE_OPERATIONS.DOWNLOAD_FILE],
+					},
+				},
+				description: 'The ID of the file to download',
 			},
 			// File specific fields
 			{
@@ -413,6 +532,79 @@ export class LexwareOffice implements INodeType {
 					},
 				},
 				description: 'The ISO 2-letter country code (e.g., DE, US, FR)',
+			},
+			{
+				displayName: 'Country Filter',
+				name: 'countryFilter',
+				type: 'options',
+				default: 'all',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.COUNTRY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{
+						name: 'All Countries',
+						value: 'all',
+						description: 'Get all countries',
+					},
+					{
+						name: 'EU Countries Only',
+						value: 'eu',
+						description: 'Get only EU member countries',
+					},
+					{
+						name: 'Non-EU Countries',
+						value: 'non-eu',
+						description: 'Get only non-EU countries',
+					},
+					{
+						name: 'XRechnung Support',
+						value: 'xrechnung',
+						description: 'Get countries supporting XRechnung',
+					},
+					{
+						name: 'Distance Sales Support',
+						value: 'distanceSales',
+						description: 'Get countries supporting distance sales',
+					},
+					{
+						name: 'Valid Tax Rates',
+						value: 'validTaxRates',
+						description: 'Get countries with valid tax rates',
+					},
+				],
+				description: 'Filter countries by specific criteria',
+			},
+			{
+				displayName: 'Tax Type Filter',
+				name: 'taxTypeFilter',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.COUNTRY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+						countryFilter: ['validTaxRates'],
+					},
+				},
+				description: 'Filter by specific tax type (e.g., vatfree, intraCommunitySupply)',
+			},
+			{
+				displayName: 'Date Filter',
+				name: 'dateFilter',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.COUNTRY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+						countryFilter: ['validTaxRates'],
+					},
+				},
+				description: 'Date to check for valid tax rates (ISO format)',
 			},
 			// Payment Condition specific fields
 			{
@@ -470,6 +662,215 @@ export class LexwareOffice implements INodeType {
 						type: 'string',
 						default: '',
 						description: 'Description of the resource',
+					},
+					// Delivery Note specific fields
+					{
+						displayName: 'Voucher Date',
+						name: 'voucherDate',
+						type: 'dateTime',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE],
+							},
+						},
+						description: 'Date of the delivery note (required for creation)',
+					},
+					{
+						displayName: 'Contact ID',
+						name: 'contactId',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE],
+							},
+						},
+						description: 'ID of the contact (required for creation)',
+					},
+					{
+						displayName: 'Delivery Note Status',
+						name: 'deliveryNoteStatus',
+						type: 'options',
+						default: 'draft',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						options: [
+							{
+								name: 'Draft',
+								value: 'draft',
+								description: 'Draft status - can be edited',
+							},
+							{
+								name: 'Open',
+								value: 'open',
+								description: 'Open status - can be delivered',
+							},
+							{
+								name: 'Delivered',
+								value: 'delivered',
+								description: 'Delivered status - final state',
+							},
+						],
+						description: 'Status of the delivery note',
+					},
+					{
+						displayName: 'Delivery Date',
+						name: 'deliveryDate',
+						type: 'dateTime',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						description: 'Date when the delivery should be made',
+					},
+					{
+						displayName: 'Language',
+						name: 'language',
+						type: 'options',
+						default: 'de',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						options: [
+							{
+								name: 'German',
+								value: 'de',
+								description: 'German language',
+							},
+							{
+								name: 'English',
+								value: 'en',
+								description: 'English language',
+							},
+						],
+						description: 'Language of the delivery note',
+					},
+					// Dunning specific fields
+					{
+						displayName: 'Voucher Date',
+						name: 'voucherDate',
+						type: 'dateTime',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+								operation: [LEXWARE_OPERATIONS.CREATE],
+							},
+						},
+						description: 'Date of the dunning (required for creation)',
+					},
+					{
+						displayName: 'Contact ID',
+						name: 'contactId',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+								operation: [LEXWARE_OPERATIONS.CREATE],
+							},
+						},
+						description: 'ID of the contact (required for creation)',
+					},
+					{
+						displayName: 'Preceding Sales Voucher ID',
+						name: 'precedingSalesVoucherId',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+								operation: [LEXWARE_OPERATIONS.CREATE],
+							},
+						},
+						description: 'ID of the preceding sales voucher (required for creation)',
+					},
+					{
+						displayName: 'Dunning Level',
+						name: 'dunningLevel',
+						type: 'number',
+						default: 1,
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						description: 'Dunning level (1-5, required for creation)',
+					},
+					{
+						displayName: 'Dunning Status',
+						name: 'dunningStatus',
+						type: 'options',
+						default: 'draft',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						options: [
+							{
+								name: 'Draft',
+								value: 'draft',
+								description: 'Draft status - can be edited',
+							},
+							{
+								name: 'Open',
+								value: 'open',
+								description: 'Open status - can be finalized',
+							},
+							{
+								name: 'Paid',
+								value: 'paid',
+								description: 'Paid status - final state',
+							},
+							{
+								name: 'Voided',
+								value: 'voided',
+								description: 'Voided status - cancelled',
+							},
+						],
+						description: 'Status of the dunning',
+					},
+					{
+						displayName: 'Currency',
+						name: 'currency',
+						type: 'string',
+						default: 'EUR',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						description: 'Currency code (e.g., EUR, USD)',
+					},
+					{
+						displayName: 'Note',
+						name: 'note',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
+								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+							},
+						},
+						description: 'Additional notes for the delivery note',
 					},
 				],
 			},
@@ -589,6 +990,12 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.articleId = this.getNodeParameter('articleId', i) as string;
 			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.categoryId = this.getNodeParameter('categoryId', i, '') as string;
+				params.articleType = this.getNodeParameter('articleType', i, '') as string;
+				params.archived = this.getNodeParameter('archived', i, undefined) as boolean | undefined;
+			}
 			break;
 			
 		case LEXWARE_RESOURCE_TYPES.VOUCHER:
@@ -625,8 +1032,15 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			break;
 			
 		case LEXWARE_RESOURCE_TYPES.DUNNING:
-			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+			if (operation === LEXWARE_OPERATIONS.GET || 
+				operation === LEXWARE_OPERATIONS.UPDATE || 
+				operation === LEXWARE_OPERATIONS.FINALIZE || 
+				operation === LEXWARE_OPERATIONS.DOCUMENT) {
 				params.dunningId = this.getNodeParameter('dunningId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.DOWNLOAD_FILE) {
+				params.dunningId = this.getNodeParameter('dunningId', i) as string;
+				params.fileId = this.getNodeParameter('fileId', i) as string;
 			}
 			break;
 			
@@ -639,6 +1053,9 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.COUNTRY:
 			if (operation === LEXWARE_OPERATIONS.GET) {
 				params.countryCode = this.getNodeParameter('countryCode', i) as string;
+				params.countryFilter = this.getNodeParameter('countryFilter', i, 'all') as string;
+				params.taxTypeFilter = this.getNodeParameter('taxTypeFilter', i, '') as string;
+				params.dateFilter = this.getNodeParameter('dateFilter', i, '') as string;
 			}
 			break;
 			

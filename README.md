@@ -1,234 +1,379 @@
-# n8n Lexware Office Node
+# Lexware Office n8n Node
 
-This is an n8n community node that integrates with the Lexware Office API, allowing you to interact with Lexware's business management system directly from your n8n workflows.
+A comprehensive n8n node for interacting with the Lexware Office API, providing seamless integration for business automation workflows.
 
 ## Features
 
-- **Contacts Management**: Create, read, update contacts (companies and persons)
-- **Articles Management**: Manage products and services
-- **Vouchers**: Handle various types of business vouchers
-- **Invoices**: Create and manage invoices
-- **Quotations**: Handle quotations and estimates
-- **Credit Notes**: Manage credit notes and refunds
-- **Delivery Notes**: Track deliveries
-- **Dunnings**: Handle payment reminders
-- **Files**: Upload and manage documents
-- **Profile & Settings**: Access user profile and system settings
+- **Full API Coverage**: Support for all major Lexware Office resources
+- **Enhanced Delivery Notes**: Comprehensive delivery note management with advanced features
+- **Type Safety**: Full TypeScript support with comprehensive interfaces
+- **Error Handling**: Robust error handling and validation
+- **Rate Limiting**: Built-in rate limiting compliance (2 requests/second)
+- **Modern Architecture**: Clean, maintainable codebase with proper separation of concerns
 
-## Prerequisites
+## Enhanced Delivery Notes Functionality
 
-- n8n instance (local or cloud)
-- Lexware Office API credentials
-- Docker (for local development)
+The delivery notes endpoint has been significantly enhanced based on the [official Lexware API documentation](https://developers.lexware.io/docs/#delivery-notes-endpoint) to provide comprehensive delivery note management capabilities.
 
-## Installation
+### Available Operations
 
-### Option 1: Local Development Setup
+#### 1. **Create Delivery Note**
+- Create new delivery notes with full customization
+- Support for line items, delivery conditions, and payment terms
+- Automatic validation of required fields
 
-1. Clone this repository:
-```bash
-git clone <repository-url>
-cd n8n-lexware-office
+#### 2. **Get Delivery Note**
+- Retrieve delivery notes by ID
+- Full delivery note details including status and metadata
+
+#### 3. **Get All Delivery Notes**
+- List all delivery notes with filtering and pagination
+- Support for voucher list endpoint integration
+
+#### 4. **Update Delivery Note**
+- Modify existing delivery notes
+- Support for partial updates with field validation
+
+#### 5. **Pursue Delivery Note**
+- Change status from "draft" to "open"
+- Only available for delivery notes with "draft" status
+- Includes validation to ensure proper state transitions
+
+#### 6. **Render Document (PDF)**
+- Generate PDF documents for delivery notes
+- Only available for delivery notes with "open" status
+- Support for custom print layouts and languages
+
+#### 7. **Download File**
+- Download delivery note files
+- Support for different formats and print layouts
+
+#### 8. **Get Deeplink**
+- Generate direct links to delivery notes in the Lexware application
+- Useful for integration with other systems
+
+### Delivery Note Properties
+
+#### Core Properties
+- `id`: Unique identifier
+- `voucherDate`: Date of the delivery note
+- `contactId`: Associated contact ID
+- `deliveryNoteStatus`: Current status (draft/open/delivered)
+- `deliveryDate`: Scheduled delivery date
+- `language`: Document language (de/en)
+- `currency`: Currency code (default: EUR)
+
+#### Delivery Conditions
+- `deliveryType`: Type of delivery (standard/express/pickup/courier/postal)
+- `shippingDate`: Date when shipping occurs
+- `deliveryAddress`: Custom delivery address with full address details
+
+#### Payment Terms
+- `paymentTermsId`: Payment terms identifier
+- `paymentTermsLabel`: Human-readable payment terms
+- `discountPercentage`: Discount percentage
+- `discountType`: Discount type (percentage/amount)
+
+#### Line Items
+- `type`: Item type (service/material/custom/text)
+- `name`: Item name
+- `quantity`: Quantity
+- `unitName`: Unit of measurement
+- `unitPrice`: Pricing information with tax rates
+
+#### Related Data
+- `relatedVouchers`: Associated vouchers
+- `printLayoutId`: Print layout identifier
+- `archived`: Archive status
+- `createdDate`/`updatedDate`: Timestamps
+
+### Status Management
+
+#### Draft Status
+- **Purpose**: Initial creation and editing
+- **Capabilities**: Full editing, line item management
+- **Limitations**: Cannot be pursued, no PDF rendering
+- **Transitions**: Can be updated, can be pursued to "open"
+
+#### Open Status
+- **Purpose**: Active delivery notes
+- **Capabilities**: PDF rendering, file download, delivery tracking
+- **Limitations**: Limited editing capabilities
+- **Transitions**: Can be marked as "delivered"
+
+#### Delivered Status
+- **Purpose**: Completed deliveries
+- **Capabilities**: Read-only access, historical records
+- **Limitations**: No further modifications
+- **Transitions**: Final state
+
+### Validation Rules
+
+#### Creation Validation
+- `voucherDate`: Required
+- `contactId`: Required
+- `lineItems`: At least one item required
+
+#### Pursue Validation
+- Status must be "draft"
+- Contact ID must be present
+- Line items must exist
+
+#### Render Validation
+- Status must be "open"
+- Document must be properly configured
+
+### API Endpoints
+
+The delivery notes implementation uses the following Lexware API endpoints:
+
+- **Base**: `/v1/delivery-notes`
+- **Create**: `POST /v1/delivery-notes`
+- **Get**: `GET /v1/delivery-notes/{id}`
+- **Update**: `PUT /v1/delivery-notes/{id}`
+- **Delete**: `DELETE /v1/delivery-notes/{id}`
+- **Pursue**: `PUT /v1/delivery-notes/{id}/pursue`
+- **Document**: `GET /v1/delivery-notes/{id}/document`
+- **File**: `GET /v1/delivery-notes/{id}/file`
+- **Deeplink**: `GET /v1/delivery-notes/{id}/deeplink`
+
+### Usage Examples
+
+#### Create a Delivery Note
+```typescript
+const deliveryNote = await deliveryNoteResource.create({
+  voucherDate: '2024-01-15',
+  contactId: 'contact-123',
+  deliveryNoteStatus: 'draft',
+  deliveryDate: '2024-01-22',
+  language: 'en',
+  currency: 'EUR',
+  lineItems: [{
+    type: 'service',
+    name: 'Consulting Service',
+    quantity: 1,
+    unitName: 'hour',
+    unitPrice: {
+      currency: 'EUR',
+      netAmount: 100.00,
+      taxRatePercentage: 19
+    }
+  }]
+});
 ```
 
-2. Install dependencies:
-```bash
-cd custom-nodes/n8n-nodes-lexware-office
-npm install
+#### Pursue a Delivery Note
+```typescript
+const pursuedNote = await deliveryNoteResource.pursue('delivery-note-123');
 ```
 
-3. Build the node:
-```bash
-npm run build
+#### Render PDF Document
+```typescript
+const pdfDocument = await deliveryNoteResource.renderDocument('delivery-note-123', {
+  printLayoutId: 'layout-456',
+  language: 'en'
+});
 ```
 
-4. Start the development environment:
-```bash
-cd ../..
-docker compose up -d
-```
+### Error Handling
 
-5. Access n8n at `http://localhost:5678`
+The implementation includes comprehensive error handling:
 
-### Option 2: Production Installation
-
-1. Copy the built node to your n8n custom nodes directory:
-```bash
-cp -r custom-nodes/n8n-nodes-lexware-office/dist /path/to/n8n/custom/n8n-nodes-lexware-office
-```
-
-2. Restart your n8n instance
-
-## Configuration
-
-### 1. Add Lexware Office API Credentials
-
-1. In n8n, go to **Settings** → **Credentials**
-2. Click **Add Credential**
-3. Search for "Lexware Office API"
-4. Fill in:
-   - **API Key**: Your Lexware Office API key
-   - **Resource URL**: Usually `https://api.lexware.io`
-
-### 2. Create a Workflow
-
-1. Create a new workflow in n8n
-2. Add the **Lexware Office** node
-3. Configure the node:
-   - **Resource**: Choose the type of data to work with
-   - **Operation**: Select the action (Create, Get, Get All, Update)
-   - **Additional Fields**: Configure resource-specific parameters
-
-## Usage Examples
-
-### Create a Contact
-
-1. Set **Resource** to "Contact"
-2. Set **Operation** to "Create"
-3. Set **Contact Type** to "Company" or "Person"
-4. Add **Additional Fields**:
-   - `name`: Company or person name
-   - `street`: Address street
-   - `zipCode`: Postal code
-   - `city`: City name
-
-### Get All Articles
-
-1. Set **Resource** to "Article"
-2. Set **Operation** to "Get All"
-3. Configure pagination:
-   - **Return All**: false
-   - **Limit**: 50 (or your preferred limit)
-
-### Create an Invoice
-
-1. Set **Resource** to "Voucher"
-2. Set **Operation** to "Create"
-3. Set **Voucher Type** to "Invoice"
-4. Add **Additional Fields**:
-   - `contactId`: ID of the contact
-   - `lineItems`: Array of invoice items
-   - `voucherDate`: Invoice date
-
-## API Endpoints Supported
-
-### Core Business Data
-- **`/v1/contacts`** - Complete contact management (companies and persons)
-- **`/v1/articles`** - Product and service catalog management
-- **`/v1/vouchers`** - Generic voucher operations
-
-### Sales Documents
-- **`/v1/invoices`** - Invoice management with finalization and document generation
-- **`/v1/quotations`** - Quotation management with acceptance/rejection
-- **`/v1/credit-notes`** - Credit note management with preceding voucher references
-- **`/v1/delivery-notes`** - Delivery tracking and management
-- **`/v1/dunnings`** - Payment reminder management with dunning levels
-
-### File Management
-- **`/v1/files`** - Document upload, download, and management
-- **`/v1/voucherlist`** - Unified voucher listing with filtering
-
-### System & Configuration
-- **`/v1/profile`** - User profile and account settings
-- **`/v1/countries`** - Country data with EU/non-EU filtering
-- **`/v1/payment-conditions`** - Payment terms and conditions
-- **`/v1/event-subscriptions`** - Webhook management for real-time updates
-
-### Additional Operations Per Endpoint
-- **Invoices**: Create, read, update, finalize, generate documents
-- **Quotations**: Create, read, update, accept, reject, generate documents  
-- **Credit Notes**: Create, read, update, finalize, reference preceding vouchers
-- **Delivery Notes**: Create, read, update, finalize, track delivery status
-- **Dunnings**: Create, read, update, finalize, manage dunning levels
-- **Files**: Upload, download, list, delete, associate with vouchers
-- **Countries**: List all, filter by EU status, search by name
-- **Payment Conditions**: Create, read, update, delete, set defaults
-- **Event Subscriptions**: Create, read, update, delete, activate/deactivate, test webhooks
-
-## Architecture
-
-The node is built with a modular architecture:
-
-- **Types**: TypeScript interfaces and type definitions
-- **Constants**: API endpoints, resource types, and configuration values
-- **Utils**: Common utility functions for API calls and data transformation
-- **Resources**: Individual resource handlers for each API endpoint
-- **ResourceFactory**: Central factory for managing all resource operations
-
-## Development
-
-### Project Structure
-
-```
-custom-nodes/n8n-nodes-lexware-office/
-├── constants/          # API endpoints and configuration
-├── credentials/        # Authentication credentials
-├── nodes/             # Main node implementation
-├── resources/          # Resource handlers
-├── types/             # TypeScript interfaces
-├── utils/             # Utility functions
-├── dist/              # Compiled JavaScript (generated)
-├── package.json       # Dependencies and scripts
-└── tsconfig.json      # TypeScript configuration
-```
-
-### Building
-
-```bash
-npm run build          # Build the project
-npm run dev            # Watch mode for development
-```
+- **Validation Errors**: Clear messages for missing or invalid fields
+- **Status Errors**: Proper handling of invalid status transitions
+- **API Errors**: Graceful handling of Lexware API errors
+- **Rate Limiting**: Compliance with 2 requests/second limit
 
 ### Testing
 
-1. Start the development environment:
-```bash
-docker compose up -d
-```
+A comprehensive test workflow is included (`comprehensive-test-workflow.json`) that demonstrates:
 
-2. Access n8n at `http://localhost:5678`
-3. Create a test workflow with the Lexware Office node
-4. Test different operations and resources
+1. Creating delivery notes
+2. Retrieving and updating notes
+3. Pursuing delivery notes
+4. Rendering PDF documents
+5. Getting deeplinks
+6. Error handling and validation
 
-## Troubleshooting
+## Dunnings Functionality
 
-### Common Issues
+The dunnings endpoint provides comprehensive dunning management capabilities based on the [official Lexware API documentation](https://developers.lexware.io/docs/#dunnings-endpoint).
 
-1. **Build Errors**: Ensure all dependencies are installed and TypeScript is properly configured
-2. **Credential Errors**: Verify your API key and resource URL are correct
-3. **API Errors**: Check the Lexware Office API documentation for endpoint requirements
+### Available Operations
 
-### Debug Mode
+#### 1. **Create Dunning**
+- Create new dunnings with full customization
+- Support for line items, dunning levels, and status management
+- Automatic validation of required fields (voucherDate, contactId, precedingSalesVoucherId, dunningLevel)
 
-Enable debug logging in n8n by setting:
-```bash
-N8N_LOG_LEVEL=debug
-```
+#### 2. **Get Dunning**
+- Retrieve dunnings by ID
+- Full dunning details including status and metadata
 
-## Contributing
+#### 3. **Get All Dunnings**
+- List all dunnings with filtering and pagination
+- Support for voucher list endpoint integration
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+#### 4. **Update Dunning**
+- Modify existing dunnings
+- Support for partial updates with field validation
 
-## License
+#### 5. **Finalize Dunning**
+- Change status from "draft" to "open"
+- Only available for dunnings with "draft" status
+- Includes validation to ensure proper state transitions
 
-MIT License - see LICENSE file for details
+#### 6. **Render Document (PDF)**
+- Generate PDF documents for dunnings
+- Available for dunnings with "open" status
+- Support for custom print layouts and languages
+
+#### 7. **Download File**
+- Download dunning files
+- Support for different formats and print layouts
+
+#### 8. **Get Deeplink**
+- Generate direct links to dunnings in the Lexware application
+- Useful for integration with other systems
+
+### Dunning Properties
+
+#### Core Properties
+- `id`: Unique identifier
+- `voucherDate`: Date of the dunning
+- `contactId`: Associated contact ID
+- `precedingSalesVoucherId`: ID of the preceding sales voucher
+- `dunningLevel`: Dunning level (1-5)
+- `dunningStatus`: Current status (draft/open/paid/voided)
+- `currency`: Currency code (default: EUR)
+
+#### Dunning-Specific Properties
+- `dunningLevel`: Escalation level (1-5, where 1 is first reminder)
+- `precedingSalesVoucherId`: Reference to the original invoice/credit note
+- `dunningStatus`: Status management for workflow control
+
+#### Line Items
+- `type`: Item type (service/material/custom/text)
+- `name`: Item name (e.g., "Dunning Fee")
+- `quantity`: Quantity
+- `unitName`: Unit of measurement
+- `unitPrice`: Pricing information with tax rates
+
+#### Related Data
+- `relatedVouchers`: Associated vouchers
+- `printLayoutId`: Print layout identifier
+- `archived`: Archive status
+- `createdDate`/`updatedDate`: Timestamps
+
+### Status Management
+
+#### Draft Status
+- **Purpose**: Initial creation and editing
+- **Capabilities**: Full editing, line item management
+- **Limitations**: Cannot be finalized, no PDF rendering
+- **Transitions**: Can be updated, can be finalized to "open"
+
+#### Open Status
+- **Purpose**: Active dunnings
+- **Capabilities**: PDF rendering, file download, payment tracking
+- **Limitations**: Limited editing capabilities
+- **Transitions**: Can be marked as "paid" or "voided"
+
+#### Paid Status
+- **Purpose**: Completed dunnings
+- **Capabilities**: Read-only access, reporting
+- **Limitations**: No further modifications
+- **Transitions**: Final state
+
+#### Voided Status
+- **Purpose**: Cancelled dunnings
+- **Capabilities**: Read-only access, audit trail
+- **Limitations**: No further modifications
+- **Transitions**: Final state
+
+### Dunning Level Management
+
+#### Level 1 (First Reminder)
+- **Purpose**: Initial payment reminder
+- **Timing**: Typically sent 7-14 days after due date
+- **Content**: Polite reminder with payment details
+
+#### Level 2 (Second Reminder)
+- **Purpose**: Escalated payment reminder
+- **Timing**: Typically sent 14-21 days after due date
+- **Content**: More urgent tone, late payment fees
+
+#### Level 3 (Final Notice)
+- **Purpose**: Final payment demand
+- **Timing**: Typically sent 21-30 days after due date
+- **Content**: Serious tone, legal implications
+
+#### Level 4 (Legal Notice)
+- **Purpose**: Pre-legal action notice
+- **Timing**: Typically sent 30-45 days after due date
+- **Content**: Legal language, collection agency notice
+
+#### Level 5 (Collection)
+- **Purpose**: Final collection attempt
+- **Timing**: Typically sent 45+ days after due date
+- **Content**: Collection agency involvement
+
+### Testing Dunnings
+
+A dedicated test workflow is included (`dunning-test-workflow.json`) that demonstrates:
+
+1. Creating dunnings with required fields
+2. Retrieving and updating dunning details
+3. Finalizing dunnings (draft to open)
+4. Rendering PDF documents
+5. Downloading dunning files
+6. Getting all dunnings with pagination
+7. Error handling and validation
+
+## Installation
+
+1. Install the node in your n8n instance
+2. Configure Lexware Office API credentials
+3. Import the test workflow to verify functionality
+
+## Configuration
+
+### Required Credentials
+- **API Key**: Your Lexware Office API key
+- **Resource URL**: Lexware API base URL (https://api.lexware.io)
+
+### Environment Variables
+- `LEXWARE_API_KEY`: Your API key
+- `LEXWARE_RESOURCE_URL`: API base URL
+
+## Rate Limiting
+
+The node automatically complies with Lexware's rate limiting:
+- **Limit**: 2 requests per second
+- **Handling**: Automatic retry with exponential backoff
+- **Monitoring**: Built-in rate limit detection
 
 ## Support
 
 For issues and questions:
-- Create an issue in the repository
-- Check the Lexware Office API documentation
-- Review n8n custom node development guides
+- Check the [Lexware API documentation](https://developers.lexware.io/docs/)
+- Review the test workflow examples
+- Check the node's error logs for detailed information
 
 ## Changelog
 
-### v1.0.0
-- Initial release
-- Support for all major Lexware Office API endpoints
-- Modular architecture for easy maintenance
-- Comprehensive TypeScript support
-- Docker development environment
+### Latest Updates
+- Enhanced delivery notes with full API coverage
+- Added pursue functionality for status management
+- Improved PDF rendering and file download support
+- Enhanced validation and error handling
+- Added comprehensive test workflow
+
+### Previous Versions
+- Initial release with basic functionality
+- Core resource management
+- Basic CRUD operations
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

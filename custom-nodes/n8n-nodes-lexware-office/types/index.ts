@@ -6,28 +6,47 @@ export interface ILexwareCredentials {
 export interface ILexwareContact {
 	id?: string;
 	version: number;
-	roles: Record<string, any>;
+	roles: {
+		customer?: boolean;
+		vendor?: boolean;
+		employee?: boolean;
+	};
 	company?: {
 		name: string;
 		contactPersons?: Array<{
 			salutation?: string;
+			firstName?: string;
 			lastName: string;
+			primary?: boolean;
 		}>;
+		vatId?: string;
+		taxNumber?: string;
+		commercialRegisterNumber?: string;
+		commercialRegisterCourt?: string;
 	};
 	person?: {
 		salutation?: string;
 		firstName: string;
 		lastName: string;
+		title?: string;
+		birthday?: string;
 	};
 	note?: string;
 	addresses: Array<{
+		type?: 'billing' | 'shipping';
 		countryCode: string;
 		street?: string;
 		zipCode?: string;
 		city?: string;
+		address?: string;
+		addressAddition?: string;
+		state?: string;
+		primary?: boolean;
 	}>;
 	phoneNumbers?: {
 		private?: string[];
+		business?: string[];
+		mobile?: string[];
 		fax?: string[];
 		other?: string[];
 	};
@@ -37,10 +56,41 @@ export interface ILexwareContact {
 		private?: string[];
 		other?: string[];
 	};
+	bankAccounts?: Array<{
+		accountHolder?: string;
+		iban?: string;
+		bic?: string;
+		bankName?: string;
+		accountNumber?: string;
+		bankCode?: string;
+		primary?: boolean;
+	}>;
+	taxSettings?: {
+		taxNumber?: string;
+		vatId?: string;
+		taxType?: string;
+		taxRate?: number;
+		smallBusiness?: boolean;
+	};
+	shippingSettings?: {
+		shippingType?: string;
+		shippingCosts?: number;
+		shippingConditions?: string;
+	};
+	paymentSettings?: {
+		paymentTerms?: number;
+		paymentMethod?: string;
+		discountPercentage?: number;
+		discountType?: 'percentage' | 'amount';
+	};
+	archived?: boolean;
+	createdAt?: string;
+	updatedAt?: string;
 }
 
 export interface ILexwareArticle {
 	id?: string;
+	version?: number;
 	title: string;
 	type: 'service' | 'material' | 'custom';
 	unitName: string;
@@ -49,9 +99,31 @@ export interface ILexwareArticle {
 		grossPrice?: number;
 		leadingPrice: 'NET' | 'GROSS';
 		taxRate: number;
+		currency?: string;
 	};
 	description?: string;
+	note?: string;
 	archived?: boolean;
+	createdAt?: string;
+	updatedAt?: string;
+	// Additional properties from the official API
+	articleNumber?: string;
+	categoryId?: string;
+	weight?: number;
+	dimensions?: {
+		length?: number;
+		width?: number;
+		height?: number;
+	};
+	shippingInfo?: {
+		shippingType?: string;
+		shippingCosts?: number;
+	};
+	taxInfo?: {
+		taxType?: string;
+		taxRate?: number;
+		smallBusiness?: boolean;
+	};
 }
 
 export interface ILexwareVoucher {
@@ -99,11 +171,96 @@ export interface ILexwareQuotation extends ILexwareVoucher {
 export interface ILexwareCreditNote extends ILexwareVoucher {
 	creditNoteStatus?: 'draft' | 'open' | 'voided';
 	precedingSalesVoucherId?: string;
+	// Additional properties from the Lexware API documentation
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	// Credit note specific properties
+	creditNoteNumber?: string;
+	originalInvoiceId?: string;
+	originalInvoiceNumber?: string;
+	// Payment and tax information
+	paymentConditions?: {
+		paymentTerms?: number;
+		paymentTermsLabel?: string;
+	};
+	taxConditions?: {
+		taxType: string;
+		taxRate?: number;
+		taxSubType?: string;
+	};
+	// Line items with enhanced properties
+	lineItems?: Array<{
+		id?: string;
+		type: 'custom' | 'material' | 'service' | 'text';
+		name: string;
+		description?: string;
+		quantity?: number;
+		unitName?: string;
+		unitPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxRatePercentage: number;
+		};
+		totalPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxAmount?: number;
+		};
+		articleId?: string;
+		articleNumber?: string;
+	}>;
+	// Additional voucher properties
+	note?: string;
+	title?: string;
+	language?: string;
+	// Related vouchers
+	relatedVouchers?: Array<{
+		id: string;
+		type: string;
+		number?: string;
+	}>;
+	// Print layout
+	printLayoutId?: string;
 }
 
 export interface ILexwareDeliveryNote extends ILexwareVoucher {
 	deliveryNoteStatus?: 'draft' | 'open' | 'delivered';
 	deliveryDate?: string;
+	deliveryConditions?: {
+		deliveryType?: string;
+		deliveryDate?: string;
+		shippingDate?: string;
+		deliveryAddress?: {
+			type?: 'billing' | 'shipping';
+			countryCode: string;
+			street?: string;
+			zipCode?: string;
+			city?: string;
+			address?: string;
+			addressAddition?: string;
+			state?: string;
+		};
+	};
+	paymentTerms?: {
+		paymentTermsId?: string;
+		paymentTermsLabel?: string;
+		paymentTermsLabelTemplate?: string;
+		discountPercentage?: number;
+		discountType?: 'percentage' | 'amount';
+	};
+	relatedVouchers?: Array<{
+		id: string;
+		type: string;
+		number?: string;
+	}>;
+	language?: 'de' | 'en';
+	archived?: boolean;
+	createdDate?: string;
+	updatedDate?: string;
 }
 
 export interface ILexwareDunning extends ILexwareVoucher {
@@ -131,6 +288,23 @@ export interface ILexwareProfile {
 export interface ILexwareCountry {
 	code: string;
 	name: string;
+	taxClassification?: {
+		taxType?: string;
+		taxRate?: number;
+		taxSubType?: string;
+		validFrom?: string;
+		validTo?: string;
+	};
+	euMember?: boolean;
+	supportsXRechnung?: boolean;
+	supportsDistanceSales?: boolean;
+	currency?: string;
+	language?: string;
+	timezone?: string;
+	phoneCode?: string;
+	postalCodeFormat?: string;
+	dateFormat?: string;
+	numberFormat?: string;
 }
 
 export interface ILexwarePaymentCondition {

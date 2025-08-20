@@ -1,4 +1,4 @@
-export { ContactResource } from './ContactResource';
+export { ContactResource, IContactFilterParams, IContactSearchParams } from './ContactResource';
 export { ArticleResource } from './ArticleResource';
 export { VoucherResource } from './VoucherResource';
 export { InvoiceResource } from './InvoiceResource';

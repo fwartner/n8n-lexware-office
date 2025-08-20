@@ -64,6 +64,12 @@ export class ResourceFactory {
 				return this.executeCreate(resource, resourceType, params);
 			case 'update':
 				return this.executeUpdate(resource, resourceType, params);
+			case 'finalize':
+				return this.executeFinalize(resource, resourceType, params);
+			case 'document':
+				return this.executeDocument(resource, resourceType, params);
+			case 'downloadFile':
+				return this.executeDownloadFile(resource, resourceType, params);
 			default:
 				throw new Error(`Unsupported operation: ${operation}`);
 		}
@@ -104,7 +110,41 @@ export class ResourceFactory {
 
 	private async executeGetAll(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
 		const paginationParams = this.buildPaginationParams(params);
+		
+		// Handle country-specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.COUNTRY) {
+			return this.executeCountryGetAll(resource, paginationParams, params);
+		}
+		
 		return resource.getAll(paginationParams);
+	}
+
+	private async executeCountryGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		const countryFilter = params.countryFilter || 'all';
+		
+		switch (countryFilter) {
+			case 'eu':
+				return resource.getEUCountries();
+			case 'non-eu':
+				return resource.getNonEUCountries();
+			case 'xrechnung':
+				return resource.getXRechnungCountries();
+			case 'distanceSales':
+				return resource.getDistanceSalesCountries();
+			case 'validTaxRates':
+				const dateFilter = params.dateFilter;
+				const taxTypeFilter = params.taxTypeFilter;
+				
+				if (taxTypeFilter) {
+					return resource.getCountriesByTaxClassification(taxTypeFilter);
+				} else if (dateFilter) {
+					return resource.getCountriesWithValidTaxRates(dateFilter);
+				} else {
+					return resource.getCountriesWithValidTaxRates();
+				}
+			default:
+				return resource.getAll(paginationParams);
+		}
 	}
 
 	private async executeCreate(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
@@ -176,6 +216,33 @@ export class ResourceFactory {
 			size: Math.min(params.limit || 50, 250),
 			page: 0,
 		};
+	}
+
+	private async executeFinalize(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.finalize(params.dunningId);
+			default:
+				throw new Error(`Finalize operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeDocument(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.document(params.dunningId);
+			default:
+				throw new Error(`Document operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeDownloadFile(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.downloadFile(params.dunningId, params.fileId);
+			default:
+				throw new Error(`Download file operation not supported for resource type: ${resourceType}`);
+		}
 	}
 
 	validateOperation(resourceType: string, operation: string, params: Record<string, any>): string[] {

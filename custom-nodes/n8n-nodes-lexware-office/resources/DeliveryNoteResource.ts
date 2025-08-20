@@ -37,16 +37,97 @@ export class DeliveryNoteResource {
 		return this.apiClient.delete<void>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}`);
 	}
 
-	async finalize(deliveryNoteId: string): Promise<ILexwareDeliveryNote> {
-		return this.apiClient.put<ILexwareDeliveryNote>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}/finalize`, {});
+	/**
+	 * Pursue a delivery note (change status from draft to open)
+	 * Note: Pursuing is only available for delivery notes with status "draft"
+	 */
+	async pursue(deliveryNoteId: string): Promise<ILexwareDeliveryNote> {
+		return this.apiClient.put<ILexwareDeliveryNote>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}/pursue`, {});
 	}
 
+	/**
+	 * Render a delivery note document as PDF
+	 * Note: PDF rendering is only available for delivery notes with status "open"
+	 */
+	async renderDocument(deliveryNoteId: string, options?: {
+		printLayoutId?: string;
+		language?: string;
+	}): Promise<any> {
+		const queryParams = options ? { ...options } : {};
+		return this.apiClient.get<any>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}/document`, queryParams);
+	}
+
+	/**
+	 * Download a delivery note file
+	 * Note: File download is only available for delivery notes with status "open"
+	 */
+	async downloadFile(deliveryNoteId: string, options?: {
+		printLayoutId?: string;
+		language?: string;
+	}): Promise<any> {
+		const queryParams = options ? { ...options } : {};
+		return this.apiClient.get<any>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}/file`, queryParams);
+	}
+
+	/**
+	 * Get deeplink to a delivery note in the Lexware application
+	 */
+	async getDeeplink(deliveryNoteId: string): Promise<{ deeplink: string }> {
+		return this.apiClient.get<{ deeplink: string }>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}/deeplink`);
+	}
+
+	/**
+	 * Legacy method - kept for backward compatibility
+	 * @deprecated Use renderDocument instead
+	 */
 	async document(deliveryNoteId: string): Promise<any> {
-		return this.apiClient.get<any>(`${LEXWARE_API_ENDPOINTS.DELIVERY_NOTES}/${deliveryNoteId}/document`);
+		return this.renderDocument(deliveryNoteId);
+	}
+
+	/**
+	 * Legacy method - kept for backward compatibility
+	 * @deprecated Use pursue instead
+	 */
+	async finalize(deliveryNoteId: string): Promise<ILexwareDeliveryNote> {
+		return this.pursue(deliveryNoteId);
 	}
 
 	validateCreateData(additionalFields: Record<string, any>): string[] {
 		const requiredFields = ['voucherDate', 'contactId'];
 		return LexwareDataTransformer.validateRequiredFields(additionalFields, requiredFields);
+	}
+
+	/**
+	 * Validate if a delivery note can be pursued
+	 */
+	validatePursueData(deliveryNote: ILexwareDeliveryNote): string[] {
+		const errors: string[] = [];
+		
+		if (deliveryNote.deliveryNoteStatus !== 'draft') {
+			errors.push('Delivery note must have status "draft" to be pursued');
+		}
+		
+		if (!deliveryNote.contactId) {
+			errors.push('Contact ID is required');
+		}
+		
+		if (!deliveryNote.lineItems || deliveryNote.lineItems.length === 0) {
+			errors.push('At least one line item is required');
+		}
+		
+		return errors;
+	}
+
+	/**
+	 * Validate if a delivery note can be rendered as PDF
+	 */
+	validateRenderData(deliveryNote: ILexwareDeliveryNote): string[] {
+		const errors: string[] = [];
+		
+		if (deliveryNote.deliveryNoteStatus !== 'open') {
+			errors.push('Delivery note must have status "open" to be rendered as PDF');
+		}
+		
+		return errors;
 	}
 }

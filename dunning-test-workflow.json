@@ -1,0 +1,268 @@
+{
+	"name": "Lexware Office Dunnings Test Workflow",
+	"nodes": [
+		{
+			"parameters": {
+				"httpMethod": "POST",
+				"path": "webhook/dunnings-test",
+				"responseMode": "responseNode",
+				"options": {}
+			},
+			"id": "webhook-trigger",
+			"name": "Webhook Trigger",
+			"type": "n8n-nodes-base.webhook",
+			"typeVersion": 1,
+			"position": [240, 300],
+			"webhookId": "dunnings-test"
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "create",
+				"additionalFields": {
+					"voucherDate": "={{ $now.toISOString().split('T')[0] }}",
+					"contactId": "={{ $json.contactId || 'test-contact-id' }}",
+					"precedingSalesVoucherId": "={{ $json.precedingSalesVoucherId || 'test-invoice-id' }}",
+					"dunningLevel": 1,
+					"dunningStatus": "draft",
+					"currency": "EUR",
+					"note": "Test dunning created via n8n workflow",
+					"lineItems": [
+						{
+							"type": "service",
+							"name": "Dunning Fee",
+							"quantity": 1,
+							"unitName": "piece",
+							"unitPrice": {
+								"currency": "EUR",
+								"netAmount": 5.00,
+								"taxRatePercentage": 19
+							}
+						}
+					]
+				}
+			},
+			"id": "create-dunning",
+			"name": "Create Dunning",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [460, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "get",
+				"dunningId": "={{ $json.id }}"
+			},
+			"id": "get-dunning",
+			"name": "Get Dunning",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [680, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "update",
+				"dunningId": "={{ $json.id }}",
+				"additionalFields": {
+					"note": "Updated dunning via n8n workflow",
+					"dunningLevel": 2
+				}
+			},
+			"id": "update-dunning",
+			"name": "Update Dunning",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [900, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "finalize",
+				"dunningId": "={{ $json.id }}"
+			},
+			"id": "finalize-dunning",
+			"name": "Finalize Dunning",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [1120, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "document",
+				"dunningId": "={{ $json.id }}"
+			},
+			"id": "render-dunning-document",
+			"name": "Render Dunning Document",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [1340, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "downloadFile",
+				"dunningId": "={{ $json.id }}",
+				"fileId": "={{ $json.fileId || 'test-file-id' }}"
+			},
+			"id": "download-dunning-file",
+			"name": "Download Dunning File",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [1560, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "dunning",
+				"operation": "getAll",
+				"returnAll": false,
+				"limit": 10
+			},
+			"id": "get-all-dunnings",
+			"name": "Get All Dunnings",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [1780, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		}
+	],
+	"connections": {
+		"webhook-trigger": {
+			"main": [
+				[
+					{
+						"node": "create-dunning",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"create-dunning": {
+			"main": [
+				[
+					{
+						"node": "get-dunning",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"get-dunning": {
+			"main": [
+				[
+					{
+						"node": "update-dunning",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"update-dunning": {
+			"main": [
+				[
+					{
+						"node": "finalize-dunning",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"finalize-dunning": {
+			"main": [
+				[
+					{
+						"node": "render-dunning-document",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"render-dunning-document": {
+			"main": [
+				[
+					{
+						"node": "download-dunning-file",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"download-dunning-file": {
+			"main": [
+				[
+					{
+						"node": "get-all-dunnings",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"active": false,
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"versionId": "1",
+	"meta": {
+		"instanceId": "test-instance"
+	},
+	"id": "dunning-test-workflow",
+	"tags": [
+		{
+			"createdAt": "2024-01-01T00:00:00.000Z",
+			"updatedAt": "2024-01-01T00:00:00.000Z",
+			"id": "dunning-test",
+			"name": "Dunning Tests"
+		}
+	]
+}
