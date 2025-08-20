@@ -2,15 +2,16 @@
   "name": "n8n-nodes-lexware-office",
   "version": "1.0.0",
   "description": "n8n node for Lexware Office API integration",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc && npm run copy-assets",
     "copy-assets": "node scripts/copy-assets.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "files": [
-    "dist",
-    "scripts"
+    "dist/**/*"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
@@ -27,13 +28,27 @@
     "n8n-community-node-package",
     "lexware",
     "office",
-    "api"
+    "api",
+    "accounting",
+    "business-software"
   ],
   "author": {
     "name": "Florian Wartner",
     "email": "florian@pixelandprocess.de"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fwartner/n8n-nodes-lexware-office.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fwartner/n8n-nodes-lexware-office/issues"
+  },
+  "homepage": "https://github.com/fwartner/n8n-nodes-lexware-office#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "devDependencies": {
     "@types/node": "^24.3.0",
     "n8n-core": "^0.125.0",

@@ -15,8 +15,8 @@ function copyFileSync(source, target) {
     console.log(`Copied: ${source} -> ${target}`);
 }
 
-// Function to copy directory recursively
-function copyDirSync(source, target) {
+// Function to copy directory recursively, filtering out TypeScript files
+function copyDirSync(source, target, filterExtensions = []) {
     if (!fs.existsSync(target)) {
         fs.mkdirSync(target, { recursive: true });
     }
@@ -28,9 +28,13 @@ function copyDirSync(source, target) {
         const targetPath = path.join(target, file);
         
         if (fs.statSync(sourcePath).isDirectory()) {
-            copyDirSync(sourcePath, targetPath);
+            copyDirSync(sourcePath, targetPath, filterExtensions);
         } else {
-            copyFileSync(sourcePath, targetPath);
+            // Skip TypeScript files and only copy necessary assets
+            const shouldSkip = filterExtensions.some(ext => file.endsWith(ext));
+            if (!shouldSkip) {
+                copyFileSync(sourcePath, targetPath);
+            }
         }
     });
 }
@@ -39,31 +43,21 @@ function copyDirSync(source, target) {
 try {
     console.log('Copying assets to dist folder...');
     
-    // Copy SVG icons
+    // Copy SVG icons only
     const sourceIconDir = path.join(__dirname, '..', 'nodes', 'LexwareOffice');
     const targetIconDir = path.join(__dirname, '..', 'dist', 'nodes', 'LexwareOffice');
     
     if (fs.existsSync(sourceIconDir)) {
-        copyDirSync(sourceIconDir, targetIconDir);
+        // Only copy SVG files, not TypeScript files
+        const files = fs.readdirSync(sourceIconDir);
+        files.forEach(file => {
+            if (file.endsWith('.svg')) {
+                const sourcePath = path.join(sourceIconDir, file);
+                const targetPath = path.join(targetIconDir, file);
+                copyFileSync(sourcePath, targetPath);
+            }
+        });
     }
-    
-    // Copy any other assets that might be needed
-    const sourceAssets = [
-        { source: 'credentials', target: 'dist/credentials' },
-        { source: 'types', target: 'dist/types' },
-        { source: 'constants', target: 'dist/constants' },
-        { source: 'utils', target: 'dist/utils' },
-        { source: 'resources', target: 'dist/resources' }
-    ];
-    
-    sourceAssets.forEach(({ source, target }) => {
-        const sourcePath = path.join(__dirname, '..', source);
-        const targetPath = path.join(__dirname, '..', target);
-        
-        if (fs.existsSync(sourcePath)) {
-            copyDirSync(sourcePath, targetPath);
-        }
-    });
     
     console.log('Assets copied successfully!');
 } catch (error) {
