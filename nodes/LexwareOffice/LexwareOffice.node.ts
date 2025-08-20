@@ -4549,6 +4549,8 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			
 		case LEXWARE_RESOURCE_TYPES.VOUCHERLIST:
 			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				// Always include all parameters for VOUCHERLIST GET_ALL, even if empty
+				// This ensures the API receives all expected parameters
 				params.voucherType = this.getNodeParameter('voucherType', i, '') as string;
 				params.voucherStatus = this.getNodeParameter('voucherStatus', i, '') as string;
 				params.archived = this.getNodeParameter('archived', i, '') as string;
@@ -4568,6 +4570,11 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.minAmount = this.getNodeParameter('minAmount', i, 0) as number;
 				params.maxAmount = this.getNodeParameter('maxAmount', i, 0) as number;
 				params.tag = this.getNodeParameter('tag', i, '') as string;
+				
+				// Ensure required parameters are never undefined
+				if (params.voucherStatus === undefined) params.voucherStatus = '';
+				if (params.voucherType === undefined) params.voucherType = '';
+				if (params.archived === undefined) params.archived = '';
 			}
 			break;
 	}
