@@ -1,0 +1,45 @@
+# Build output
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.d.ts
+*.js.map
+
+# Configuration files
+package-lock.json
+yarn.lock
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage directory
+coverage/
+.nyc_output
+
+# Temporary folders
+tmp/
+temp/
+
+# SVG files (keep as-is)
+*.svg
+
+# Binary files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.pdf
