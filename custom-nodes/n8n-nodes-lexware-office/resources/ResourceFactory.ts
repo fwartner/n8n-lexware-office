@@ -88,6 +88,16 @@ export class ResourceFactory {
 				return this.executeDocument(resource, resourceType, params);
 			case 'downloadFile':
 				return this.executeDownloadFile(resource, resourceType, params);
+			case 'deeplink':
+				return this.executeDeeplink(resource, resourceType, params);
+			case 'uploadFile':
+				return this.executeUploadFile(resource, resourceType, params);
+			case 'getFiles':
+				return this.executeGetFiles(resource, resourceType, params);
+			case 'deleteFile':
+				return this.executeDeleteFile(resource, resourceType, params);
+			case 'getCategoryIds':
+				return this.executeGetCategoryIds(resource, resourceType, params);
 			default:
 				throw new Error(`Unsupported operation: ${operation}`);
 		}
@@ -131,6 +141,9 @@ export class ResourceFactory {
 				return resource.get(params.eventSubscriptionId);
 			case LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE:
 				return resource.get(params.templateId);
+			case LEXWARE_RESOURCE_TYPES.VOUCHERLIST:
+				// Voucherlist doesn't support individual GET operations
+				throw new Error(`Get operation not supported for resource type: ${resourceType}`);
 			default:
 				throw new Error(`Get operation not supported for resource type: ${resourceType}`);
 		}
@@ -192,6 +205,11 @@ export class ResourceFactory {
 		// Handle voucherlist specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.VOUCHERLIST) {
 			return this.executeVoucherlistGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle voucher specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.VOUCHER) {
+			return this.executeVoucherGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -861,6 +879,64 @@ export class ResourceFactory {
 		return resource.getAll(paginationParams);
 	}
 
+	private async executeVoucherGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle voucher specific filtering
+		if (params?.voucherType) {
+			return resource.getByType(params.voucherType, paginationParams);
+		}
+		
+		if (params?.voucherStatus) {
+			return resource.getByStatus(params.voucherStatus, paginationParams);
+		}
+		
+		if (params?.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params?.voucherDateFrom && params?.voucherDateTo) {
+			return resource.getByDateRange(params.voucherDateFrom, params.voucherDateTo, paginationParams);
+		}
+		
+		if (params?.shippingDateFrom && params?.shippingDateTo) {
+			return resource.getByShippingDateRange(params.shippingDateFrom, params.shippingDateTo, paginationParams);
+		}
+		
+		if (params?.categoryId) {
+			return resource.getByCategory(params.categoryId, paginationParams);
+		}
+		
+		if (params?.taxType) {
+			return resource.getByTaxType(params.taxType, paginationParams);
+		}
+		
+		if (params?.currency) {
+			return resource.getByCurrency(params.currency, paginationParams);
+		}
+		
+		if (params?.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+		
+		if (params?.isRecurring === true) {
+			return resource.getRecurring(paginationParams);
+		}
+		
+		if (params?.isXRechnung === true) {
+			return resource.getXRechnung(paginationParams);
+		}
+		
+		if (params?.minAmount && params?.maxAmount) {
+			return resource.getByAmountRange(params.minAmount, params.maxAmount, paginationParams);
+		}
+		
+		if (params?.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		// Default: get all vouchers
+		return resource.getAll(paginationParams);
+	}
+
 	private buildPaginationParams(params: Record<string, any>): Record<string, any> {
 		if (params.returnAll) {
 			return {};
@@ -909,6 +985,73 @@ export class ResourceFactory {
 				return resource.downloadFile(params.dunningId, params.fileId);
 			default:
 				throw new Error(`Download file operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeDeeplink(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.VOUCHER:
+				return resource.getDeeplink(params.voucherId);
+			case LEXWARE_RESOURCE_TYPES.INVOICE:
+				return resource.getDeeplink(params.invoiceId);
+			case LEXWARE_RESOURCE_TYPES.QUOTATION:
+				return resource.getDeeplink(params.quotationId);
+			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+				return resource.getDeeplink(params.creditNoteId);
+			case LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION:
+				return resource.getDeeplink(params.orderConfirmationId);
+			case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+				return resource.getDeeplink(params.deliveryNoteId);
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.getDeeplink(params.dunningId);
+			case LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE:
+				return resource.getDeeplink(params.downPaymentInvoiceId);
+			case LEXWARE_RESOURCE_TYPES.CONTACT:
+				return resource.getDeeplink(params.contactId);
+			default:
+				throw new Error(`Deeplink operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeUploadFile(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.VOUCHER:
+				return resource.uploadFile(params.voucherId, params.fileData, params.fileId, params.fileName, params.contentType);
+			case LEXWARE_RESOURCE_TYPES.CONTACT:
+				return resource.uploadFile(params.contactId, params.fileData, params.fileId, params.fileName, params.contentType);
+			default:
+				throw new Error(`Upload file operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeGetFiles(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.VOUCHER:
+				return resource.getFiles(params.voucherId);
+			case LEXWARE_RESOURCE_TYPES.CONTACT:
+				return resource.getFiles(params.contactId);
+			default:
+				throw new Error(`Get files operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeDeleteFile(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.VOUCHER:
+				return resource.deleteFile(params.voucherId, params.fileId);
+			case LEXWARE_RESOURCE_TYPES.CONTACT:
+				return resource.deleteFile(params.contactId, params.fileId);
+			default:
+				throw new Error(`Delete file operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeGetCategoryIds(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.VOUCHER:
+				return resource.getCategoryIds();
+			default:
+				throw new Error(`Get category IDs operation not supported for resource type: ${resourceType}`);
 		}
 	}
 
