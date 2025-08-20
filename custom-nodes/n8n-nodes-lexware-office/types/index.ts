@@ -1661,6 +1661,53 @@ export interface ILexwareOptimisticLockingUpdateRequest<T> {
 	skipVersionCheck?: boolean;
 }
 
+/**
+ * HTTP Status Code Information
+ * Based on the official Lexware API documentation
+ */
+export interface ILexwareHttpStatusInfo {
+	code: number;
+	message: string;
+	category: string;
+	description: string;
+	retryable: boolean;
+	userActionable: boolean;
+}
+
+/**
+ * HTTP Response Information
+ * Based on the official Lexware API documentation
+ */
+export interface ILexwareHttpResponse<T> {
+	data: T;
+	status: number;
+	statusText: string;
+	headers: Record<string, string>;
+	timestamp: string;
+	requestId?: string;
+}
+
+/**
+ * HTTP Error Response
+ * Based on the official Lexware API documentation
+ */
+export interface ILexwareHttpErrorResponse {
+	status: number;
+	statusText: string;
+	message: string;
+	code?: string;
+	details?: Record<string, any>;
+	timestamp: string;
+	requestId?: string;
+	path?: string;
+	method?: string;
+	userMessage?: string;
+	developerMessage?: string;
+	retryAfter?: number;
+	rateLimitRemaining?: number;
+	rateLimitReset?: number;
+}
+
 export interface ILexwareVoucherListParams extends ILexwarePaginationParams {
 	voucherType?: string;
 	voucherStatus?: string;

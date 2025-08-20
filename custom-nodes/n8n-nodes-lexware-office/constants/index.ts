@@ -406,6 +406,106 @@ export const LEXWARE_ERROR_MESSAGES = {
 	UNKNOWN_ERROR: 'Unknown error occurred',
 } as const;
 
+/**
+ * HTTP Status Codes and their meanings
+ * Based on the official Lexware API documentation
+ */
+export const LEXWARE_HTTP_STATUS_CODES = {
+	// Success responses
+	OK: 200,
+	CREATED: 201,
+	ACCEPTED: 202,
+	NO_CONTENT: 204,
+	
+	// Redirection responses
+	MOVED_PERMANENTLY: 301,
+	FOUND: 302,
+	NOT_MODIFIED: 304,
+	TEMPORARY_REDIRECT: 307,
+	PERMANENT_REDIRECT: 308,
+	
+	// Client error responses
+	BAD_REQUEST: 400,
+	UNAUTHORIZED: 401,
+	FORBIDDEN: 403,
+	NOT_FOUND: 404,
+	METHOD_NOT_ALLOWED: 405,
+	NOT_ACCEPTABLE: 406,
+	REQUEST_TIMEOUT: 408,
+	CONFLICT: 409,
+	GONE: 410,
+	UNPROCESSABLE_ENTITY: 422,
+	TOO_MANY_REQUESTS: 429,
+	REQUEST_HEADER_FIELDS_TOO_LARGE: 431,
+	
+	// Server error responses
+	INTERNAL_SERVER_ERROR: 500,
+	NOT_IMPLEMENTED: 501,
+	BAD_GATEWAY: 502,
+	SERVICE_UNAVAILABLE: 503,
+	GATEWAY_TIMEOUT: 504,
+	HTTP_VERSION_NOT_SUPPORTED: 505,
+} as const;
+
+/**
+ * HTTP Status Code Messages
+ * Based on the official Lexware API documentation
+ */
+export const LEXWARE_HTTP_STATUS_MESSAGES = {
+	[LEXWARE_HTTP_STATUS_CODES.OK]: 'Request successful',
+	[LEXWARE_HTTP_STATUS_CODES.CREATED]: 'Resource created successfully',
+	[LEXWARE_HTTP_STATUS_CODES.ACCEPTED]: 'Request accepted for processing',
+	[LEXWARE_HTTP_STATUS_CODES.NO_CONTENT]: 'Request successful, no content to return',
+	
+	[LEXWARE_HTTP_STATUS_CODES.MOVED_PERMANENTLY]: 'Resource moved permanently',
+	[LEXWARE_HTTP_STATUS_CODES.FOUND]: 'Resource found at different location',
+	[LEXWARE_HTTP_STATUS_CODES.NOT_MODIFIED]: 'Resource not modified since last request',
+	[LEXWARE_HTTP_STATUS_CODES.TEMPORARY_REDIRECT]: 'Temporary redirect',
+	[LEXWARE_HTTP_STATUS_CODES.PERMANENT_REDIRECT]: 'Permanent redirect',
+	
+	[LEXWARE_HTTP_STATUS_CODES.BAD_REQUEST]: 'Bad request - invalid syntax or parameters',
+	[LEXWARE_HTTP_STATUS_CODES.UNAUTHORIZED]: 'Unauthorized - authentication required',
+	[LEXWARE_HTTP_STATUS_CODES.FORBIDDEN]: 'Forbidden - access denied',
+	[LEXWARE_HTTP_STATUS_CODES.NOT_FOUND]: 'Resource not found',
+	[LEXWARE_HTTP_STATUS_CODES.METHOD_NOT_ALLOWED]: 'HTTP method not allowed for this resource',
+	[LEXWARE_HTTP_STATUS_CODES.NOT_ACCEPTABLE]: 'Request not acceptable - content negotiation failed',
+	[LEXWARE_HTTP_STATUS_CODES.REQUEST_TIMEOUT]: 'Request timeout',
+	[LEXWARE_HTTP_STATUS_CODES.CONFLICT]: 'Conflict - resource state conflict (e.g., optimistic locking)',
+	[LEXWARE_HTTP_STATUS_CODES.GONE]: 'Resource no longer available',
+	[LEXWARE_HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY]: 'Unprocessable entity - validation failed',
+	[LEXWARE_HTTP_STATUS_CODES.TOO_MANY_REQUESTS]: 'Too many requests - rate limit exceeded',
+	[LEXWARE_HTTP_STATUS_CODES.REQUEST_HEADER_FIELDS_TOO_LARGE]: 'Request header fields too large',
+	
+	[LEXWARE_HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR]: 'Internal server error',
+	[LEXWARE_HTTP_STATUS_CODES.NOT_IMPLEMENTED]: 'Method not implemented',
+	[LEXWARE_HTTP_STATUS_CODES.BAD_GATEWAY]: 'Bad gateway',
+	[LEXWARE_HTTP_STATUS_CODES.SERVICE_UNAVAILABLE]: 'Service unavailable',
+	[LEXWARE_HTTP_STATUS_CODES.GATEWAY_TIMEOUT]: 'Gateway timeout',
+	[LEXWARE_HTTP_STATUS_CODES.HTTP_VERSION_NOT_SUPPORTED]: 'HTTP version not supported',
+} as const;
+
+/**
+ * HTTP Status Code Categories
+ * Based on the official Lexware API documentation
+ */
+export const LEXWARE_HTTP_STATUS_CATEGORIES = {
+	SUCCESS: '2xx',
+	REDIRECTION: '3xx',
+	CLIENT_ERROR: '4xx',
+	SERVER_ERROR: '5xx',
+} as const;
+
+/**
+ * HTTP Status Code Ranges
+ * Based on the official Lexware API documentation
+ */
+export const LEXWARE_HTTP_STATUS_RANGES = {
+	SUCCESS: [200, 299],
+	REDIRECTION: [300, 399],
+	CLIENT_ERROR: [400, 499],
+	SERVER_ERROR: [500, 599],
+} as const;
+
 export const LEXWARE_EVENT_TYPES = {
 	// Voucher events
 	VOUCHER_CREATED: 'voucher.created',

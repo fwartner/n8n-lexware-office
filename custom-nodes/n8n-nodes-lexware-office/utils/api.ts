@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ILexwareCredentials, ILexwareApiResponse } from '../types';
-import { LEXWARE_HEADERS, LEXWARE_ERROR_MESSAGES } from '../constants';
+import { ILexwareCredentials, ILexwareApiResponse, ILexwareHttpErrorResponse, ILexwareHttpResponse } from '../types';
+import { HttpStatusCodeManager } from './httpStatusCodes';
+import { LEXWARE_HEADERS, LEXWARE_ERROR_MESSAGES, LEXWARE_HTTP_STATUS_CODES } from '../constants';
 
 export class LexwareApiClient {
 	private credentials: ILexwareCredentials;
@@ -59,21 +60,104 @@ export class LexwareApiClient {
 		return this.makeRequest<T>('DELETE', endpoint, undefined, params);
 	}
 
+	/**
+	 * Get comprehensive response information including headers and status
+	 * @param endpoint - The API endpoint
+	 * @param params - Query parameters
+	 * @returns Promise<ILexwareHttpResponse<T>> - Full response information
+	 */
+	async getWithResponseInfo<T>(endpoint: string, params?: Record<string, any>): Promise<ILexwareHttpResponse<T>> {
+		const config: AxiosRequestConfig = {
+			method: 'GET',
+			url: this.buildUrl(endpoint),
+			headers: this.getHeaders(),
+			params,
+		};
+
+		try {
+			const response: AxiosResponse<T> = await axios(config);
+			
+			return {
+				data: response.data,
+				status: response.status,
+				statusText: response.statusText,
+				headers: response.headers as Record<string, string>,
+				timestamp: new Date().toISOString(),
+				requestId: response.headers['x-request-id'],
+			};
+		} catch (error: any) {
+			throw this.handleApiError(error);
+		}
+	}
+
+	/**
+	 * Check if a response indicates success
+	 * @param status - HTTP status code
+	 * @returns boolean - Whether the response indicates success
+	 */
+	isSuccessResponse(status: number): boolean {
+		return HttpStatusCodeManager.isSuccess(status);
+	}
+
+	/**
+	 * Get rate limit information from response headers
+	 * @param headers - Response headers
+	 * @returns object - Rate limit information
+	 */
+	getRateLimitInfo(headers: Record<string, string>): {
+		remaining: number;
+		reset: number;
+		limit: number;
+	} {
+		return HttpStatusCodeManager.getRateLimitInfo(headers);
+	}
+
 	private handleApiError(error: any): Error {
 		if (error.response) {
-			const { status, data } = error.response;
+			const { status, data, headers } = error.response;
 			
+			// Use comprehensive HTTP status code handling
+			const statusInfo = HttpStatusCodeManager.getStatusInfo(status);
+			const errorResponse = HttpStatusCodeManager.parseErrorResponse(error);
+			
+			// Check for rate limiting
+			if (HttpStatusCodeManager.isRateLimited(status, headers)) {
+				const rateLimitInfo = HttpStatusCodeManager.getRateLimitInfo(headers);
+				const retryAfter = errorResponse.retryAfter || HttpStatusCodeManager.getRetryDelay(status, 1);
+				
+				return new Error(
+					`Rate limit exceeded. Remaining: ${rateLimitInfo.remaining}/${rateLimitInfo.limit}. ` +
+					`Reset at: ${new Date(rateLimitInfo.reset * 1000).toISOString()}. ` +
+					`Retry after: ${retryAfter}ms. ${errorResponse.userMessage}`
+				);
+			}
+			
+			// Handle specific status codes with detailed information
 			switch (status) {
-				case 401:
-					return new Error(LEXWARE_ERROR_MESSAGES.INVALID_CREDENTIALS);
-				case 404:
-					return new Error(LEXWARE_ERROR_MESSAGES.RESOURCE_NOT_FOUND);
-				case 422:
-					return new Error(LEXWARE_ERROR_MESSAGES.VALIDATION_ERROR);
-				case 429:
-					return new Error(LEXWARE_ERROR_MESSAGES.RATE_LIMIT_EXCEEDED);
+				case LEXWARE_HTTP_STATUS_CODES.UNAUTHORIZED:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.INVALID_CREDENTIALS}: ${errorResponse.userMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.FORBIDDEN:
+					return new Error(`Access forbidden: ${errorResponse.userMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.NOT_FOUND:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.RESOURCE_NOT_FOUND}: ${errorResponse.userMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.CONFLICT:
+					return new Error(`Conflict detected: ${errorResponse.userMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.VALIDATION_ERROR}: ${errorResponse.userMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.TOO_MANY_REQUESTS:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.RATE_LIMIT_EXCEEDED}: ${errorResponse.userMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR:
+					return new Error(`Server error: ${errorResponse.developerMessage}`);
+				case LEXWARE_HTTP_STATUS_CODES.SERVICE_UNAVAILABLE:
+					return new Error(`Service temporarily unavailable: ${errorResponse.developerMessage}`);
 				default:
-					return new Error(data?.message || `HTTP ${status}: ${data?.error || 'Unknown error'}`);
+					// Use comprehensive error information
+					const errorMessage = data?.message || data?.error || statusInfo.message;
+					const userAction = errorResponse.userMessage;
+					
+					return new Error(
+						`HTTP ${status} (${statusInfo.category}): ${errorMessage}${userAction ? ` - ${userAction}` : ''}`
+					);
 			}
 		} else if (error.request) {
 			return new Error(LEXWARE_ERROR_MESSAGES.NETWORK_ERROR);
