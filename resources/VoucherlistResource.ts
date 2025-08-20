@@ -110,18 +110,18 @@ export class VoucherlistResource {
 	 * Get vouchers by creation date range
 	 */
 	async getByCreationDateRange(startDate: string, endDate: string, params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		const queryParams = new URLSearchParams();
-		queryParams.append('createdDateFrom', startDate);
-		queryParams.append('createdDateTo', endDate);
-		
-		if (params?.voucherType) queryParams.append('voucherType', params.voucherType);
-		if (params?.voucherStatus) queryParams.append('voucherStatus', params.voucherStatus);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.contactId) queryParams.append('contactId', params.contactId);
-		if (params?.size) queryParams.append('size', params.size.toString());
-		if (params?.page) queryParams.append('page', params.page.toString());
+		const apiParams = {
+			createdDateFrom: startDate,
+			createdDateTo: endDate,
+			voucherType: params?.voucherType || '',
+			voucherStatus: params?.voucherStatus || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			contactId: params?.contactId || '',
+			size: params?.size ? params.size.toString() : '',
+			page: params?.page ? params.page.toString() : '',
+		};
 
-		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
+		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
 
 	/**
