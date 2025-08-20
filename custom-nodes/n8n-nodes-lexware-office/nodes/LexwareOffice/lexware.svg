@@ -1,19 +1,23 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="180.000000pt" height="180.000000pt" viewBox="0 0 180.000000 180.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,180.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M352 1346 c24 -30 114 -142 202 -250 l158 -196 -103 -127 c-57 -71
--148 -182 -201 -248 l-98 -120 181 -3 c125 -2 186 1 195 9 34 28 395 482 392
-493 -2 7 -91 122 -198 254 l-195 241 -188 1 -189 0 44 -54z"/>
-<path d="M1078 1348 c-25 -29 -61 -73 -80 -98 l-36 -45 89 -110 c49 -61 93
--111 97 -112 4 -1 63 68 132 153 69 86 144 180 168 210 l44 54 -185 0 -185 0
--44 -52z"/>
-<path d="M1057 713 c-48 -60 -87 -112 -88 -116 -1 -5 33 -51 75 -103 l77 -94
-186 0 c147 0 183 3 176 13 -105 131 -327 403 -333 405 -3 1 -46 -46 -93 -105z"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Simple office building icon -->
+  <rect x="2" y="3" width="20" height="18" rx="2" fill="#4f46e5"/>
+  
+  <!-- Windows -->
+  <rect x="4" y="5" width="3" height="3" fill="#ffffff"/>
+  <rect x="9" y="5" width="3" height="3" fill="#ffffff"/>
+  <rect x="14" y="5" width="3" height="3" fill="#ffffff"/>
+  <rect x="19" y="5" width="3" height="3" fill="#ffffff"/>
+  
+  <rect x="4" y="10" width="3" height="3" fill="#ffffff"/>
+  <rect x="9" y="10" width="3" height="3" fill="#ffffff"/>
+  <rect x="14" y="10" width="3" height="3" fill="#ffffff"/>
+  <rect x="19" y="10" width="3" height="3" fill="#ffffff"/>
+  
+  <rect x="4" y="15" width="3" height="3" fill="#ffffff"/>
+  <rect x="9" y="15" width="3" height="3" fill="#ffffff"/>
+  <rect x="14" y="15" width="3" height="3" fill="#ffffff"/>
+  <rect x="19" y="15" width="3" height="3" fill="#ffffff"/>
+  
+  <!-- Door -->
+  <rect x="10" y="12" width="4" height="9" fill="#ffffff"/>
 </svg>

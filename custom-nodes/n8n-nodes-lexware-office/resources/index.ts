@@ -1,7 +1,8 @@
-export { ContactResource, IContactFilterParams, IContactSearchParams } from './ContactResource';
+export { ContactResource } from './ContactResource';
 export { ArticleResource } from './ArticleResource';
 export { VoucherResource } from './VoucherResource';
 export { InvoiceResource } from './InvoiceResource';
+export { DownPaymentInvoiceResource } from './DownPaymentInvoiceResource';
 export { QuotationResource } from './QuotationResource';
 export { CreditNoteResource } from './CreditNoteResource';
 export { DeliveryNoteResource } from './DeliveryNoteResource';

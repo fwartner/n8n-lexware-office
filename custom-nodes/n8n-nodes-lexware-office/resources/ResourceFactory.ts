@@ -1,17 +1,20 @@
 import { ILexwareCredentials } from '../types';
-import { ContactResource } from './ContactResource';
-import { ArticleResource } from './ArticleResource';
-import { VoucherResource } from './VoucherResource';
-import { InvoiceResource } from './InvoiceResource';
-import { QuotationResource } from './QuotationResource';
-import { CreditNoteResource } from './CreditNoteResource';
-import { DeliveryNoteResource } from './DeliveryNoteResource';
-import { DunningResource } from './DunningResource';
-import { FileResource } from './FileResource';
-import { ProfileResource } from './ProfileResource';
-import { CountryResource } from './CountryResource';
-import { PaymentConditionResource } from './PaymentConditionResource';
-import { EventSubscriptionResource } from './EventSubscriptionResource';
+import { 
+	ContactResource, 
+	ArticleResource, 
+	VoucherResource,
+	InvoiceResource,
+	DownPaymentInvoiceResource,
+	QuotationResource,
+	CreditNoteResource,
+	DeliveryNoteResource,
+	DunningResource,
+	FileResource,
+	ProfileResource,
+	CountryResource,
+	PaymentConditionResource,
+	EventSubscriptionResource
+} from './index';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
 
 export class ResourceFactory {
