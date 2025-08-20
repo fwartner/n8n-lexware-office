@@ -27,9 +27,11 @@ export class CreditNoteResource {
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareCreditNote[]> {
 		// Use voucherlist endpoint with credit note filter
+		// The voucherlist endpoint requires voucherStatus, so we need to ensure it's always present
 		const queryParams = {
 			...params,
 			voucherType: 'creditnote',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
 		};
 		return this.apiClient.get<ILexwareCreditNote[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}

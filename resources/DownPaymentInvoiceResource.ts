@@ -11,6 +11,17 @@ export class DownPaymentInvoiceResource {
 	}
 
 	/**
+	 * Helper method to ensure all voucherlist calls include required parameters
+	 */
+	private ensureVoucherlistParams(params: Record<string, any>): Record<string, any> {
+		return {
+			...params,
+			voucherType: 'downpaymentinvoice',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
+		};
+	}
+
+	/**
 	 * Retrieve a down payment invoice by ID
 	 * Note: Down payment invoices are read-only resources
 	 */
@@ -24,10 +35,7 @@ export class DownPaymentInvoiceResource {
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareDownPaymentInvoice[]> {
 		// Use voucherlist endpoint with down payment invoice filter
-		const queryParams = {
-			...params,
-			voucherType: 'downpaymentinvoice',
-		};
+		const queryParams = this.ensureVoucherlistParams(params);
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -55,10 +63,9 @@ export class DownPaymentInvoiceResource {
 	 * Useful for finding all down payments related to a specific closing invoice
 	 */
 	async getByClosingInvoice(closingInvoiceId: string): Promise<ILexwareDownPaymentInvoice[]> {
-		const queryParams = {
-			voucherType: 'downpaymentinvoice',
+		const queryParams = this.ensureVoucherlistParams({
 			closingInvoiceId,
-		};
+		});
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -67,11 +74,10 @@ export class DownPaymentInvoiceResource {
 	 * Useful for finding all down payments for a specific contact
 	 */
 	async getByContact(contactId: string, params?: Record<string, any>): Promise<ILexwareDownPaymentInvoice[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'downpaymentinvoice',
 			contactId,
-		};
+		});
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -80,11 +86,10 @@ export class DownPaymentInvoiceResource {
 	 * Useful for filtering by draft, open, paid, or voided status
 	 */
 	async getByStatus(status: 'draft' | 'open' | 'paid' | 'voided', params?: Record<string, any>): Promise<ILexwareDownPaymentInvoice[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'downpaymentinvoice',
 			voucherStatus: status,
-		};
+		});
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -93,12 +98,11 @@ export class DownPaymentInvoiceResource {
 	 * Useful for finding down payments within a specific time period
 	 */
 	async getByDateRange(startDate: string, endDate: string, params?: Record<string, any>): Promise<ILexwareDownPaymentInvoice[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'downpaymentinvoice',
 			voucherDateFrom: startDate,
 			voucherDateTo: endDate,
-		};
+		});
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -107,11 +111,10 @@ export class DownPaymentInvoiceResource {
 	 * Useful for finding specific down payment invoices by their number
 	 */
 	async searchByNumber(invoiceNumber: string, params?: Record<string, any>): Promise<ILexwareDownPaymentInvoice[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'downpaymentinvoice',
 			voucherNumber: invoiceNumber,
-		};
+		});
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -120,12 +123,11 @@ export class DownPaymentInvoiceResource {
 	 * Useful for filtering by tax type or tax sub-type
 	 */
 	async getByTaxConditions(taxType: string, taxSubType?: string, params?: Record<string, any>): Promise<ILexwareDownPaymentInvoice[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'downpaymentinvoice',
 			taxType,
 			...(taxSubType && { taxSubType }),
-		};
+		});
 		return this.apiClient.get<ILexwareDownPaymentInvoice[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 

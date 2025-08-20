@@ -26,9 +26,11 @@ export class DunningResource {
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareDunning[]> {
 		// Use voucherlist endpoint with dunning filter for better performance
+		// The voucherlist endpoint requires voucherStatus, so we need to ensure it's always present
 		const queryParams = {
 			...params,
 			voucherType: 'dunning',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
 		};
 		return this.apiClient.get<ILexwareDunning[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}

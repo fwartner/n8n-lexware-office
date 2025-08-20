@@ -16,9 +16,11 @@ export class DeliveryNoteResource {
 
 	async getAll(params?: Record<string, any>): Promise<ILexwareDeliveryNote[]> {
 		// Use voucherlist endpoint with delivery note filter
+		// The voucherlist endpoint requires voucherStatus, so we need to ensure it's always present
 		const queryParams = {
 			...params,
 			voucherType: 'deliverynote',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
 		};
 		return this.apiClient.get<ILexwareDeliveryNote[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
