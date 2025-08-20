@@ -13,46 +13,43 @@ export class VoucherlistResource {
 	 * Get all vouchers with optional filtering
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		const queryParams = new URLSearchParams();
-		
-		// Always include required parameters, even if they're empty strings
-		// This ensures the API receives all expected parameters
-		queryParams.append('voucherType', params?.voucherType || '');
-		queryParams.append('voucherStatus', params?.voucherStatus || '');
-		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
-		queryParams.append('contactId', params?.contactId || '');
-		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
-		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
-		queryParams.append('createdDateFrom', params?.createdDateFrom || '');
-		queryParams.append('createdDateTo', params?.createdDateTo || '');
-		queryParams.append('updatedDateFrom', params?.updatedDateFrom || '');
-		queryParams.append('updatedDateTo', params?.updatedDateTo || '');
-		queryParams.append('voucherNumber', params?.voucherNumber || '');
-		queryParams.append('size', params?.size ? params.size.toString() : '');
-		queryParams.append('page', params?.page ? params.page.toString() : '');
-		queryParams.append('sort', params?.sort || '');
+		// Ensure all required parameters are present, even if they're empty strings
+		const apiParams = {
+			voucherType: params?.voucherType || '',
+			voucherStatus: params?.voucherStatus || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			contactId: params?.contactId || '',
+			voucherDateFrom: params?.voucherDateFrom || '',
+			voucherDateTo: params?.voucherDateTo || '',
+			createdDateFrom: params?.createdDateFrom || '',
+			createdDateTo: params?.createdDateTo || '',
+			updatedDateFrom: params?.updatedDateFrom || '',
+			updatedDateTo: params?.updatedDateTo || '',
+			voucherNumber: params?.voucherNumber || '',
+			size: params?.size ? params.size.toString() : '',
+			page: params?.page ? params.page.toString() : '',
+			sort: params?.sort || '',
+		};
 
-		const url = `${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`;
-		return this.apiClient.get<ILexwareVoucherList[]>(url);
+		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
 
 	/**
 	 * Get vouchers by type
 	 */
 	async getByType(voucherType: string, params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		const queryParams = new URLSearchParams();
-		queryParams.append('voucherType', voucherType);
-		
-		// Always include required parameters, even if they're empty strings
-		queryParams.append('voucherStatus', params?.voucherStatus || '');
-		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
-		queryParams.append('contactId', params?.contactId || '');
-		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
-		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
-		queryParams.append('size', params?.size ? params.size.toString() : '');
-		queryParams.append('page', params?.page ? params.page.toString() : '');
+		const apiParams = {
+			voucherType: voucherType,
+			voucherStatus: params?.voucherStatus || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			contactId: params?.contactId || '',
+			voucherDateFrom: params?.voucherDateFrom || '',
+			voucherDateTo: params?.voucherDateTo || '',
+			size: params?.size ? params.size.toString() : '',
+			page: params?.page ? params.page.toString() : '',
+		};
 
-		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
+		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
 
 	/**
