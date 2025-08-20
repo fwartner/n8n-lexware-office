@@ -222,6 +222,144 @@ export const LEXWARE_DEFAULT_VALUES = {
 	DEFAULT_VERSION: 0,
 } as const;
 
+/**
+ * Pagination limits per endpoint as documented in the Lexware API
+ * Based on the official documentation updated on 09.02.2022
+ */
+export const LEXWARE_PAGINATION_LIMITS = {
+	// Core resources
+	CONTACTS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	ARTICLES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	VOUCHERS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	INVOICES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	QUOTATIONS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	CREDIT_NOTES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	ORDER_CONFIRMATIONS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	DELIVERY_NOTES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	DUNNINGS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	DOWN_PAYMENT_INVOICES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	
+	// File and system resources
+	FILES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	PROFILE: {
+		DEFAULT: 1,
+		MAX: 1,
+		MIN: 1,
+	},
+	COUNTRIES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	PAYMENT_CONDITIONS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	PAYMENTS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	POSTING_CATEGORIES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	PRINT_LAYOUTS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	EVENT_SUBSCRIPTIONS: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	RECURRING_TEMPLATES: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+	VOUCHERLIST: {
+		DEFAULT: 50,
+		MAX: 250,
+		MIN: 1,
+	},
+} as const;
+
+/**
+ * Pagination parameter names as used in the Lexware API
+ */
+export const LEXWARE_PAGINATION_PARAMS = {
+	SIZE: 'size',
+	PAGE: 'page',
+	SORT: 'sort',
+	CURSOR: 'cursor',
+	LIMIT: 'limit',
+	OFFSET: 'offset',
+} as const;
+
+/**
+ * Default sorting options for pagination
+ */
+export const LEXWARE_DEFAULT_SORT_OPTIONS = {
+	CREATED_AT_ASC: 'createdAt:asc',
+	CREATED_AT_DESC: 'createdAt:desc',
+	UPDATED_AT_ASC: 'updatedAt:asc',
+	UPDATED_AT_DESC: 'updatedAt:desc',
+	VOUCHER_DATE_ASC: 'voucherDate:asc',
+	VOUCHER_DATE_DESC: 'voucherDate:desc',
+	NAME_ASC: 'name:asc',
+	NAME_DESC: 'name:desc',
+	ID_ASC: 'id:asc',
+	ID_DESC: 'id:desc',
+} as const;
+
 export const LEXWARE_HTTP_METHODS = {
 	GET: 'GET',
 	POST: 'POST',
