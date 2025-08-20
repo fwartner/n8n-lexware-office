@@ -330,6 +330,140 @@ A dedicated test workflow is included (`dunning-test-workflow.json`) that demons
 6. Getting all dunnings with pagination
 7. Error handling and validation
 
+## Enhanced Invoice Endpoints
+
+The Invoice endpoints have been significantly enhanced based on the [official Lexware API documentation](https://developers.lexware.io/docs/#invoices-endpoint) to provide comprehensive invoice management capabilities:
+
+### **Advanced Invoice Management**
+- **Comprehensive Status Support**: Full lifecycle management from draft to paid/voided with overdue and partially paid statuses
+- **Smart Filtering**: Filter by status, contact, date ranges, due dates, amounts, and business criteria
+- **Search Capabilities**: Text-based search across invoice descriptions and metadata
+- **Multi-Currency Support**: Handle invoices in different currencies with proper validation
+
+### **Enhanced Data Structure**
+- **Extended Properties**: Support for all official API fields including version, organization ID, and timestamps
+- **Payment Conditions**: Comprehensive payment terms, discounts, and due date management
+- **Tax Conditions**: Advanced tax handling with subtypes, rates, and calculations
+- **Shipping & Delivery**: Full shipping information with addresses and delivery terms
+- **Line Items**: Enhanced line item support with discounts, article references, and pricing
+
+### **Available Operations**
+- **`getAll`** with advanced filtering options
+- **`get`** by invoice ID
+- **`create`** with comprehensive validation
+- **`update`** with field-level validation
+- **`delete`** invoices
+- **`finalize`** draft invoices
+- **`document`** PDF rendering
+- **`downloadFile`** file download
+- **`getDeeplink`** direct Lexware access
+- **`getByStatus`** for status filtering
+- **`getOverdue`** / **`getPaid`** / **`getDrafts`** / **`getOpen`** for specific statuses
+- **`getByContact`** for contact-based filtering
+- **`getByDateRange`** for invoice date filtering
+- **`getByDueDateRange`** for due date filtering
+- **`getByAmountRange`** for amount-based filtering
+- **`search`** by text term
+- **`getXRechnungInvoices`** for e-invoice filtering
+- **`getRecurringInvoices`** for recurring invoice filtering
+- **`getClosingInvoices`** for closing invoice filtering
+- **`getByTaxType`** for tax type filtering
+- **`getByCurrency`** for currency filtering
+- **`getByLanguage`** for language filtering
+- **`markAsPaid`** for payment status updates
+- **`void`** for invoice cancellation
+- **`sendReminder`** for payment reminders
+
+### **Invoice Statuses Supported**
+- **Draft**: Invoices in preparation stage
+- **Open**: Finalized invoices awaiting payment
+- **Paid**: Fully paid invoices
+- **Voided**: Cancelled invoices
+- **Overdue**: Past due date invoices
+- **Partially Paid**: Invoices with partial payments
+
+### **Special Invoice Types**
+- **XRechnung**: German e-invoice standard support
+- **Recurring**: Automated recurring invoice management
+- **Closing**: Year-end closing invoice support
+- **Down Payment**: Partial payment invoice handling
+
+### **Usage Examples**
+
+#### Create Invoice with Line Items
+```json
+{
+  "resource": "invoice",
+  "operation": "create",
+  "additionalFields": {
+    "voucherDate": "2024-01-15",
+    "contactId": "contact-123",
+    "invoiceNumber": "INV-2024-001",
+    "dueDate": "2024-02-15",
+    "title": "Consulting Services Q1 2024",
+    "language": "en",
+    "currency": "EUR",
+    "lineItems": [
+      {
+        "type": "service",
+        "name": "Strategic Consulting",
+        "description": "Business strategy development",
+        "quantity": 40,
+        "unitName": "hour",
+        "unitPrice": {
+          "currency": "EUR",
+          "netAmount": 150,
+          "taxRatePercentage": 19
+        }
+      }
+    ],
+    "paymentConditions": {
+      "paymentTerms": 30,
+      "discountPercentage": 2,
+      "discountDays": 10
+    }
+  }
+}
+```
+
+#### Filter Overdue Invoices
+```json
+{
+  "resource": "invoice",
+  "operation": "getAll",
+  "invoiceStatus": "overdue",
+  "dueDateStart": "2024-01-01",
+  "dueDateEnd": "2024-12-31",
+  "minAmount": 1000,
+  "currency": "EUR"
+}
+```
+
+#### Search XRechnung Invoices
+```json
+{
+  "resource": "invoice",
+  "operation": "getAll",
+  "isXRechnung": true,
+  "startDate": "2024-01-01",
+  "endDate": "2024-12-31",
+  "language": "de"
+}
+```
+
+#### Update Invoice Status
+```json
+{
+  "resource": "invoice",
+  "operation": "update",
+  "invoiceId": "invoice-123",
+  "additionalFields": {
+    "note": "Payment received via bank transfer",
+    "tags": ["paid", "bank-transfer", "q1-2024"]
+  }
+}
+```
+
 ## Enhanced File Endpoints
 
 The File endpoints have been significantly enhanced based on the [official Lexware API documentation](https://developers.lexware.io/docs/#files-endpoint) to provide comprehensive file management capabilities:
@@ -571,6 +705,10 @@ For issues and questions:
 ## Changelog
 
 ### Latest Updates
+- **NEW**: Enhanced Invoice endpoints with comprehensive invoice management capabilities
+- **NEW**: Advanced invoice filtering, status management, and business logic support
+- **NEW**: Support for all invoice types including XRechnung, recurring, and closing invoices
+- **NEW**: Enhanced payment conditions, tax handling, and line item management
 - **NEW**: Enhanced File endpoints with comprehensive file management capabilities
 - **NEW**: Advanced file filtering, categorization, and e-invoice support
 - **NEW**: Support for all file types including business documents, images, and archives

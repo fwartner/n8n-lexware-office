@@ -137,6 +137,11 @@ export class ResourceFactory {
 			return this.executeFileGetAll(resource, paginationParams, params);
 		}
 		
+		// Handle invoice specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.INVOICE) {
+			return this.executeInvoiceGetAll(resource, paginationParams, params);
+		}
+		
 		return resource.getAll(paginationParams);
 	}
 
@@ -283,6 +288,60 @@ export class ResourceFactory {
 		}
 		
 		// Default: get all files
+		return resource.getAll(paginationParams);
+	}
+
+	private async executeInvoiceGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle invoice specific filtering
+		if (params.invoiceStatus) {
+			return resource.getByStatus(params.invoiceStatus, paginationParams);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.startDate && params.endDate) {
+			return resource.getByDateRange(params.startDate, params.endDate, paginationParams);
+		}
+		
+		if (params.dueDateStart && params.dueDateEnd) {
+			return resource.getByDueDateRange(params.dueDateStart, params.dueDateEnd, paginationParams);
+		}
+		
+		if (params.minAmount && params.maxAmount) {
+			return resource.getByAmountRange(params.minAmount, params.maxAmount, paginationParams);
+		}
+		
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		if (params.isXRechnung === true) {
+			return resource.getXRechnungInvoices(paginationParams);
+		}
+		
+		if (params.isRecurring === true) {
+			return resource.getRecurringInvoices(paginationParams);
+		}
+		
+		if (params.isClosingInvoice === true) {
+			return resource.getClosingInvoices(paginationParams);
+		}
+		
+		if (params.taxType) {
+			return resource.getByTaxType(params.taxType, paginationParams);
+		}
+		
+		if (params.currency) {
+			return resource.getByCurrency(params.currency, paginationParams);
+		}
+		
+		if (params.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+		
+		// Default: get all invoices
 		return resource.getAll(paginationParams);
 	}
 

@@ -428,6 +428,197 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the invoice',
 			},
+			{
+				displayName: 'Invoice Status',
+				name: 'invoiceStatus',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Draft', value: 'draft' },
+					{ name: 'Open', value: 'open' },
+					{ name: 'Paid', value: 'paid' },
+					{ name: 'Voided', value: 'voided' },
+					{ name: 'Overdue', value: 'overdue' },
+					{ name: 'Partially Paid', value: 'partially_paid' },
+				],
+				description: 'Filter by invoice status',
+			},
+			{
+				displayName: 'Start Date',
+				name: 'startDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'End Date',
+				name: 'endDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Due Date Start',
+				name: 'dueDateStart',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start due date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Due Date End',
+				name: 'dueDateEnd',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End due date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Min Amount',
+				name: 'minAmount',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Minimum amount for filtering',
+			},
+			{
+				displayName: 'Max Amount',
+				name: 'maxAmount',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Maximum amount for filtering',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search invoices by text',
+			},
+			{
+				displayName: 'XRechnung Only',
+				name: 'isXRechnung',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter for XRechnung invoices only',
+			},
+			{
+				displayName: 'Recurring Only',
+				name: 'isRecurring',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter for recurring invoices only',
+			},
+			{
+				displayName: 'Closing Invoice Only',
+				name: 'isClosingInvoice',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter for closing invoices only',
+			},
+			{
+				displayName: 'Tax Type',
+				name: 'taxType',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by tax type (e.g., vat, vatfree, export)',
+			},
+			{
+				displayName: 'Currency',
+				name: 'currency',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by currency (e.g., EUR, USD)',
+			},
+			{
+				displayName: 'Language',
+				name: 'language',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by language (e.g., de, en)',
+			},
 			// Down Payment Invoice specific fields
 			{
 				displayName: 'Down Payment Invoice ID',
@@ -1406,6 +1597,22 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.INVOICE:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.invoiceId = this.getNodeParameter('invoiceId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.invoiceStatus = this.getNodeParameter('invoiceStatus', i, '') as string;
+				params.startDate = this.getNodeParameter('startDate', i, '') as string;
+				params.endDate = this.getNodeParameter('endDate', i, '') as string;
+				params.dueDateStart = this.getNodeParameter('dueDateStart', i, '') as string;
+				params.dueDateEnd = this.getNodeParameter('dueDateEnd', i, '') as string;
+				params.minAmount = this.getNodeParameter('minAmount', i, 0) as number;
+				params.maxAmount = this.getNodeParameter('maxAmount', i, 0) as number;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.isXRechnung = this.getNodeParameter('isXRechnung', i, false) as boolean;
+				params.isRecurring = this.getNodeParameter('isRecurring', i, false) as boolean;
+				params.isClosingInvoice = this.getNodeParameter('isClosingInvoice', i, false) as boolean;
+				params.taxType = this.getNodeParameter('taxType', i, '') as string;
+				params.currency = this.getNodeParameter('currency', i, '') as string;
+				params.language = this.getNodeParameter('language', i, '') as string;
 			}
 			break;
 			

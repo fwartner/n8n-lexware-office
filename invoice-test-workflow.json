@@ -1,0 +1,462 @@
+{
+  "name": "Enhanced Invoice API Test Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "invoices-basic",
+      "name": "Get All Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 100]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "invoiceStatus": "open"
+      },
+      "id": "invoices-by-status",
+      "name": "Get Open Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 100]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31"
+      },
+      "id": "invoices-by-date",
+      "name": "Get Invoices by Date Range",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 200]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "dueDateStart": "2024-01-01",
+        "dueDateEnd": "2024-12-31"
+      },
+      "id": "invoices-by-due-date",
+      "name": "Get Invoices by Due Date Range",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 200]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "minAmount": 100,
+        "maxAmount": 10000
+      },
+      "id": "invoices-by-amount",
+      "name": "Get Invoices by Amount Range",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "searchTerm": "consulting"
+      },
+      "id": "invoices-search",
+      "name": "Search Invoices by Text",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "isXRechnung": true
+      },
+      "id": "invoices-xrechnung",
+      "name": "Get XRechnung Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "isRecurring": true
+      },
+      "id": "invoices-recurring",
+      "name": "Get Recurring Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 400]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "isClosingInvoice": true
+      },
+      "id": "invoices-closing",
+      "name": "Get Closing Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 500]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "taxType": "vat"
+      },
+      "id": "invoices-by-tax",
+      "name": "Get Invoices by Tax Type",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 500]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "currency": "EUR"
+      },
+      "id": "invoices-by-currency",
+      "name": "Get Invoices by Currency",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 600]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "language": "en"
+      },
+      "id": "invoices-by-language",
+      "name": "Get Invoices by Language",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 600]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "get",
+        "invoiceId": "{{ $json.id }}"
+      },
+      "id": "invoice-get",
+      "name": "Get Invoice Details",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 700]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "update",
+        "invoiceId": "{{ $json.id }}",
+        "additionalFields": {
+          "note": "Updated invoice note for testing",
+          "title": "Updated Invoice Title",
+          "tags": ["test", "updated", "api"]
+        }
+      },
+      "id": "invoice-update",
+      "name": "Update Invoice",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 700]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "finalize",
+        "invoiceId": "{{ $json.id }}"
+      },
+      "id": "invoice-finalize",
+      "name": "Finalize Invoice",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 800]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "document",
+        "invoiceId": "{{ $json.id }}"
+      },
+      "id": "invoice-document",
+      "name": "Render Invoice PDF",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 800]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "invoiceStatus": "overdue"
+      },
+      "id": "invoices-overdue",
+      "name": "Get Overdue Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 900]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "invoiceStatus": "paid"
+      },
+      "id": "invoices-paid",
+      "name": "Get Paid Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 900]
+    }
+  ],
+  "connections": {
+    "invoices-basic": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-status": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-date": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-due-date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-due-date": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-amount",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-amount": {
+      "main": [
+        [
+          {
+            "node": "invoices-search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-search": {
+      "main": [
+        [
+          {
+            "node": "invoices-xrechnung",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-xrechnung": {
+      "main": [
+        [
+          {
+            "node": "invoices-recurring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-recurring": {
+      "main": [
+        [
+          {
+            "node": "invoices-closing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-closing": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-tax",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-tax": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-currency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-currency": {
+      "main": [
+        [
+          {
+            "node": "invoices-by-language",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-by-language": {
+      "main": [
+        [
+          {
+            "node": "invoice-get",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoice-get": {
+      "main": [
+        [
+          {
+            "node": "invoice-update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoice-update": {
+      "main": [
+        [
+          {
+            "node": "invoice-finalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoice-finalize": {
+      "main": [
+        [
+          {
+            "node": "invoice-document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoice-document": {
+      "main": [
+        [
+          {
+            "node": "invoices-overdue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "invoices-overdue": {
+      "main": [
+        [
+          {
+            "node": "invoices-paid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "invoice-test-001",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "invoice-test-workflow",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "invoice-test-tag",
+      "name": "invoice-test"
+    }
+  ]
+}

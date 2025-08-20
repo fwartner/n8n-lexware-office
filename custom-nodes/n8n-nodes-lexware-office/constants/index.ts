@@ -140,6 +140,8 @@ export const LEXWARE_INVOICE_STATUSES = {
 	OPEN: 'open',
 	PAID: 'paid',
 	VOIDED: 'voided',
+	OVERDUE: 'overdue',
+	PARTIALLY_PAID: 'partially_paid',
 } as const;
 
 export const LEXWARE_DOWN_PAYMENT_INVOICE_STATUSES = {
@@ -398,6 +400,8 @@ export const LEXWARE_SUPPORTED_CONTENT_TYPES = {
 	RAR: 'application/x-rar-compressed',
 	SEVEN_ZIP: 'application/x-7z-compressed',
 } as const;
+
+
 
 export const LEXWARE_COUNTRY_PROPERTIES = {
 	EU_MEMBER: 'euMember',
