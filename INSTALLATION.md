@@ -20,12 +20,12 @@ This is the easiest and most reliable method for most users.
 cd ~/.n8n/custom
 
 # Install the package
-npm install @fwartner/n8n-nodes-lexware-office
+npm install @pixelandprocess_de/n8n-nodes-lexware-office
 
 # Restart n8n to load the new node
 ```
 
-**Note**: The package will be installed as `@fwartner/n8n-nodes-lexware-office` in your custom nodes directory.
+**Note**: The package will be installed as `@pixelandprocess_de/n8n-nodes-lexware-office` in your custom nodes directory.
 
 ### Method 2: Manual Installation
 
@@ -45,7 +45,7 @@ npm install
 npm run build
 
 # Copy the built files to your n8n custom directory
-cp -r dist ~/.n8n/custom/@fwartner/n8n-nodes-lexware-office
+cp -r dist ~/.n8n/custom/@pixelandprocess_de/n8n-nodes-lexware-office
 
 # Restart n8n
 ```
@@ -82,7 +82,7 @@ mkdir -p custom-nodes
 cd custom-nodes
 
 # Install the package
-npm install @fwartner/n8n-nodes-lexware-office
+npm install @pixelandprocess_de/n8n-nodes-lexware-office
 
 # Restart the Docker container
 docker-compose restart n8n
@@ -122,7 +122,7 @@ cd ~/.n8n/custom
 ls -la
 
 # Verify the package is installed
-npm list @fwartner/n8n-nodes-lexware-office
+npm list @pixelandprocess_de/n8n-nodes-lexware-office
 ```
 
 ### Check Node Availability
@@ -212,7 +212,7 @@ grep -i "lexware\|custom" ~/.n8n/logs/n8n.log
 cd ~/.n8n/custom
 
 # Update the package
-npm update @fwartner/n8n-nodes-lexware-office
+npm update @pixelandprocess_de/n8n-nodes-lexware-office
 
 # Restart n8n
 ```
@@ -233,7 +233,7 @@ npm install
 npm run build
 
 # Copy updated files
-cp -r dist ~/.n8n/custom/@fwartner/n8n-nodes-lexware-office
+cp -r dist ~/.n8n/custom/@pixelandprocess_de/n8n-nodes-lexware-office
 
 # Restart n8n
 ```
@@ -247,10 +247,10 @@ cp -r dist ~/.n8n/custom/@fwartner/n8n-nodes-lexware-office
 cd ~/.n8n/custom
 
 # Remove the package
-npm uninstall @fwartner/n8n-nodes-lexware-office
+npm uninstall @pixelandprocess_de/n8n-nodes-lexware-office
 
 # Or remove manually
-rm -rf @fwartner/n8n-nodes-lexware-office
+rm -rf @pixelandprocess_de/n8n-nodes-lexware-office
 
 # Restart n8n
 ```

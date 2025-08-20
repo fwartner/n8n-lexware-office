@@ -1,7 +1,7 @@
 # n8n Lexware Office Custom Node
 
-[![npm version](https://img.shields.io/npm/v/@fwartner/n8n-nodes-lexware-office.svg)](https://www.npmjs.com/package/@fwartner/n8n-nodes-lexware-office)
-[![npm downloads](https://img.shields.io/npm/dm/@fwartner/n8n-nodes-lexware-office.svg)](https://www.npmjs.com/package/@fwartner/n8n-nodes-lexware-office)
+[![npm version](https://img.shields.io/npm/v/@pixelandprocess_de/n8n-nodes-lexware-office.svg)](https://www.npmjs.com/package/@pixelandprocess_de/n8n-nodes-lexware-office)
+[![npm downloads](https://img.shields.io/npm/dm/@pixelandprocess_de/n8n-nodes-lexware-office.svg)](https://www.npmjs.com/package/@pixelandprocess_de/n8n-nodes-lexware-office)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![n8n Community](https://img.shields.io/badge/n8n-Community%20Node-green.svg)](https://n8n.io)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -23,8 +23,10 @@ A comprehensive **n8n custom node** for seamless integration with the **Lexware 
 
 ```bash
 cd ~/.n8n/custom
-npm install @fwartner/n8n-nodes-lexware-office
+npm install @pixelandprocess_de/n8n-nodes-lexware-office
 ```
+
+**Note**: The package will be installed as `@pixelandprocess_de/n8n-nodes-lexware-office` in your custom nodes directory.
 
 #### Method 2: Manual Installation
 
@@ -42,6 +44,15 @@ volumes:
   - ./custom-nodes:/home/node/.n8n/custom
 environment:
   - N8N_CUSTOM_EXTENSIONS=/home/node/.n8n/custom
+```
+
+Then install the package in the custom-nodes directory:
+
+```bash
+mkdir -p custom-nodes
+cd custom-nodes
+npm install @pixelandprocess_de/n8n-nodes-lexware-office
+docker-compose restart n8n
 ```
 
 ### Configuration
