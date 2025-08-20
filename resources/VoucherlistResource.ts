@@ -13,24 +13,27 @@ export class VoucherlistResource {
 	 * Get all vouchers with optional filtering
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		// Always include required parameters, even if they're empty strings
-		// The API seems to require these parameters to be present
-		const apiParams = {
-			voucherType: params?.voucherType || '',
-			voucherStatus: params?.voucherStatus || '',
-			archived: params?.archived !== undefined ? params.archived.toString() : '',
-			contactId: params?.contactId || '',
-			voucherDateFrom: params?.voucherDateFrom || '',
-			voucherDateTo: params?.voucherDateTo || '',
-			createdDateFrom: params?.createdDateFrom || '',
-			createdDateTo: params?.createdDateTo || '',
-			updatedDateFrom: params?.updatedDateFrom || '',
-			updatedDateTo: params?.updatedDateTo || '',
-			voucherNumber: params?.voucherNumber || '',
-			size: params?.size ? params.size.toString() : '',
-			page: params?.page ? params.page.toString() : '',
-			sort: params?.sort || '',
-		};
+		// Try a different approach - send only the essential parameters
+		// and let the API handle defaults
+		const apiParams: Record<string, any> = {};
+		
+		// Always include voucherStatus as it seems to be required
+		apiParams.voucherStatus = params?.voucherStatus || 'ALL';
+		
+		// Include other parameters only if they have values
+		if (params?.voucherType) apiParams.voucherType = params.voucherType;
+		if (params?.archived !== undefined) apiParams.archived = params.archived.toString();
+		if (params?.contactId) apiParams.contactId = params.contactId;
+		if (params?.voucherDateFrom) apiParams.voucherDateFrom = params.voucherDateFrom;
+		if (params?.voucherDateTo) apiParams.voucherDateTo = params.voucherDateTo;
+		if (params?.createdDateFrom) apiParams.createdDateFrom = params.createdDateFrom;
+		if (params?.createdDateTo) apiParams.createdDateTo = params.createdDateTo;
+		if (params?.updatedDateFrom) apiParams.updatedDateFrom = params.updatedDateFrom;
+		if (params?.updatedDateTo) apiParams.updatedDateTo = params.updatedDateTo;
+		if (params?.voucherNumber) apiParams.voucherNumber = params.voucherNumber;
+		if (params?.size) apiParams.size = params.size.toString();
+		if (params?.page) apiParams.page = params.page.toString();
+		if (params?.sort) apiParams.sort = params.sort;
 
 		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
