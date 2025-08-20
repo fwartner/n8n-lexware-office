@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "./dist/",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "es2019",
+    "typeRoots": ["./node_modules/@types", "./node_modules/n8n-workflow"]
+  },
+  "include": ["src/**/*", "nodes/**/*", "credentials/**/*"],
+  "exclude": ["node_modules/**/*", "**/*.spec.ts"]
+}
