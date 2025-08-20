@@ -14,13 +14,38 @@
 - `test-workflow.json` - Test workflow (not needed for NPM package)
 - `docker-compose.yml` - Docker configuration (not needed for NPM package)
 - `CLAUDE.md` - Temporary file (not needed for NPM package)
+- `custom-nodes/` - Directory structure simplified
+- `n8n-nodes-lexware-office/` - Directory structure flattened
 
 ### Files Kept
-- `custom-nodes/n8n-nodes-lexware-office/` - Main package directory
+- All package files are now at the root level for easier access
 - `README.md` - Root project documentation
 - `.gitignore` - Git ignore rules
 - `.git/` - Git repository
 - `.cursor/` - Cursor IDE configuration
+
+### Final Structure (Flattened)
+```
+n8n-lexware-office/
+├── dist/                              # Compiled JavaScript files
+├── nodes/                             # Node implementations
+├── credentials/                       # Credential types
+├── resources/                         # API resource handlers
+├── utils/                             # Utility functions
+├── types/                             # TypeScript type definitions
+├── constants/                         # Constants and enums
+├── scripts/                           # Build scripts
+├── package.json                       # Package configuration
+├── tsconfig.json                      # TypeScript configuration
+├── README.md                          # Detailed API documentation
+├── INSTALLATION.md                    # Installation guide
+├── LICENSE                            # MIT license
+├── CONTACT_RESOURCE_README.md         # Resource documentation
+├── package-lock.json                  # Dependencies lock file
+├── node_modules/                      # Installed dependencies
+├── index.ts                           # Main TypeScript entry point
+└── .gitignore                         # Git ignore rules
+```
 
 ## 🚀 What Was Prepared for NPM Installation
 
@@ -29,6 +54,7 @@
 - **TypeScript compilation**: All TypeScript files compile to JavaScript
 - **Asset copying**: SVG icons and necessary assets are copied to dist folder
 - **Clean dist folder**: Only compiled JavaScript files and necessary assets
+- **Flattened directory structure**: All package files are now at root level for maximum accessibility
 
 ### 2. Build System
 - **TypeScript configuration**: Proper tsconfig.json with correct include/exclude
@@ -71,7 +97,7 @@ npm install n8n-nodes-lexware-office
 ### 2. Manual Installation
 ```bash
 git clone https://github.com/fwartner/n8n-nodes-lexware-office.git
-cd n8n-nodes-lexware-office/custom-nodes/n8n-nodes-lexware-office
+cd n8n-nodes-lexware-office
 npm install && npm run build
 cp -r dist ~/.n8n/custom/n8n-nodes-lexware-office
 ```
@@ -91,6 +117,7 @@ environment:
 3. **File integrity**: All necessary files are present in dist folder
 4. **Documentation**: Complete installation and usage guides
 5. **License**: MIT license properly included
+6. **Directory structure**: Package is now flattened for maximum accessibility
 
 ## 🎯 Ready for
 
@@ -110,4 +137,4 @@ environment:
 
 ---
 
-**Repository is now clean and ready for NPM installation on n8n! 🎉**
+**Repository is now clean, restructured, flattened, and ready for NPM installation on n8n! 🎉**
