@@ -14,7 +14,8 @@ import {
 	LEXWARE_ARTICLE_TYPES,
 	LEXWARE_DEFAULT_VALUES,
 	LEXWARE_PAGINATION_LIMITS,
-	LEXWARE_DEFAULT_SORT_OPTIONS
+	LEXWARE_DEFAULT_SORT_OPTIONS,
+	LEXWARE_CONTACT_ROLES
 } from '../../constants';
 import { ILexwareCredentials, ICredentialDataDecryptedObject } from '../../types';
 
@@ -274,6 +275,183 @@ export class LexwareOffice implements INodeType {
 					},
 				},
 				description: 'Type of contact to create',
+			},
+			// Contact creation fields
+			{
+				displayName: 'Company Name',
+				name: 'companyName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+						contactType: [LEXWARE_CONTACT_TYPES.COMPANY],
+					},
+				},
+				description: 'Name of the company',
+			},
+			{
+				displayName: 'First Name',
+				name: 'firstName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+						contactType: [LEXWARE_CONTACT_TYPES.PERSON],
+					},
+				},
+				description: 'First name of the person',
+			},
+			{
+				displayName: 'Last Name',
+				name: 'lastName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+						contactType: [LEXWARE_CONTACT_TYPES.PERSON],
+					},
+				},
+				description: 'Last name of the person',
+			},
+			{
+				displayName: 'Email',
+				name: 'email',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Email address of the contact',
+			},
+			{
+				displayName: 'Phone',
+				name: 'phone',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Phone number of the contact',
+			},
+			{
+				displayName: 'Street',
+				name: 'street',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Street address of the contact',
+			},
+			{
+				displayName: 'ZIP Code',
+				name: 'zipCode',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'ZIP/Postal code of the contact',
+			},
+			{
+				displayName: 'City',
+				name: 'city',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'City of the contact',
+			},
+			{
+				displayName: 'Country',
+				name: 'country',
+				type: 'string',
+				default: 'DE',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Country code of the contact (e.g., DE, AT, CH)',
+			},
+			{
+				displayName: 'VAT Number',
+				name: 'vatNumber',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'VAT identification number',
+			},
+			{
+				displayName: 'Tax Number',
+				name: 'taxNumber',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Tax identification number',
+			},
+			{
+				displayName: 'Contact Role',
+				name: 'contactRole',
+				type: 'options',
+				options: [
+					{ name: 'Customer', value: LEXWARE_CONTACT_ROLES.CUSTOMER },
+					{ name: 'Vendor', value: LEXWARE_CONTACT_ROLES.VENDOR },
+					{ name: 'Employee', value: LEXWARE_CONTACT_ROLES.EMPLOYEE },
+				],
+				default: LEXWARE_CONTACT_ROLES.CUSTOMER,
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.CONTACT],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Role of the contact in your system',
 			},
 			// Article specific fields
 			{
