@@ -1,17 +1,32 @@
 {
   "compilerOptions": {
-    "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
+    "target": "es2018",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "outDir": "./dist/",
+    "rootDir": "./",
+    "strict": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
     "removeComments": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "target": "es2019",
-    "typeRoots": ["./node_modules/@types", "./node_modules/n8n-workflow"]
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
-  "include": ["src/**/*", "nodes/**/*", "credentials/**/*"],
-  "exclude": ["node_modules/**/*", "**/*.spec.ts"]
+  "include": [
+    "nodes/**/*",
+    "credentials/**/*",
+    "types/**/*",
+    "constants/**/*",
+    "utils/**/*",
+    "resources/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

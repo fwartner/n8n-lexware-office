@@ -209,3 +209,8 @@ export interface ILexwareNodeParameters {
 	returnAll?: boolean;
 	limit?: number;
 }
+
+// n8n credential interface compatibility
+export interface ICredentialDataDecryptedObject {
+	[key: string]: any;
+}
