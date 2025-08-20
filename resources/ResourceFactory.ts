@@ -881,19 +881,20 @@ export class ResourceFactory {
 			return resource.getXRechnung(paginationParams);
 		}
 		
-		if (params?.currency) {
+		if (params?.currency && params.currency !== '') {
 			return resource.getByCurrency(params.currency, paginationParams);
 		}
 		
-		if (params?.language) {
+		if (params?.language && params.language !== '') {
 			return resource.getByLanguage(params.language, paginationParams);
 		}
 		
-		if (params?.minAmount && params?.maxAmount) {
+		if (params?.minAmount && params?.maxAmount && 
+			params.minAmount !== 0 && params.maxAmount !== 0) {
 			return resource.getByAmountRange(params.minAmount, params.maxAmount, paginationParams);
 		}
 		
-		if (params?.tag) {
+		if (params?.tag && params.tag !== '') {
 			return resource.getByTag(params.tag, paginationParams);
 		}
 		
