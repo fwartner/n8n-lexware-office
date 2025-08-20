@@ -1,0 +1,177 @@
+{
+  "name": "Comprehensive Lexware Office API Test",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "profile",
+        "operation": "get"
+      },
+      "id": "profile-test",
+      "name": "Get Profile",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 100]
+    },
+    {
+      "parameters": {
+        "resource": "country",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "countries-test",
+      "name": "Get Countries",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 100]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "contacts-test",
+      "name": "Get Contacts",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 200]
+    },
+    {
+      "parameters": {
+        "resource": "article",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "articles-test",
+      "name": "Get Articles",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 200]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "invoices-test",
+      "name": "Get Invoices",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "quotation",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "quotations-test",
+      "name": "Get Quotations",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "resource": "creditNote",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "creditnotes-test",
+      "name": "Get Credit Notes",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "resource": "deliveryNote",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "deliverynotes-test",
+      "name": "Get Delivery Notes",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 400]
+    },
+    {
+      "parameters": {
+        "resource": "dunning",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 5
+      },
+      "id": "dunnings-test",
+      "name": "Get Dunnings",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 500]
+    },
+    {
+      "parameters": {
+        "resource": "paymentCondition",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "paymentconditions-test",
+      "name": "Get Payment Conditions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 500]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "files-test",
+      "name": "Get Files",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 600]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "eventsubscriptions-test",
+      "name": "Get Event Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 600]
+    }
+  ],
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "comprehensive-test-001",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "comprehensive-test-workflow",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "comprehensive-test-tag",
+      "name": "comprehensive-test"
+    }
+  ]
+}

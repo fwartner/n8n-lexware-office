@@ -17,20 +17,20 @@ export class FileResource {
 		return this.apiClient.get<ILexwareFile[]>(LEXWARE_API_ENDPOINTS.FILES, params);
 	}
 
-	async upload(file: Buffer, fileName: string, contentType: string, voucherId?: string): Promise<ILexwareFile> {
-		const formData = new FormData();
-		const blob = new Blob([file], { type: contentType });
-		formData.append('file', blob, fileName);
-		
-		if (voucherId) {
-			formData.append('voucherId', voucherId);
-		}
+	async upload(file: Buffer | string, fileName: string, contentType: string, voucherId?: string): Promise<ILexwareFile> {
+		// For n8n environment, we'll send the file data directly
+		// The actual implementation will depend on how n8n handles file uploads
+		const fileData = {
+			fileName,
+			contentType,
+			data: file,
+			voucherId,
+		};
 
-		// Override content type for multipart upload
 		const response = await this.apiClient.makeRequest<ILexwareFile>(
 			'POST',
 			LEXWARE_API_ENDPOINTS.FILES,
-			formData
+			fileData
 		);
 		
 		return response;

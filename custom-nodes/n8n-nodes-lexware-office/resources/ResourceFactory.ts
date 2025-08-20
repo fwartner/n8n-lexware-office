@@ -117,6 +117,20 @@ export class ResourceFactory {
 				return resource.create(additionalFields);
 			case LEXWARE_RESOURCE_TYPES.VOUCHER:
 				return resource.create(params.voucherType, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.INVOICE:
+				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.QUOTATION:
+				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
+				return resource.create(additionalFields);
 			default:
 				throw new Error(`Create operation not supported for resource type: ${resourceType}`);
 		}
@@ -132,6 +146,22 @@ export class ResourceFactory {
 				return resource.update(params.articleId, additionalFields);
 			case LEXWARE_RESOURCE_TYPES.VOUCHER:
 				return resource.update(params.voucherId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.INVOICE:
+				return resource.update(params.invoiceId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.QUOTATION:
+				return resource.update(params.quotationId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+				return resource.update(params.creditNoteId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+				return resource.update(params.deliveryNoteId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.update(params.dunningId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.PROFILE:
+				return resource.update(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+				return resource.update(params.paymentConditionId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
+				return resource.update(params.eventSubscriptionId, additionalFields);
 			default:
 				throw new Error(`Update operation not supported for resource type: ${resourceType}`);
 		}
@@ -159,6 +189,20 @@ export class ResourceFactory {
 					return resource.validateCreateData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.VOUCHER:
 					return resource.validateCreateData(params.voucherType, params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.INVOICE:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.QUOTATION:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.DUNNING:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
+					return resource.validateCreateData(params.additionalFields || {});
 				default:
 					return [];
 			}

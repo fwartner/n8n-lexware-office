@@ -1,4 +1,14 @@
 export { ContactResource } from './ContactResource';
 export { ArticleResource } from './ArticleResource';
 export { VoucherResource } from './VoucherResource';
+export { InvoiceResource } from './InvoiceResource';
+export { QuotationResource } from './QuotationResource';
+export { CreditNoteResource } from './CreditNoteResource';
+export { DeliveryNoteResource } from './DeliveryNoteResource';
+export { DunningResource } from './DunningResource';
+export { FileResource } from './FileResource';
+export { ProfileResource } from './ProfileResource';
+export { CountryResource } from './CountryResource';
+export { PaymentConditionResource } from './PaymentConditionResource';
+export { EventSubscriptionResource } from './EventSubscriptionResource';
 export { ResourceFactory } from './ResourceFactory';

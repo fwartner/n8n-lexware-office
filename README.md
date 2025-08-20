@@ -112,20 +112,38 @@ cp -r custom-nodes/n8n-nodes-lexware-office/dist /path/to/n8n/custom/n8n-nodes-l
 
 ## API Endpoints Supported
 
-- `/v1/contacts` - Contact management
-- `/v1/articles` - Article/product management
-- `/v1/vouchers` - Voucher operations
-- `/v1/voucherlist` - List all vouchers
-- `/v1/invoices` - Invoice management
-- `/v1/quotations` - Quotation management
-- `/v1/credit-notes` - Credit note management
-- `/v1/delivery-notes` - Delivery note management
-- `/v1/dunnings` - Dunning management
-- `/v1/files` - File management
-- `/v1/profile` - User profile
-- `/v1/countries` - Country list
-- `/v1/payment-conditions` - Payment terms
-- `/v1/event-subscriptions` - Webhook subscriptions
+### Core Business Data
+- **`/v1/contacts`** - Complete contact management (companies and persons)
+- **`/v1/articles`** - Product and service catalog management
+- **`/v1/vouchers`** - Generic voucher operations
+
+### Sales Documents
+- **`/v1/invoices`** - Invoice management with finalization and document generation
+- **`/v1/quotations`** - Quotation management with acceptance/rejection
+- **`/v1/credit-notes`** - Credit note management with preceding voucher references
+- **`/v1/delivery-notes`** - Delivery tracking and management
+- **`/v1/dunnings`** - Payment reminder management with dunning levels
+
+### File Management
+- **`/v1/files`** - Document upload, download, and management
+- **`/v1/voucherlist`** - Unified voucher listing with filtering
+
+### System & Configuration
+- **`/v1/profile`** - User profile and account settings
+- **`/v1/countries`** - Country data with EU/non-EU filtering
+- **`/v1/payment-conditions`** - Payment terms and conditions
+- **`/v1/event-subscriptions`** - Webhook management for real-time updates
+
+### Additional Operations Per Endpoint
+- **Invoices**: Create, read, update, finalize, generate documents
+- **Quotations**: Create, read, update, accept, reject, generate documents  
+- **Credit Notes**: Create, read, update, finalize, reference preceding vouchers
+- **Delivery Notes**: Create, read, update, finalize, track delivery status
+- **Dunnings**: Create, read, update, finalize, manage dunning levels
+- **Files**: Upload, download, list, delete, associate with vouchers
+- **Countries**: List all, filter by EU status, search by name
+- **Payment Conditions**: Create, read, update, delete, set defaults
+- **Event Subscriptions**: Create, read, update, delete, activate/deactivate, test webhooks
 
 ## Architecture
 

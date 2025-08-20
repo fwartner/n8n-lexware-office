@@ -399,6 +399,51 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the file',
 			},
+			// Country specific fields
+			{
+				displayName: 'Country Code',
+				name: 'countryCode',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.COUNTRY],
+						operation: [LEXWARE_OPERATIONS.GET],
+					},
+				},
+				description: 'The ISO 2-letter country code (e.g., DE, US, FR)',
+			},
+			// Payment Condition specific fields
+			{
+				displayName: 'Payment Condition ID',
+				name: 'paymentConditionId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'The ID of the payment condition',
+			},
+			// Event Subscription specific fields
+			{
+				displayName: 'Event Subscription ID',
+				name: 'eventSubscriptionId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'The ID of the event subscription',
+			},
 			// Common fields for creation
 			{
 				displayName: 'Additional Fields',
@@ -536,7 +581,7 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.contactId = this.getNodeParameter('contactId', i) as string;
 			}
 			if (operation === LEXWARE_OPERATIONS.CREATE) {
-				params.contactId = this.getNodeParameter('contactType', i) as string;
+				params.contactType = this.getNodeParameter('contactType', i) as string;
 			}
 			break;
 			
@@ -564,7 +609,6 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.QUOTATION:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.quotationId = this.getNodeParameter('quotationId', i) as string;
-				params.contactType = this.getNodeParameter('quotationId', i) as string;
 			}
 			break;
 			
@@ -589,6 +633,24 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.FILE:
 			if (operation === LEXWARE_OPERATIONS.GET) {
 				params.fileId = this.getNodeParameter('fileId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.COUNTRY:
+			if (operation === LEXWARE_OPERATIONS.GET) {
+				params.countryCode = this.getNodeParameter('countryCode', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.paymentConditionId = this.getNodeParameter('paymentConditionId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.eventSubscriptionId = this.getNodeParameter('eventSubscriptionId', i) as string;
 			}
 			break;
 	}
