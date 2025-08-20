@@ -15,22 +15,24 @@ export class VoucherlistResource {
 	async getAll(params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
 		const queryParams = new URLSearchParams();
 		
-		if (params?.voucherType) queryParams.append('voucherType', params.voucherType);
-		if (params?.voucherStatus) queryParams.append('voucherStatus', params.voucherStatus);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.contactId) queryParams.append('contactId', params.contactId);
-		if (params?.voucherDateFrom) queryParams.append('voucherDateFrom', params.voucherDateFrom);
-		if (params?.voucherDateTo) queryParams.append('voucherDateTo', params.voucherDateTo);
-		if (params?.createdDateFrom) queryParams.append('createdDateFrom', params.createdDateFrom);
-		if (params?.createdDateTo) queryParams.append('createdDateTo', params.createdDateTo);
-		if (params?.updatedDateFrom) queryParams.append('updatedDateFrom', params.updatedDateFrom);
-		if (params?.updatedDateTo) queryParams.append('updatedDateTo', params.updatedDateTo);
-		if (params?.voucherNumber) queryParams.append('voucherNumber', params.voucherNumber);
-		if (params?.size) queryParams.append('size', params.size.toString());
-		if (params?.page) queryParams.append('page', params.page.toString());
-		if (params?.sort) queryParams.append('sort', params.sort);
+		// Always include required parameters, even if they're empty strings
+		// This ensures the API receives all expected parameters
+		queryParams.append('voucherType', params?.voucherType || '');
+		queryParams.append('voucherStatus', params?.voucherStatus || '');
+		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
+		queryParams.append('contactId', params?.contactId || '');
+		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
+		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
+		queryParams.append('createdDateFrom', params?.createdDateFrom || '');
+		queryParams.append('createdDateTo', params?.createdDateTo || '');
+		queryParams.append('updatedDateFrom', params?.updatedDateFrom || '');
+		queryParams.append('updatedDateTo', params?.updatedDateTo || '');
+		queryParams.append('voucherNumber', params?.voucherNumber || '');
+		queryParams.append('size', params?.size ? params.size.toString() : '');
+		queryParams.append('page', params?.page ? params.page.toString() : '');
+		queryParams.append('sort', params?.sort || '');
 
-		const url = queryParams.toString() ? `${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}` : LEXWARE_API_ENDPOINTS.VOUCHERLIST;
+		const url = `${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`;
 		return this.apiClient.get<ILexwareVoucherList[]>(url);
 	}
 
@@ -41,13 +43,14 @@ export class VoucherlistResource {
 		const queryParams = new URLSearchParams();
 		queryParams.append('voucherType', voucherType);
 		
-		if (params?.voucherStatus) queryParams.append('voucherStatus', params.voucherStatus);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.contactId) queryParams.append('contactId', params.contactId);
-		if (params?.voucherDateFrom) queryParams.append('voucherDateFrom', params.voucherDateFrom);
-		if (params?.voucherDateTo) queryParams.append('voucherDateTo', params.voucherDateTo);
-		if (params?.size) queryParams.append('size', params.size.toString());
-		if (params?.page) queryParams.append('page', params.page.toString());
+		// Always include required parameters, even if they're empty strings
+		queryParams.append('voucherStatus', params?.voucherStatus || '');
+		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
+		queryParams.append('contactId', params?.contactId || '');
+		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
+		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
+		queryParams.append('size', params?.size ? params.size.toString() : '');
+		queryParams.append('page', params?.page ? params.page.toString() : '');
 
 		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
 	}
@@ -59,13 +62,14 @@ export class VoucherlistResource {
 		const queryParams = new URLSearchParams();
 		queryParams.append('voucherStatus', voucherStatus);
 		
-		if (params?.voucherType) queryParams.append('voucherType', params.voucherType);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.contactId) queryParams.append('contactId', params.contactId);
-		if (params?.voucherDateFrom) queryParams.append('voucherDateFrom', params.voucherDateFrom);
-		if (params?.voucherDateTo) queryParams.append('voucherDateTo', params.voucherDateTo);
-		if (params?.size) queryParams.append('size', params.size.toString());
-		if (params?.page) queryParams.append('page', params.page.toString());
+		// Always include required parameters, even if they're empty strings
+		queryParams.append('voucherType', params?.voucherType || '');
+		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
+		queryParams.append('contactId', params?.contactId || '');
+		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
+		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
+		queryParams.append('size', params?.size ? params.size.toString() : '');
+		queryParams.append('page', params?.page ? params.page.toString() : '');
 
 		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
 	}
@@ -77,13 +81,14 @@ export class VoucherlistResource {
 		const queryParams = new URLSearchParams();
 		queryParams.append('contactId', contactId);
 		
-		if (params?.voucherType) queryParams.append('voucherType', params.voucherType);
-		if (params?.voucherStatus) queryParams.append('voucherStatus', params.voucherStatus);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.voucherDateFrom) queryParams.append('voucherDateFrom', params.voucherDateFrom);
-		if (params?.voucherDateTo) queryParams.append('voucherDateTo', params.voucherDateTo);
-		if (params?.size) queryParams.append('size', params.size.toString());
-		if (params?.page) queryParams.append('page', params.page.toString());
+		// Always include required parameters, even if they're empty strings
+		queryParams.append('voucherType', params?.voucherType || '');
+		queryParams.append('voucherStatus', params?.voucherStatus || '');
+		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
+		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
+		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
+		queryParams.append('size', params?.size ? params.size.toString() : '');
+		queryParams.append('page', params?.page ? params.page.toString() : '');
 
 		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
 	}
@@ -96,12 +101,13 @@ export class VoucherlistResource {
 		queryParams.append('voucherDateFrom', startDate);
 		queryParams.append('voucherDateTo', endDate);
 		
-		if (params?.voucherType) queryParams.append('voucherType', params.voucherType);
-		if (params?.voucherStatus) queryParams.append('voucherStatus', params.voucherStatus);
-		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
-		if (params?.contactId) queryParams.append('contactId', params.contactId);
-		if (params?.size) queryParams.append('size', params.size.toString());
-		if (params?.page) queryParams.append('page', params.page.toString());
+		// Always include required parameters, even if they're empty strings
+		queryParams.append('voucherType', params?.voucherType || '');
+		queryParams.append('voucherStatus', params?.voucherStatus || '');
+		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
+		queryParams.append('contactId', params?.contactId || '');
+		queryParams.append('size', params?.size ? params.size.toString() : '');
+		queryParams.append('page', params?.page ? params.page.toString() : '');
 
 		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
 	}
