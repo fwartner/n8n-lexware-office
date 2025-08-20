@@ -407,6 +407,194 @@ export const LEXWARE_ERROR_MESSAGES = {
 } as const;
 
 /**
+ * Lexware API Error Codes
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export const LEXWARE_ERROR_CODES = {
+	// Authorization and Connection Errors
+	AUTHENTICATION_FAILED: 'AUTHENTICATION_FAILED',
+	INVALID_API_KEY: 'INVALID_API_KEY',
+	API_KEY_EXPIRED: 'API_KEY_EXPIRED',
+	INSUFFICIENT_PERMISSIONS: 'INSUFFICIENT_PERMISSIONS',
+	CONNECTION_TIMEOUT: 'CONNECTION_TIMEOUT',
+	CONNECTION_REFUSED: 'CONNECTION_REFUSED',
+	NETWORK_UNREACHABLE: 'NETWORK_UNREACHABLE',
+	
+	// Resource and Data Errors
+	RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+	RESOURCE_ALREADY_EXISTS: 'RESOURCE_ALREADY_EXISTS',
+	RESOURCE_IN_USE: 'RESOURCE_IN_USE',
+	RESOURCE_DELETED: 'RESOURCE_DELETED',
+	RESOURCE_LOCKED: 'RESOURCE_LOCKED',
+	RESOURCE_CONFLICT: 'RESOURCE_CONFLICT',
+	
+	// Validation Errors
+	VALIDATION_FAILED: 'VALIDATION_FAILED',
+	REQUIRED_FIELD_MISSING: 'REQUIRED_FIELD_MISSING',
+	INVALID_FIELD_VALUE: 'INVALID_FIELD_VALUE',
+	FIELD_TOO_LONG: 'FIELD_TOO_LONG',
+	FIELD_TOO_SHORT: 'FIELD_TOO_SHORT',
+	INVALID_FORMAT: 'INVALID_FORMAT',
+	INVALID_DATE: 'INVALID_DATE',
+	INVALID_EMAIL: 'INVALID_EMAIL',
+	INVALID_PHONE: 'INVALID_PHONE',
+	INVALID_IBAN: 'INVALID_IBAN',
+	INVALID_BIC: 'INVALID_BIC',
+	INVALID_TAX_RATE: 'INVALID_TAX_RATE',
+	INVALID_CURRENCY: 'INVALID_CURRENCY',
+	INVALID_LANGUAGE: 'INVALID_LANGUAGE',
+	
+	// Business Logic Errors
+	BUSINESS_RULE_VIOLATION: 'BUSINESS_RULE_VIOLATION',
+	INVALID_TRANSITION: 'INVALID_TRANSITION',
+	WORKFLOW_CONSTRAINT: 'WORKFLOW_CONSTRAINT',
+	DUPLICATE_ENTRY: 'DUPLICATE_ENTRY',
+	CIRCULAR_REFERENCE: 'CIRCULAR_REFERENCE',
+	
+	// Rate Limiting and Throttling
+	RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+	THROTTLE_LIMIT_EXCEEDED: 'THROTTLE_LIMIT_EXCEEDED',
+	QUOTA_EXCEEDED: 'QUOTA_EXCEEDED',
+	
+	// Server and System Errors
+	INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+	SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+	MAINTENANCE_MODE: 'MAINTENANCE_MODE',
+	SYSTEM_OVERLOAD: 'SYSTEM_OVERLOAD',
+	DATABASE_ERROR: 'DATABASE_ERROR',
+	EXTERNAL_SERVICE_ERROR: 'EXTERNAL_SERVICE_ERROR',
+	
+	// Optimistic Locking Errors
+	VERSION_CONFLICT: 'VERSION_CONFLICT',
+	CONCURRENT_MODIFICATION: 'CONCURRENT_MODIFICATION',
+	STALE_DATA: 'STALE_DATA',
+	
+	// File and Upload Errors
+	FILE_TOO_LARGE: 'FILE_TOO_LARGE',
+	INVALID_FILE_TYPE: 'INVALID_FILE_TYPE',
+	FILE_CORRUPTED: 'FILE_CORRUPTED',
+	UPLOAD_FAILED: 'UPLOAD_FAILED',
+	DOWNLOAD_FAILED: 'DOWNLOAD_FAILED',
+	
+	// XRechnung and E-Invoice Errors
+	XRECHNUNG_VALIDATION_FAILED: 'XRECHNUNG_VALIDATION_FAILED',
+	EINVOICE_FORMAT_ERROR: 'EINVOICE_FORMAT_ERROR',
+	COMPANY_DATA_INVALID: 'COMPANY_DATA_INVALID',
+	PRINT_SETTINGS_INVALID: 'PRINT_SETTINGS_INVALID',
+	
+	// Generic Errors
+	UNKNOWN_ERROR: 'UNKNOWN_ERROR',
+} as const;
+
+/**
+ * Lexware API Error Code Messages
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export const LEXWARE_ERROR_CODE_MESSAGES = {
+	// Authorization and Connection Errors
+	[LEXWARE_ERROR_CODES.AUTHENTICATION_FAILED]: 'Authentication failed. Please check your credentials.',
+	[LEXWARE_ERROR_CODES.INVALID_API_KEY]: 'Invalid API key provided.',
+	[LEXWARE_ERROR_CODES.API_KEY_EXPIRED]: 'API key has expired. Please generate a new one.',
+	[LEXWARE_ERROR_CODES.INSUFFICIENT_PERMISSIONS]: 'Insufficient permissions for this operation.',
+	[LEXWARE_ERROR_CODES.CONNECTION_TIMEOUT]: 'Connection timeout. Please try again.',
+	[LEXWARE_ERROR_CODES.CONNECTION_REFUSED]: 'Connection refused by the server.',
+	[LEXWARE_ERROR_CODES.NETWORK_UNREACHABLE]: 'Network is unreachable.',
+	
+	// Resource and Data Errors
+	[LEXWARE_ERROR_CODES.RESOURCE_NOT_FOUND]: 'The requested resource was not found.',
+	[LEXWARE_ERROR_CODES.RESOURCE_ALREADY_EXISTS]: 'A resource with this identifier already exists.',
+	[LEXWARE_ERROR_CODES.RESOURCE_IN_USE]: 'The resource is currently in use and cannot be modified.',
+	[LEXWARE_ERROR_CODES.RESOURCE_DELETED]: 'The resource has been deleted.',
+	[LEXWARE_ERROR_CODES.RESOURCE_LOCKED]: 'The resource is locked and cannot be accessed.',
+	[LEXWARE_ERROR_CODES.RESOURCE_CONFLICT]: 'Resource conflict detected.',
+	
+	// Validation Errors
+	[LEXWARE_ERROR_CODES.VALIDATION_FAILED]: 'Validation failed. Please check your input data.',
+	[LEXWARE_ERROR_CODES.REQUIRED_FIELD_MISSING]: 'Required field is missing.',
+	[LEXWARE_ERROR_CODES.INVALID_FIELD_VALUE]: 'Invalid value provided for field.',
+	[LEXWARE_ERROR_CODES.FIELD_TOO_LONG]: 'Field value exceeds maximum length.',
+	[LEXWARE_ERROR_CODES.FIELD_TOO_SHORT]: 'Field value is below minimum length.',
+	[LEXWARE_ERROR_CODES.INVALID_FORMAT]: 'Invalid format provided.',
+	[LEXWARE_ERROR_CODES.INVALID_DATE]: 'Invalid date format provided.',
+	[LEXWARE_ERROR_CODES.INVALID_EMAIL]: 'Invalid email format provided.',
+	[LEXWARE_ERROR_CODES.INVALID_PHONE]: 'Invalid phone number format provided.',
+	[LEXWARE_ERROR_CODES.INVALID_IBAN]: 'Invalid IBAN format provided.',
+	[LEXWARE_ERROR_CODES.INVALID_BIC]: 'Invalid BIC format provided.',
+	[LEXWARE_ERROR_CODES.INVALID_TAX_RATE]: 'Invalid tax rate provided.',
+	[LEXWARE_ERROR_CODES.INVALID_CURRENCY]: 'Invalid currency code provided.',
+	[LEXWARE_ERROR_CODES.INVALID_LANGUAGE]: 'Invalid language code provided.',
+	
+	// Business Logic Errors
+	[LEXWARE_ERROR_CODES.BUSINESS_RULE_VIOLATION]: 'Business rule violation detected.',
+	[LEXWARE_ERROR_CODES.INVALID_TRANSITION]: 'Invalid state transition attempted.',
+	[LEXWARE_ERROR_CODES.WORKFLOW_CONSTRAINT]: 'Workflow constraint violation.',
+	[LEXWARE_ERROR_CODES.DUPLICATE_ENTRY]: 'Duplicate entry detected.',
+	[LEXWARE_ERROR_CODES.CIRCULAR_REFERENCE]: 'Circular reference detected.',
+	
+	// Rate Limiting and Throttling
+	[LEXWARE_ERROR_CODES.RATE_LIMIT_EXCEEDED]: 'Rate limit exceeded. Please wait before making additional requests.',
+	[LEXWARE_ERROR_CODES.THROTTLE_LIMIT_EXCEEDED]: 'Throttle limit exceeded.',
+	[LEXWARE_ERROR_CODES.QUOTA_EXCEEDED]: 'Quota exceeded for this operation.',
+	
+	// Server and System Errors
+	[LEXWARE_ERROR_CODES.INTERNAL_SERVER_ERROR]: 'Internal server error occurred.',
+	[LEXWARE_ERROR_CODES.SERVICE_UNAVAILABLE]: 'Service is temporarily unavailable.',
+	[LEXWARE_ERROR_CODES.MAINTENANCE_MODE]: 'Service is in maintenance mode.',
+	[LEXWARE_ERROR_CODES.SYSTEM_OVERLOAD]: 'System is overloaded. Please try again later.',
+	[LEXWARE_ERROR_CODES.DATABASE_ERROR]: 'Database error occurred.',
+	[LEXWARE_ERROR_CODES.EXTERNAL_SERVICE_ERROR]: 'External service error occurred.',
+	
+	// Optimistic Locking Errors
+	[LEXWARE_ERROR_CODES.VERSION_CONFLICT]: 'Version conflict detected. The resource has been modified by another process.',
+	[LEXWARE_ERROR_CODES.CONCURRENT_MODIFICATION]: 'Concurrent modification detected.',
+	[LEXWARE_ERROR_CODES.STALE_DATA]: 'Stale data detected. Please refresh and try again.',
+	
+	// File and Upload Errors
+	[LEXWARE_ERROR_CODES.FILE_TOO_LARGE]: 'File size exceeds maximum allowed limit.',
+	[LEXWARE_ERROR_CODES.INVALID_FILE_TYPE]: 'Invalid file type provided.',
+	[LEXWARE_ERROR_CODES.FILE_CORRUPTED]: 'File appears to be corrupted.',
+	[LEXWARE_ERROR_CODES.UPLOAD_FAILED]: 'File upload failed.',
+	[LEXWARE_ERROR_CODES.DOWNLOAD_FAILED]: 'File download failed.',
+	
+	// XRechnung and E-Invoice Errors
+	[LEXWARE_ERROR_CODES.XRECHNUNG_VALIDATION_FAILED]: 'XRechnung validation failed.',
+	[LEXWARE_ERROR_CODES.EINVOICE_FORMAT_ERROR]: 'E-Invoice format error.',
+	[LEXWARE_ERROR_CODES.COMPANY_DATA_INVALID]: 'Company data validation failed.',
+	[LEXWARE_ERROR_CODES.PRINT_SETTINGS_INVALID]: 'Print settings validation failed.',
+	
+	// Generic Errors
+	[LEXWARE_ERROR_CODES.UNKNOWN_ERROR]: 'An unknown error occurred.',
+} as const;
+
+/**
+ * Lexware API Error Categories
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export const LEXWARE_ERROR_CATEGORIES = {
+	AUTHENTICATION: 'authentication',
+	CONNECTION: 'connection',
+	RESOURCE: 'resource',
+	VALIDATION: 'validation',
+	BUSINESS_LOGIC: 'business_logic',
+	RATE_LIMITING: 'rate_limiting',
+	SERVER: 'server',
+	OPTIMISTIC_LOCKING: 'optimistic_locking',
+	FILE: 'file',
+	XRECHNUNG: 'xrechnung',
+} as const;
+
+/**
+ * Lexware API Error Severity Levels
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export const LEXWARE_ERROR_SEVERITY = {
+	LOW: 'low',
+	MEDIUM: 'medium',
+	HIGH: 'high',
+	CRITICAL: 'critical',
+} as const;
+
+/**
  * HTTP Status Codes and their meanings
  * Based on the official Lexware API documentation
  */

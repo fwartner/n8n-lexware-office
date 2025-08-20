@@ -2,3 +2,4 @@ export { LexwareApiClient, createApiClient, buildPaginationParams, formatDate, g
 export { LexwareDataTransformer } from './transformers';
 export { OptimisticLockingManager } from './optimisticLocking';
 export { HttpStatusCodeManager } from './httpStatusCodes';
+export { ErrorCodeManager } from './errorCodes';

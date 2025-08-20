@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ILexwareCredentials, ILexwareApiResponse, ILexwareHttpErrorResponse, ILexwareHttpResponse } from '../types';
+import { ILexwareCredentials, ILexwareApiResponse, ILexwareHttpErrorResponse, ILexwareHttpResponse, ILexwareApiErrorResponse } from '../types';
+import { ErrorCodeManager } from './errorCodes';
 import { HttpStatusCodeManager } from './httpStatusCodes';
-import { LEXWARE_HEADERS, LEXWARE_ERROR_MESSAGES, LEXWARE_HTTP_STATUS_CODES } from '../constants';
+import { LEXWARE_HEADERS, LEXWARE_ERROR_MESSAGES, LEXWARE_HTTP_STATUS_CODES, LEXWARE_ERROR_CODES } from '../constants';
 
 export class LexwareApiClient {
 	private credentials: ILexwareCredentials;
@@ -112,51 +113,123 @@ export class LexwareApiClient {
 		return HttpStatusCodeManager.getRateLimitInfo(headers);
 	}
 
+	/**
+	 * Get comprehensive error information for debugging
+	 * @param error - The error object
+	 * @returns ILexwareApiErrorResponse - Detailed error information
+	 */
+	getErrorInfo(error: any): ILexwareApiErrorResponse {
+		return ErrorCodeManager.parseErrorResponse(error);
+	}
+
+	/**
+	 * Check if error is retryable
+	 * @param error - The error object
+	 * @returns boolean - Whether the error is retryable
+	 */
+	isErrorRetryable(error: any): boolean {
+		const errorInfo = ErrorCodeManager.parseErrorResponse(error);
+		return ErrorCodeManager.isRetryable(errorInfo.code);
+	}
+
+	/**
+	 * Get retry delay recommendation for error
+	 * @param error - The error object
+	 * @param attempt - Current retry attempt
+	 * @returns number - Recommended delay in milliseconds
+	 */
+	getRetryDelay(error: any, attempt: number = 1): number {
+		const errorInfo = ErrorCodeManager.parseErrorResponse(error);
+		const status = error.response?.status || 0;
+		return HttpStatusCodeManager.getRetryDelay(status, attempt);
+	}
+
 	private handleApiError(error: any): Error {
 		if (error.response) {
 			const { status, data, headers } = error.response;
 			
-			// Use comprehensive HTTP status code handling
-			const statusInfo = HttpStatusCodeManager.getStatusInfo(status);
-			const errorResponse = HttpStatusCodeManager.parseErrorResponse(error);
+			// Use comprehensive error code handling
+			const apiErrorResponse = ErrorCodeManager.parseErrorResponse(error);
+			const errorCodeInfo = ErrorCodeManager.getErrorCodeInfo(apiErrorResponse.code);
 			
 			// Check for rate limiting
 			if (HttpStatusCodeManager.isRateLimited(status, headers)) {
 				const rateLimitInfo = HttpStatusCodeManager.getRateLimitInfo(headers);
-				const retryAfter = errorResponse.retryAfter || HttpStatusCodeManager.getRetryDelay(status, 1);
+				const retryAfter = apiErrorResponse.retryAfter || HttpStatusCodeManager.getRetryDelay(status, 1);
 				
 				return new Error(
 					`Rate limit exceeded. Remaining: ${rateLimitInfo.remaining}/${rateLimitInfo.limit}. ` +
 					`Reset at: ${new Date(rateLimitInfo.reset * 1000).toISOString()}. ` +
-					`Retry after: ${retryAfter}ms. ${errorResponse.userMessage}`
+					`Retry after: ${retryAfter}ms. ${apiErrorResponse.userMessage}`
 				);
 			}
 			
-			// Handle specific status codes with detailed information
-			switch (status) {
-				case LEXWARE_HTTP_STATUS_CODES.UNAUTHORIZED:
-					return new Error(`${LEXWARE_ERROR_MESSAGES.INVALID_CREDENTIALS}: ${errorResponse.userMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.FORBIDDEN:
-					return new Error(`Access forbidden: ${errorResponse.userMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.NOT_FOUND:
-					return new Error(`${LEXWARE_ERROR_MESSAGES.RESOURCE_NOT_FOUND}: ${errorResponse.userMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.CONFLICT:
-					return new Error(`Conflict detected: ${errorResponse.userMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY:
-					return new Error(`${LEXWARE_ERROR_MESSAGES.VALIDATION_ERROR}: ${errorResponse.userMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.TOO_MANY_REQUESTS:
-					return new Error(`${LEXWARE_ERROR_MESSAGES.RATE_LIMIT_EXCEEDED}: ${errorResponse.userMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR:
-					return new Error(`Server error: ${errorResponse.developerMessage}`);
-				case LEXWARE_HTTP_STATUS_CODES.SERVICE_UNAVAILABLE:
-					return new Error(`Service temporarily unavailable: ${errorResponse.developerMessage}`);
+			// Handle specific error codes with detailed information
+			switch (apiErrorResponse.code) {
+				case LEXWARE_ERROR_CODES.AUTHENTICATION_FAILED:
+				case LEXWARE_ERROR_CODES.INVALID_API_KEY:
+				case LEXWARE_ERROR_CODES.API_KEY_EXPIRED:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.INVALID_CREDENTIALS}: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.INSUFFICIENT_PERMISSIONS:
+					return new Error(`Access forbidden: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.RESOURCE_NOT_FOUND:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.RESOURCE_NOT_FOUND}: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.RESOURCE_CONFLICT:
+				case LEXWARE_ERROR_CODES.VERSION_CONFLICT:
+				case LEXWARE_ERROR_CODES.CONCURRENT_MODIFICATION:
+					return new Error(`Conflict detected: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.VALIDATION_FAILED:
+				case LEXWARE_ERROR_CODES.REQUIRED_FIELD_MISSING:
+				case LEXWARE_ERROR_CODES.INVALID_FIELD_VALUE:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.VALIDATION_ERROR}: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.RATE_LIMIT_EXCEEDED:
+				case LEXWARE_ERROR_CODES.THROTTLE_LIMIT_EXCEEDED:
+				case LEXWARE_ERROR_CODES.QUOTA_EXCEEDED:
+					return new Error(`${LEXWARE_ERROR_MESSAGES.RATE_LIMIT_EXCEEDED}: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.INTERNAL_SERVER_ERROR:
+				case LEXWARE_ERROR_CODES.DATABASE_ERROR:
+				case LEXWARE_ERROR_CODES.EXTERNAL_SERVICE_ERROR:
+					return new Error(`Server error: ${apiErrorResponse.developerMessage}`);
+				
+				case LEXWARE_ERROR_CODES.SERVICE_UNAVAILABLE:
+				case LEXWARE_ERROR_CODES.MAINTENANCE_MODE:
+				case LEXWARE_ERROR_CODES.SYSTEM_OVERLOAD:
+					return new Error(`Service temporarily unavailable: ${apiErrorResponse.developerMessage}`);
+				
+				case LEXWARE_ERROR_CODES.BUSINESS_RULE_VIOLATION:
+				case LEXWARE_ERROR_CODES.INVALID_TRANSITION:
+				case LEXWARE_ERROR_CODES.WORKFLOW_CONSTRAINT:
+					return new Error(`Business rule violation: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.FILE_TOO_LARGE:
+				case LEXWARE_ERROR_CODES.INVALID_FILE_TYPE:
+				case LEXWARE_ERROR_CODES.FILE_CORRUPTED:
+				case LEXWARE_ERROR_CODES.UPLOAD_FAILED:
+				case LEXWARE_ERROR_CODES.DOWNLOAD_FAILED:
+					return new Error(`File operation failed: ${apiErrorResponse.userMessage}`);
+				
+				case LEXWARE_ERROR_CODES.XRECHNUNG_VALIDATION_FAILED:
+				case LEXWARE_ERROR_CODES.EINVOICE_FORMAT_ERROR:
+				case LEXWARE_ERROR_CODES.COMPANY_DATA_INVALID:
+				case LEXWARE_ERROR_CODES.PRINT_SETTINGS_INVALID:
+					return new Error(`E-Invoice validation failed: ${apiErrorResponse.userMessage}`);
+				
 				default:
 					// Use comprehensive error information
-					const errorMessage = data?.message || data?.error || statusInfo.message;
-					const userAction = errorResponse.userMessage;
+					const errorMessage = data?.message || data?.error || apiErrorResponse.message;
+					const userAction = apiErrorResponse.userMessage;
+					const severity = errorCodeInfo.severity;
+					const category = errorCodeInfo.category;
 					
 					return new Error(
-						`HTTP ${status} (${statusInfo.category}): ${errorMessage}${userAction ? ` - ${userAction}` : ''}`
+						`[${severity.toUpperCase()}] ${category}: ${errorMessage}${userAction ? ` - ${userAction}` : ''} ` +
+						`(Code: ${apiErrorResponse.code}, Status: ${status})`
 					);
 			}
 		} else if (error.request) {

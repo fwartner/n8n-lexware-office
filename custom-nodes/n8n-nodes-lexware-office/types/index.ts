@@ -1708,6 +1708,109 @@ export interface ILexwareHttpErrorResponse {
 	rateLimitReset?: number;
 }
 
+/**
+ * Lexware API Error Response
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export interface ILexwareApiErrorResponse {
+	// Standard error response fields
+	error: string;
+	code: string;
+	message: string;
+	status: number;
+	
+	// Additional error information
+	timestamp: string;
+	requestId?: string;
+	path?: string;
+	method?: string;
+	
+	// Error details and context
+	details?: Record<string, any>;
+	fieldErrors?: Array<{
+		field: string;
+		code: string;
+		message: string;
+		value?: any;
+	}>;
+	
+	// Business logic errors
+	businessRule?: string;
+	workflowState?: string;
+	constraintViolation?: string;
+	
+	// Resource information
+	resourceType?: string;
+	resourceId?: string;
+	resourceVersion?: number;
+	
+	// Rate limiting information
+	rateLimitRemaining?: number;
+	rateLimitReset?: number;
+	retryAfter?: number;
+	
+	// User guidance
+	userMessage?: string;
+	developerMessage?: string;
+	suggestedAction?: string;
+	
+	// Error categorization
+	category?: string;
+	severity?: string;
+	retryable?: boolean;
+	
+	// Legacy support
+	legacyCode?: string;
+	legacyMessage?: string;
+}
+
+/**
+ * Lexware API Error Code Information
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export interface ILexwareErrorCodeInfo {
+	code: string;
+	message: string;
+	category: string;
+	severity: string;
+	retryable: boolean;
+	userActionable: boolean;
+	httpStatus: number;
+	description: string;
+	suggestedAction: string;
+	documentationUrl?: string;
+}
+
+/**
+ * Lexware API Error Field Validation
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export interface ILexwareErrorFieldValidation {
+	field: string;
+	code: string;
+	message: string;
+	value?: any;
+	expected?: any;
+	constraints?: Record<string, any>;
+	path?: string;
+}
+
+/**
+ * Lexware API Error Context
+ * Based on the official Lexware API documentation for Error Codes
+ */
+export interface ILexwareErrorContext {
+	operation: string;
+	resourceType: string;
+	resourceId?: string;
+	userId?: string;
+	organizationId?: string;
+	environment: string;
+	version: string;
+	requestData?: Record<string, any>;
+	responseData?: Record<string, any>;
+}
+
 export interface ILexwareVoucherListParams extends ILexwarePaginationParams {
 	voucherType?: string;
 	voucherStatus?: string;
