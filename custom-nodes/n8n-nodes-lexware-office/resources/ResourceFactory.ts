@@ -2,6 +2,16 @@ import { ILexwareCredentials } from '../types';
 import { ContactResource } from './ContactResource';
 import { ArticleResource } from './ArticleResource';
 import { VoucherResource } from './VoucherResource';
+import { InvoiceResource } from './InvoiceResource';
+import { QuotationResource } from './QuotationResource';
+import { CreditNoteResource } from './CreditNoteResource';
+import { DeliveryNoteResource } from './DeliveryNoteResource';
+import { DunningResource } from './DunningResource';
+import { FileResource } from './FileResource';
+import { ProfileResource } from './ProfileResource';
+import { CountryResource } from './CountryResource';
+import { PaymentConditionResource } from './PaymentConditionResource';
+import { EventSubscriptionResource } from './EventSubscriptionResource';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
 
 export class ResourceFactory {
@@ -18,6 +28,16 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.CONTACT, new ContactResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.ARTICLE, new ArticleResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.VOUCHER, new VoucherResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.INVOICE, new InvoiceResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.QUOTATION, new QuotationResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.CREDIT_NOTE, new CreditNoteResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE, new DeliveryNoteResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.DUNNING, new DunningResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.FILE, new FileResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.PROFILE, new ProfileResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.COUNTRY, new CountryResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION, new PaymentConditionResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
 	}
 
 	getResource(resourceType: string): any {
@@ -57,6 +77,26 @@ export class ResourceFactory {
 				return resource.get(params.articleId);
 			case LEXWARE_RESOURCE_TYPES.VOUCHER:
 				return resource.get(params.voucherId);
+			case LEXWARE_RESOURCE_TYPES.INVOICE:
+				return resource.get(params.invoiceId);
+			case LEXWARE_RESOURCE_TYPES.QUOTATION:
+				return resource.get(params.quotationId);
+			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+				return resource.get(params.creditNoteId);
+			case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+				return resource.get(params.deliveryNoteId);
+			case LEXWARE_RESOURCE_TYPES.DUNNING:
+				return resource.get(params.dunningId);
+			case LEXWARE_RESOURCE_TYPES.FILE:
+				return resource.get(params.fileId);
+			case LEXWARE_RESOURCE_TYPES.PROFILE:
+				return resource.get();
+			case LEXWARE_RESOURCE_TYPES.COUNTRY:
+				return resource.get(params.countryCode);
+			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+				return resource.get(params.paymentConditionId);
+			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
+				return resource.get(params.eventSubscriptionId);
 			default:
 				throw new Error(`Get operation not supported for resource type: ${resourceType}`);
 		}
