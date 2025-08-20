@@ -3930,12 +3930,6 @@ export class LexwareOffice implements INodeType {
 						name: 'deliveryNoteStatus',
 						type: 'options',
 						default: 'draft',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
 						options: [
 							{
 								name: 'Draft',
@@ -3960,12 +3954,6 @@ export class LexwareOffice implements INodeType {
 						name: 'deliveryDate',
 						type: 'dateTime',
 						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
 						description: 'Date when the delivery should be made',
 					},
 					{
