@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-lexware-office",
+  "name": "@pixelandprocess_de/n8n-nodes-lexware-office",
   "version": "1.0.0",
   "description": "n8n node for Lexware Office API integration",
   "main": "dist/index.js",
@@ -42,7 +42,7 @@
   ],
   "author": {
     "name": "Florian Wartner",
-    "email": "florian@pixelandprocess.de"
+    "email": "florian+npm@pixelandprocess.de"
   },
   "license": "MIT",
   "repository": {
@@ -56,6 +56,9 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
