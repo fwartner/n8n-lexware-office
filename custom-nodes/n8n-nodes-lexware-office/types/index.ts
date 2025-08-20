@@ -386,6 +386,42 @@ export interface ILexwareEventSubscription {
 	url: string;
 	active: boolean;
 	createdAt: string;
+	// Enhanced properties from the official API
+	version?: number;
+	organizationId?: string;
+	updatedAt?: string;
+	// Webhook callback properties
+	webhookUrl?: string;
+	secret?: string;
+	headers?: Record<string, string>;
+	// Event subscription details
+	description?: string;
+	eventFilter?: {
+		voucherType?: string;
+		voucherStatus?: string;
+		contactId?: string;
+		dateFrom?: string;
+		dateTo?: string;
+	};
+	// Retry and delivery settings
+	retryCount?: number;
+	maxRetries?: number;
+	retryDelay?: number;
+	lastDeliveryAttempt?: string;
+	lastDeliveryStatus?: 'success' | 'failed' | 'pending';
+	lastDeliveryResponse?: {
+		statusCode: number;
+		responseBody?: string;
+		errorMessage?: string;
+	};
+	// Subscription metadata
+	tags?: string[];
+	priority?: 'low' | 'normal' | 'high';
+	expiresAt?: string;
+	// Verification and security
+	verificationToken?: string;
+	isVerified?: boolean;
+	verificationDate?: string;
 }
 
 export interface ILexwareApiResponse<T> {

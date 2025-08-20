@@ -656,6 +656,90 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the event subscription',
 			},
+			{
+				displayName: 'Event Type',
+				name: 'eventType',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL, LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				options: [
+					{ name: 'Voucher Created', value: 'voucher.created' },
+					{ name: 'Voucher Changed', value: 'voucher.changed' },
+					{ name: 'Invoice Created', value: 'invoice.created' },
+					{ name: 'Invoice Status Changed', value: 'invoice.status.changed' },
+					{ name: 'Quotation Created', value: 'quotation.created' },
+					{ name: 'Credit Note Created', value: 'credit-note.created' },
+					{ name: 'Delivery Note Created', value: 'delivery-note.created' },
+					{ name: 'Dunning Created', value: 'dunning.created' },
+					{ name: 'Contact Created', value: 'contact.created' },
+					{ name: 'Article Created', value: 'article.created' },
+					{ name: 'File Uploaded', value: 'file.uploaded' },
+					{ name: 'Payment Received', value: 'payment.received' },
+				],
+				description: 'Type of event to subscribe to',
+			},
+			{
+				displayName: 'Active Status',
+				name: 'active',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All', value: '' },
+					{ name: 'Active Only', value: 'true' },
+					{ name: 'Inactive Only', value: 'false' },
+				],
+				description: 'Filter by active status',
+			},
+			{
+				displayName: 'Contact ID',
+				name: 'contactId',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by contact ID',
+			},
+			{
+				displayName: 'Voucher Type',
+				name: 'voucherType',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by voucher type',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search subscriptions by description or tags',
+			},
 			// Common fields for creation
 			{
 				displayName: 'Additional Fields',
@@ -1223,6 +1307,16 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.eventSubscriptionId = this.getNodeParameter('eventSubscriptionId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.eventType = this.getNodeParameter('eventType', i, '') as string;
+				params.active = this.getNodeParameter('active', i, '') as string;
+				params.contactId = this.getNodeParameter('contactId', i, '') as string;
+				params.voucherType = this.getNodeParameter('voucherType', i, '') as string;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.CREATE) {
+				params.eventType = this.getNodeParameter('eventType', i) as string;
 			}
 			break;
 	}

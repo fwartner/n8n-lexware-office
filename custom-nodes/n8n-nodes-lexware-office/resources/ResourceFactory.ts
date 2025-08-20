@@ -127,6 +127,11 @@ export class ResourceFactory {
 			return this.executeDownPaymentInvoiceGetAll(resource, paginationParams, params);
 		}
 		
+		// Handle event subscription specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION) {
+			return this.executeEventSubscriptionGetAll(resource, paginationParams, params);
+		}
+		
 		return resource.getAll(paginationParams);
 	}
 
@@ -185,6 +190,40 @@ export class ResourceFactory {
 		}
 		
 		// Default: get all down payment invoices
+		return resource.getAll(paginationParams);
+	}
+
+	private async executeEventSubscriptionGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle event subscription specific filtering
+		if (params.eventType) {
+			return resource.getByEventType(params.eventType, paginationParams);
+		}
+		
+		if (params.active === true) {
+			return resource.getActive(paginationParams);
+		}
+		
+		if (params.active === false) {
+			return resource.getInactive(paginationParams);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.voucherType) {
+			return resource.getByVoucherType(params.voucherType, paginationParams);
+		}
+		
+		if (params.status) {
+			return resource.getByStatus(params.status, paginationParams);
+		}
+		
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		// Default: get all event subscriptions
 		return resource.getAll(paginationParams);
 	}
 

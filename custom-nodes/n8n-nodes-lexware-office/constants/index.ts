@@ -224,6 +224,85 @@ export const LEXWARE_ERROR_MESSAGES = {
 	UNKNOWN_ERROR: 'Unknown error occurred',
 } as const;
 
+export const LEXWARE_EVENT_TYPES = {
+	// Voucher events
+	VOUCHER_CREATED: 'voucher.created',
+	VOUCHER_CHANGED: 'voucher.changed',
+	VOUCHER_DELETED: 'voucher.deleted',
+	VOUCHER_STATUS_CHANGED: 'voucher.status.changed',
+	
+	// Invoice events
+	INVOICE_CREATED: 'invoice.created',
+	INVOICE_CHANGED: 'invoice.changed',
+	INVOICE_STATUS_CHANGED: 'invoice.status.changed',
+	INVOICE_PAID: 'invoice.paid',
+	INVOICE_OVERDUE: 'invoice.overdue',
+	
+	// Quotation events
+	QUOTATION_CREATED: 'quotation.created',
+	QUOTATION_CHANGED: 'quotation.changed',
+	QUOTATION_STATUS_CHANGED: 'quotation.status.changed',
+	QUOTATION_ACCEPTED: 'quotation.accepted',
+	QUOTATION_REJECTED: 'quotation.rejected',
+	
+	// Credit note events
+	CREDIT_NOTE_CREATED: 'credit-note.created',
+	CREDIT_NOTE_CHANGED: 'credit-note.changed',
+	CREDIT_NOTE_STATUS_CHANGED: 'credit-note.status.changed',
+	
+	// Delivery note events
+	DELIVERY_NOTE_CREATED: 'delivery-note.created',
+	DELIVERY_NOTE_CHANGED: 'delivery-note.changed',
+	DELIVERY_NOTE_STATUS_CHANGED: 'delivery-note.status.changed',
+	DELIVERY_NOTE_DELIVERED: 'delivery-note.delivered',
+	
+	// Order confirmation events
+	ORDER_CONFIRMATION_CREATED: 'order-confirmation.created',
+	ORDER_CONFIRMATION_CHANGED: 'order-confirmation.changed',
+	ORDER_CONFIRMATION_STATUS_CHANGED: 'order-confirmation.status.changed',
+	
+	// Dunning events
+	DUNNING_CREATED: 'dunning.created',
+	DUNNING_CHANGED: 'dunning.changed',
+	DUNNING_STATUS_CHANGED: 'dunning.status.changed',
+	DUNNING_LEVEL_CHANGED: 'dunning.level.changed',
+	
+	// Contact events
+	CONTACT_CREATED: 'contact.created',
+	CONTACT_CHANGED: 'contact.changed',
+	CONTACT_DELETED: 'contact.deleted',
+	
+	// Article events
+	ARTICLE_CREATED: 'article.created',
+	ARTICLE_CHANGED: 'article.changed',
+	ARTICLE_DELETED: 'article.deleted',
+	
+	// File events
+	FILE_UPLOADED: 'file.uploaded',
+	FILE_DELETED: 'file.deleted',
+	
+	// Payment events
+	PAYMENT_RECEIVED: 'payment.received',
+	PAYMENT_PROCESSED: 'payment.processed',
+	
+	// System events
+	SUBSCRIPTION_CREATED: 'subscription.created',
+	SUBSCRIPTION_CHANGED: 'subscription.changed',
+	SUBSCRIPTION_DELETED: 'subscription.deleted',
+	SUBSCRIPTION_EXPIRED: 'subscription.expired',
+	SUBSCRIPTION_VERIFIED: 'subscription.verified',
+} as const;
+
+export const LEXWARE_WEBHOOK_SECURITY = {
+	VERIFICATION_HEADER: 'X-Lexware-Signature',
+	VERIFICATION_ALGORITHM: 'sha256',
+	RETRY_HEADERS: {
+		RETRY_COUNT: 'X-Lexware-Retry-Count',
+		RETRY_AFTER: 'X-Lexware-Retry-After',
+		DELIVERY_ID: 'X-Lexware-Delivery-Id',
+	},
+} as const;
+
 export const LEXWARE_COUNTRY_PROPERTIES = {
 	EU_MEMBER: 'euMember',
 	TAX_CLASSIFICATION: 'taxClassification',

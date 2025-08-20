@@ -330,6 +330,108 @@ A dedicated test workflow is included (`dunning-test-workflow.json`) that demons
 6. Getting all dunnings with pagination
 7. Error handling and validation
 
+## Enhanced Event Subscription Endpoints
+
+The Event Subscription endpoints have been significantly enhanced based on the [official Lexware API documentation](https://developers.lexware.io/docs/#event-subscriptions-endpoint) to provide comprehensive webhook and event management capabilities:
+
+### **Advanced Event Management**
+- **Comprehensive Event Types**: Support for all Lexware business events (vouchers, invoices, contacts, articles, files, payments)
+- **Smart Filtering**: Filter subscriptions by event type, contact ID, voucher type, and status
+- **Search Capabilities**: Text-based search across subscription descriptions and tags
+- **Active/Inactive Management**: Separate handling of active and inactive subscriptions
+
+### **Enhanced Data Structure**
+- **Webhook Security**: Built-in signature verification and webhook authenticity validation
+- **Retry Management**: Configurable retry policies with exponential backoff
+- **Delivery Tracking**: Comprehensive delivery history and status monitoring
+- **Metadata Support**: Tags, priority levels, and expiration dates
+
+### **Available Operations**
+- **`getAll`** with advanced filtering options
+- **`get`** by subscription ID
+- **`create`** with comprehensive validation
+- **`update`** with field-level validation
+- **`delete`** (hard delete)
+- **`activate`** / **`deactivate** for status management
+- **`test`** webhook delivery
+- **`getByEventType`** for event-specific filtering
+- **`getActive`** / **`getInactive`** for status filtering
+- **`getByContact`** for contact-based filtering
+- **`getByVoucherType`** for voucher type filtering
+- **`search`** by text term
+- **`getDeliveryHistory`** for delivery tracking
+- **`retryDelivery`** for failed deliveries
+- **`getStatistics`** for performance monitoring
+- **`bulkActivate`** / **`bulkDeactivate`** for batch operations
+
+### **Webhook Security Features**
+- **Signature Verification**: HMAC-SHA256 signature validation
+- **Secret Management**: Secure webhook secret handling
+- **Retry Headers**: Standard retry mechanism with proper headers
+- **Delivery IDs**: Unique tracking for each webhook delivery
+
+### **Usage Examples**
+
+#### Create Event Subscription
+```json
+{
+  "resource": "eventSubscription",
+  "operation": "create",
+  "additionalFields": {
+    "eventType": "invoice.created",
+    "url": "https://webhook.site/your-unique-url",
+    "description": "Invoice creation notifications",
+    "priority": "high",
+    "maxRetries": 5,
+    "retryDelay": 600,
+    "tags": ["invoice", "webhook", "notifications"]
+  }
+}
+```
+
+#### Filter by Event Type
+```json
+{
+  "resource": "eventSubscription",
+  "operation": "getAll",
+  "eventType": "invoice.created",
+  "active": "true",
+  "limit": 20
+}
+```
+
+#### Search Subscriptions
+```json
+{
+  "resource": "eventSubscription",
+  "operation": "getAll",
+  "searchTerm": "payment",
+  "voucherType": "invoice"
+}
+```
+
+#### Bulk Operations
+```json
+{
+  "resource": "eventSubscription",
+  "operation": "activate",
+  "eventSubscriptionId": "sub-123"
+}
+```
+
+### **Event Types Available**
+- **Voucher Events**: `voucher.created`, `voucher.changed`, `voucher.status.changed`
+- **Invoice Events**: `invoice.created`, `invoice.changed`, `invoice.paid`, `invoice.overdue`
+- **Quotation Events**: `quotation.created`, `quotation.accepted`, `quotation.rejected`
+- **Credit Note Events**: `credit-note.created`, `credit-note.status.changed`
+- **Delivery Note Events**: `delivery-note.created`, `delivery-note.delivered`
+- **Dunning Events**: `dunning.created`, `dunning.level.changed`
+- **Contact Events**: `contact.created`, `contact.changed`
+- **Article Events**: `article.created`, `article.changed`
+- **File Events**: `file.uploaded`, `file.deleted`
+- **Payment Events**: `payment.received`, `payment.processed`
+- **System Events**: `subscription.verified`, `subscription.expired`
+
 ## Installation
 
 1. Install the node in your n8n instance
@@ -363,12 +465,18 @@ For issues and questions:
 ## Changelog
 
 ### Latest Updates
-- **NEW**: Comprehensive dunnings functionality with full API coverage
+- **NEW**: Enhanced Event Subscription endpoints with comprehensive webhook management
+- **NEW**: Advanced filtering, search, and security features for event subscriptions
+- **NEW**: Support for all Lexware business event types with comprehensive coverage
+- **NEW**: Webhook signature verification and delivery tracking
+- **NEW**: Bulk operations and advanced subscription management
+- Comprehensive dunnings functionality with full API coverage
 - Enhanced delivery notes with full API coverage
+- Enhanced Article endpoints with advanced filtering and categorization
 - Added pursue functionality for status management
 - Improved PDF rendering and file download support
 - Enhanced validation and error handling
-- Added comprehensive test workflows for both delivery notes and dunnings
+- Added comprehensive test workflows for all enhanced endpoints
 
 ### Previous Versions
 - Initial release with basic functionality

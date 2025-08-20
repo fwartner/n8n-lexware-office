@@ -1,0 +1,202 @@
+{
+  "name": "Enhanced Event Subscription API Test Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "subscriptions-basic",
+      "name": "Get All Event Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 100]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "eventType": "invoice.created"
+      },
+      "id": "subscriptions-by-event-type",
+      "name": "Get Invoice Created Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 100]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "active": "true"
+      },
+      "id": "subscriptions-active",
+      "name": "Get Active Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 200]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "active": "false"
+      },
+      "id": "subscriptions-inactive",
+      "name": "Get Inactive Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 200]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "voucherType": "invoice"
+      },
+      "id": "subscriptions-by-voucher-type",
+      "name": "Get Invoice Type Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10,
+        "searchTerm": "payment"
+      },
+      "id": "subscriptions-search",
+      "name": "Search Payment Subscriptions",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "create",
+        "additionalFields": {
+          "eventType": "invoice.created",
+          "url": "https://webhook.site/your-unique-url",
+          "description": "Test subscription for invoice creation events",
+          "priority": "normal",
+          "maxRetries": 3,
+          "retryDelay": 300,
+          "tags": ["test", "invoice", "webhook"]
+        }
+      },
+      "id": "subscription-create",
+      "name": "Create Test Subscription",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "get",
+        "eventSubscriptionId": "{{ $json.id }}"
+      },
+      "id": "subscription-get",
+      "name": "Get Created Subscription",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 400]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "update",
+        "eventSubscriptionId": "{{ $json.id }}",
+        "additionalFields": {
+          "description": "Updated test subscription for invoice creation events",
+          "priority": "high",
+          "maxRetries": 5,
+          "retryDelay": 600
+        }
+      },
+      "id": "subscription-update",
+      "name": "Update Subscription",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 500]
+    },
+    {
+      "parameters": {
+        "resource": "eventSubscription",
+        "operation": "test",
+        "eventSubscriptionId": "{{ $json.id }}"
+      },
+      "id": "subscription-test",
+      "name": "Test Subscription Webhook",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [440, 500]
+    }
+  ],
+  "connections": {
+    "subscription-create": {
+      "main": [
+        [
+          {
+            "node": "subscription-get",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "subscription-get": {
+      "main": [
+        [
+          {
+            "node": "subscription-update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "subscription-update": {
+      "main": [
+        [
+          {
+            "node": "subscription-test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "event-subscription-test-001",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "event-subscription-test-workflow",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "event-subscription-test-tag",
+      "name": "event-subscription-test"
+    }
+  ]
+}
