@@ -12,7 +12,9 @@ import {
 	LEXWARE_VOUCHER_TYPES,
 	LEXWARE_CONTACT_TYPES,
 	LEXWARE_ARTICLE_TYPES,
-	LEXWARE_DEFAULT_VALUES
+	LEXWARE_DEFAULT_VALUES,
+	LEXWARE_PAGINATION_LIMITS,
+	LEXWARE_DEFAULT_SORT_OPTIONS
 } from '../../constants';
 import { ILexwareCredentials, ICredentialDataDecryptedObject } from '../../types';
 
