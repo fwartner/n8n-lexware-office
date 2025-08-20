@@ -4054,6 +4054,10 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		operation,
 		returnAll: this.getNodeParameter('returnAll', i, false) as boolean,
 		limit: this.getNodeParameter('limit', i, LEXWARE_DEFAULT_VALUES.DEFAULT_PAGE_SIZE) as number,
+		page: this.getNodeParameter('page', i, 0) as number,
+		sort: this.getNodeParameter('sort', i, LEXWARE_DEFAULT_SORT_OPTIONS.CREATED_AT_DESC) as string,
+		cursor: this.getNodeParameter('cursor', i, '') as string,
+		offset: this.getNodeParameter('offset', i, 0) as number,
 		additionalFields: this.getNodeParameter('additionalFields', i, {}) as Record<string, any>,
 	};
 
