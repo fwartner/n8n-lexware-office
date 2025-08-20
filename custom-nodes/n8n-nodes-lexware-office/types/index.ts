@@ -419,6 +419,7 @@ export type LexwareResource =
 	| 'article'
 	| 'voucher'
 	| 'invoice'
+	| 'downPaymentInvoice'
 	| 'quotation'
 	| 'creditNote'
 	| 'deliveryNote'
@@ -440,6 +441,7 @@ export interface ILexwareNodeParameters {
 	voucherId?: string;
 	voucherType?: string;
 	invoiceId?: string;
+	downPaymentInvoiceId?: string;
 	quotationId?: string;
 	creditNoteId?: string;
 	deliveryNoteId?: string;

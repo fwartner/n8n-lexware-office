@@ -428,6 +428,21 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the invoice',
 			},
+			// Down Payment Invoice specific fields
+			{
+				displayName: 'Down Payment Invoice ID',
+				name: 'downPaymentInvoiceId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+						operation: [LEXWARE_OPERATIONS.GET],
+					},
+				},
+				description: 'The ID of the down payment invoice',
+			},
 			// Quotation specific fields
 			{
 				displayName: 'Quotation ID',
@@ -763,6 +778,125 @@ export class LexwareOffice implements INodeType {
 						],
 						description: 'Language of the delivery note',
 					},
+					// Down Payment Invoice specific fields
+					{
+						displayName: 'Closing Invoice ID',
+						name: 'closingInvoiceId',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						description: 'ID of the closing invoice to filter by',
+					},
+					{
+						displayName: 'Status',
+						name: 'status',
+						type: 'options',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						options: [
+							{
+								name: 'All',
+								value: '',
+								description: 'All statuses',
+							},
+							{
+								name: 'Draft',
+								value: 'draft',
+								description: 'Draft status',
+							},
+							{
+								name: 'Open',
+								value: 'open',
+								description: 'Open status',
+							},
+							{
+								name: 'Paid',
+								value: 'paid',
+								description: 'Paid status',
+							},
+							{
+								name: 'Voided',
+								value: 'voided',
+								description: 'Voided status',
+							},
+						],
+						description: 'Filter by down payment invoice status',
+					},
+					{
+						displayName: 'Start Date',
+						name: 'startDate',
+						type: 'dateTime',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						description: 'Start date for filtering (YYYY-MM-DD)',
+					},
+					{
+						displayName: 'End Date',
+						name: 'endDate',
+						type: 'dateTime',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						description: 'End date for filtering (YYYY-MM-DD)',
+					},
+					{
+						displayName: 'Invoice Number',
+						name: 'invoiceNumber',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						description: 'Invoice number to search for',
+					},
+					{
+						displayName: 'Tax Type',
+						name: 'taxType',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						description: 'Tax type to filter by',
+					},
+					{
+						displayName: 'Tax Sub Type',
+						name: 'taxSubType',
+						type: 'string',
+						default: '',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
+								operation: [LEXWARE_OPERATIONS.GET_ALL],
+							},
+						},
+						description: 'Tax sub type to filter by',
+					},
 					// Dunning specific fields
 					{
 						displayName: 'Voucher Date',
@@ -1015,6 +1149,22 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.INVOICE:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.invoiceId = this.getNodeParameter('invoiceId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE:
+			if (operation === LEXWARE_OPERATIONS.GET) {
+				params.downPaymentInvoiceId = this.getNodeParameter('downPaymentInvoiceId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.closingInvoiceId = this.getNodeParameter('closingInvoiceId', i, '') as string;
+				params.contactId = this.getNodeParameter('contactId', i, '') as string;
+				params.status = this.getNodeParameter('status', i, '') as string;
+				params.startDate = this.getNodeParameter('startDate', i, '') as string;
+				params.endDate = this.getNodeParameter('endDate', i, '') as string;
+				params.invoiceNumber = this.getNodeParameter('invoiceNumber', i, '') as string;
+				params.taxType = this.getNodeParameter('taxType', i, '') as string;
+				params.taxSubType = this.getNodeParameter('taxSubType', i, '') as string;
 			}
 			break;
 			
