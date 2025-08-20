@@ -14,6 +14,17 @@ export class OrderConfirmationResource {
 	}
 
 	/**
+	 * Helper method to ensure all voucherlist calls include required parameters
+	 */
+	private ensureVoucherlistParams(params: Record<string, any>): Record<string, any> {
+		return {
+			...params,
+			voucherType: 'orderconfirmation',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
+		};
+	}
+
+	/**
 	 * Retrieve a specific order confirmation by ID
 	 * @param orderConfirmationId - The unique identifier of the order confirmation
 	 * @returns Promise<ILexwareOrderConfirmation> - The order confirmation data
@@ -29,10 +40,7 @@ export class OrderConfirmationResource {
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
 		// Use voucherlist endpoint with order confirmation filter
-		const queryParams = {
-			...params,
-			voucherType: 'orderconfirmation',
-		};
+		const queryParams = this.ensureVoucherlistParams(params);
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -110,11 +118,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByStatus(status: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const statusParams = {
+		const statusParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			orderConfirmationStatus: status,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, statusParams);
 	}
 
@@ -170,11 +177,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByContact(contactId: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const contactParams = {
+		const contactParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			contactId,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, contactParams);
 	}
 
@@ -186,12 +192,11 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByDateRange(startDate: string, endDate: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const dateParams = {
+		const dateParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			voucherDateFrom: startDate,
 			voucherDateTo: endDate,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, dateParams);
 	}
 
@@ -203,12 +208,11 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByDeliveryDateRange(startDate: string, endDate: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const deliveryDateParams = {
+		const deliveryDateParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			deliveryDateFrom: startDate,
 			deliveryDateTo: endDate,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, deliveryDateParams);
 	}
 
@@ -220,12 +224,11 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByAmountRange(minAmount: number, maxAmount: number, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const amountParams = {
+		const amountParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			totalAmountFrom: minAmount,
 			totalAmountTo: maxAmount,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, amountParams);
 	}
 
@@ -236,11 +239,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Search results
 	 */
 	async search(searchTerm: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const searchParams = {
+		const searchParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			q: searchTerm,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, searchParams);
 	}
 
@@ -250,11 +252,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - XRechnung order confirmations
 	 */
 	async getXRechnungOrderConfirmations(params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const xrechnungParams = {
+		const xrechnungParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			isXRechnung: true,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, xrechnungParams);
 	}
 
