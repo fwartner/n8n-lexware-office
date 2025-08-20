@@ -830,11 +830,11 @@ export class ResourceFactory {
 
 	private async executeVoucherlistGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
 		// Handle voucherlist specific filtering
-		if (params?.voucherType) {
+		if (params?.voucherType && params.voucherType !== '') {
 			return resource.getByType(params.voucherType, paginationParams);
 		}
 		
-		if (params?.voucherStatus) {
+		if (params?.voucherStatus !== undefined && params.voucherStatus !== '') {
 			return resource.getByStatus(params.voucherStatus, paginationParams);
 		}
 		
