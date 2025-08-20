@@ -894,8 +894,8 @@ export class ResourceFactory {
 			return resource.getByTag(params.tag, paginationParams);
 		}
 		
-		// Default: get all vouchers
-		return resource.getAll(paginationParams);
+		// Default: get all vouchers with full parameters
+		return resource.getAll({ ...paginationParams, ...params });
 	}
 
 	private async executeVoucherGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
