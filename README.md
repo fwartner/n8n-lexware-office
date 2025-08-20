@@ -363,11 +363,12 @@ For issues and questions:
 ## Changelog
 
 ### Latest Updates
+- **NEW**: Comprehensive dunnings functionality with full API coverage
 - Enhanced delivery notes with full API coverage
 - Added pursue functionality for status management
 - Improved PDF rendering and file download support
 - Enhanced validation and error handling
-- Added comprehensive test workflow
+- Added comprehensive test workflows for both delivery notes and dunnings
 
 ### Previous Versions
 - Initial release with basic functionality

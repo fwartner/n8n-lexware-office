@@ -4,6 +4,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	VOUCHERS: '/v1/vouchers',
 	VOUCHER_LIST: '/v1/voucherlist',
 	INVOICES: '/v1/invoices',
+	DOWN_PAYMENT_INVOICES: '/v1/down-payment-invoices',
 	QUOTATIONS: '/v1/quotations',
 	CREDIT_NOTES: '/v1/credit-notes',
 	DELIVERY_NOTES: '/v1/delivery-notes',
@@ -20,6 +21,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	ARTICLE: 'article',
 	VOUCHER: 'voucher',
 	INVOICE: 'invoice',
+	DOWN_PAYMENT_INVOICE: 'downPaymentInvoice',
 	QUOTATION: 'quotation',
 	CREDIT_NOTE: 'creditNote',
 	DELIVERY_NOTE: 'deliveryNote',
@@ -134,6 +136,13 @@ export const LEXWARE_VOUCHER_STATUSES = {
 } as const;
 
 export const LEXWARE_INVOICE_STATUSES = {
+	DRAFT: 'draft',
+	OPEN: 'open',
+	PAID: 'paid',
+	VOIDED: 'voided',
+} as const;
+
+export const LEXWARE_DOWN_PAYMENT_INVOICE_STATUSES = {
 	DRAFT: 'draft',
 	OPEN: 'open',
 	PAID: 'paid',

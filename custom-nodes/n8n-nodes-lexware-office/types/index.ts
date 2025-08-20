@@ -163,6 +163,72 @@ export interface ILexwareInvoice extends ILexwareVoucher {
 	dueDate?: string;
 }
 
+export interface ILexwareDownPaymentInvoice extends ILexwareVoucher {
+	downPaymentInvoiceStatus?: 'draft' | 'open' | 'paid' | 'voided';
+	closingInvoiceId?: string;
+	closingInvoiceNumber?: string;
+	downPaymentPercentage?: number;
+	downPaymentAmount?: number;
+	remainingAmount?: number;
+	// Additional properties from the official API
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	// Down payment specific properties
+	downPaymentInvoiceNumber?: string;
+	originalInvoiceId?: string;
+	originalInvoiceNumber?: string;
+	// Payment and tax information
+	paymentConditions?: {
+		paymentTerms?: number;
+		paymentTermsLabel?: string;
+		paymentTermsLabelTemplate?: string;
+	};
+	taxConditions?: {
+		taxType: string;
+		taxRate?: number;
+		taxSubType?: string;
+	};
+	// Line items with enhanced properties
+	lineItems?: Array<{
+		id?: string;
+		type: 'custom' | 'material' | 'service' | 'text';
+		name: string;
+		description?: string;
+		quantity?: number;
+		unitName?: string;
+		unitPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxRatePercentage: number;
+		};
+		totalPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxAmount?: number;
+		};
+		articleId?: string;
+		articleNumber?: string;
+	}>;
+	// Additional voucher properties
+	note?: string;
+	title?: string;
+	language?: string;
+	// Related vouchers
+	relatedVouchers?: Array<{
+		id: string;
+		type: string;
+		number?: string;
+	}>;
+	// Print layout
+	printLayoutId?: string;
+	// Distance sales support
+	distanceSalesPrinciple?: string;
+}
+
 export interface ILexwareQuotation extends ILexwareVoucher {
 	quotationStatus?: 'draft' | 'open' | 'accepted' | 'rejected';
 	validUntil?: string;
