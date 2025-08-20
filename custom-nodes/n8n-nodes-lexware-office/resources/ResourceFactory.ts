@@ -726,6 +726,18 @@ export class ResourceFactory {
 	private async executeUpdate(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
 		const additionalFields = params.additionalFields || {};
 		
+		// Validate optimistic locking requirements
+		if (!additionalFields.version && this.requiresOptimisticLocking(resourceType)) {
+			throw new Error(LEXWARE_OPTIMISTIC_LOCKING_MESSAGES.VERSION_REQUIRED);
+		}
+
+		// Validate version if provided
+		if (additionalFields.version !== undefined) {
+			if (!this.isValidVersion(additionalFields.version)) {
+				throw new Error(LEXWARE_OPTIMISTIC_LOCKING_MESSAGES.VERSION_OUT_OF_RANGE);
+			}
+		}
+		
 		switch (resourceType) {
 			case LEXWARE_RESOURCE_TYPES.CONTACT:
 				return resource.update(params.contactId, additionalFields);
