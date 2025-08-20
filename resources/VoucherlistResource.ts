@@ -56,57 +56,54 @@ export class VoucherlistResource {
 	 * Get vouchers by status
 	 */
 	async getByStatus(voucherStatus: string, params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		const queryParams = new URLSearchParams();
-		queryParams.append('voucherStatus', voucherStatus);
-		
-		// Always include required parameters, even if they're empty strings
-		queryParams.append('voucherType', params?.voucherType || '');
-		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
-		queryParams.append('contactId', params?.contactId || '');
-		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
-		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
-		queryParams.append('size', params?.size ? params.size.toString() : '');
-		queryParams.append('page', params?.page ? params.page.toString() : '');
+		const apiParams = {
+			voucherStatus: voucherStatus,
+			voucherType: params?.voucherType || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			contactId: params?.contactId || '',
+			voucherDateFrom: params?.voucherDateFrom || '',
+			voucherDateTo: params?.voucherDateTo || '',
+			size: params?.size ? params.size.toString() : '',
+			page: params?.page ? params.page.toString() : '',
+		};
 
-		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
+		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
 
 	/**
 	 * Get vouchers by contact
 	 */
 	async getByContact(contactId: string, params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		const queryParams = new URLSearchParams();
-		queryParams.append('contactId', contactId);
-		
-		// Always include required parameters, even if they're empty strings
-		queryParams.append('voucherType', params?.voucherType || '');
-		queryParams.append('voucherStatus', params?.voucherStatus || '');
-		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
-		queryParams.append('voucherDateFrom', params?.voucherDateFrom || '');
-		queryParams.append('voucherDateTo', params?.voucherDateTo || '');
-		queryParams.append('size', params?.size ? params.size.toString() : '');
-		queryParams.append('page', params?.page ? params.page.toString() : '');
+		const apiParams = {
+			contactId: contactId,
+			voucherType: params?.voucherType || '',
+			voucherStatus: params?.voucherStatus || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			voucherDateFrom: params?.voucherDateFrom || '',
+			voucherDateTo: params?.voucherDateTo || '',
+			size: params?.size ? params.size.toString() : '',
+			page: params?.page ? params.page.toString() : '',
+		};
 
-		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
+		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
 
 	/**
 	 * Get vouchers by date range
 	 */
 	async getByDateRange(startDate: string, endDate: string, params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		const queryParams = new URLSearchParams();
-		queryParams.append('voucherDateFrom', startDate);
-		queryParams.append('voucherDateTo', endDate);
-		
-		// Always include required parameters, even if they're empty strings
-		queryParams.append('voucherType', params?.voucherType || '');
-		queryParams.append('voucherStatus', params?.voucherStatus || '');
-		queryParams.append('archived', params?.archived !== undefined ? params.archived.toString() : '');
-		queryParams.append('contactId', params?.contactId || '');
-		queryParams.append('size', params?.size ? params.size.toString() : '');
-		queryParams.append('page', params?.page ? params.page.toString() : '');
+		const apiParams = {
+			voucherDateFrom: startDate,
+			voucherDateTo: endDate,
+			voucherType: params?.voucherType || '',
+			voucherStatus: params?.voucherStatus || '',
+			archived: params?.archived !== undefined ? params.archived.toString() : '',
+			contactId: params?.contactId || '',
+			size: params?.size ? params.size.toString() : '',
+			page: params?.page ? params.page.toString() : '',
+		};
 
-		return this.apiClient.get<ILexwareVoucherList[]>(`${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`);
+		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
 	}
 
 	/**
