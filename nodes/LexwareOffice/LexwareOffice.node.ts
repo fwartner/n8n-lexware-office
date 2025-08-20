@@ -3916,12 +3916,6 @@ export class LexwareOffice implements INodeType {
 						name: 'voucherDate',
 						type: 'dateTime',
 						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE],
-							},
-						},
 						description: 'Date of the delivery note (required for creation)',
 					},
 					{
@@ -3929,12 +3923,6 @@ export class LexwareOffice implements INodeType {
 						name: 'contactId',
 						type: 'string',
 						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE],
-							},
-						},
 						description: 'ID of the contact (required for creation)',
 					},
 					{
