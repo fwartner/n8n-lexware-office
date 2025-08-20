@@ -1045,6 +1045,44 @@ export class ResourceFactory {
 		}
 	}
 
+	/**
+	 * Check if a resource type requires optimistic locking
+	 * @param resourceType - The resource type to check
+	 * @returns boolean - Whether optimistic locking is required
+	 */
+	private requiresOptimisticLocking(resourceType: string): boolean {
+		// Most Lexware resources require optimistic locking for updates
+		// Based on the official API documentation
+		const optimisticLockingResources = [
+			LEXWARE_RESOURCE_TYPES.CONTACT,
+			LEXWARE_RESOURCE_TYPES.ARTICLE,
+			LEXWARE_RESOURCE_TYPES.VOUCHER,
+			LEXWARE_RESOURCE_TYPES.INVOICE,
+			LEXWARE_RESOURCE_TYPES.QUOTATION,
+			LEXWARE_RESOURCE_TYPES.CREDIT_NOTE,
+			LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION,
+			LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE,
+			LEXWARE_RESOURCE_TYPES.DUNNING,
+			LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION,
+			LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY,
+			LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT,
+			LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION,
+			LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
+		];
+		return optimisticLockingResources.includes(resourceType as any);
+	}
+
+	/**
+	 * Validate version number for optimistic locking
+	 * @param version - The version number to validate
+	 * @returns boolean - Whether the version is valid
+	 */
+	private isValidVersion(version: number): boolean {
+		return typeof version === 'number' && 
+			   version >= LEXWARE_OPTIMISTIC_LOCKING.MIN_VERSION && 
+			   version <= LEXWARE_OPTIMISTIC_LOCKING.MAX_VERSION;
+	}
+
 	private async executeFinalize(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
 		switch (resourceType) {
 			case LEXWARE_RESOURCE_TYPES.DUNNING:

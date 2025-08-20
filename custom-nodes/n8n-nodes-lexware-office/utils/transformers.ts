@@ -159,6 +159,7 @@ export class LexwareDataTransformer {
 	): ILexwareVoucher {
 		return {
 			voucherType,
+			version: additionalFields.version || LEXWARE_DEFAULT_VALUES.DEFAULT_VERSION,
 			voucherDate: additionalFields.voucherDate || new Date().toISOString().split('T')[0],
 			voucherNumber: additionalFields.voucherNumber,
 			contactId: additionalFields.contactId,

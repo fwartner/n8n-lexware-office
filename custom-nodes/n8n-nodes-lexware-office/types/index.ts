@@ -599,7 +599,7 @@ export interface ILexwareOrderConfirmation extends ILexwareVoucher {
 	validUntil?: string;
 	
 	// Enhanced properties from the official API
-	version?: number;
+	version: number;
 	organizationId?: string;
 	createdAt?: string;
 	updatedAt?: string;
@@ -718,7 +718,7 @@ export interface ILexwareCreditNote extends ILexwareVoucher {
 	creditNoteStatus?: 'draft' | 'open' | 'voided';
 	precedingSalesVoucherId?: string;
 	// Additional properties from the Lexware API documentation
-	version?: number;
+	version: number;
 	organizationId?: string;
 	createdAt?: string;
 	updatedAt?: string;
