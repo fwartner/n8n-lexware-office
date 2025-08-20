@@ -4422,6 +4422,19 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			}
 			if (operation === LEXWARE_OPERATIONS.CREATE) {
 				params.contactType = this.getNodeParameter('contactType', i) as string;
+				// Contact creation fields
+				params.companyName = this.getNodeParameter('companyName', i, '') as string;
+				params.firstName = this.getNodeParameter('firstName', i, '') as string;
+				params.lastName = this.getNodeParameter('lastName', i, '') as string;
+				params.email = this.getNodeParameter('email', i, '') as string;
+				params.phone = this.getNodeParameter('phone', i, '') as string;
+				params.street = this.getNodeParameter('street', i, '') as string;
+				params.zipCode = this.getNodeParameter('zipCode', i, '') as string;
+				params.city = this.getNodeParameter('city', i, '') as string;
+				params.country = this.getNodeParameter('country', i, 'DE') as string;
+				params.vatNumber = this.getNodeParameter('vatNumber', i, '') as string;
+				params.taxNumber = this.getNodeParameter('taxNumber', i, '') as string;
+				params.contactRole = this.getNodeParameter('contactRole', i, LEXWARE_CONTACT_ROLES.CUSTOMER) as string;
 			}
 			break;
 			
@@ -4434,6 +4447,16 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.categoryId = this.getNodeParameter('categoryId', i, '') as string;
 				params.articleType = this.getNodeParameter('articleType', i, '') as string;
 				params.archived = this.getNodeParameter('archived', i, undefined) as boolean | undefined;
+			}
+			if (operation === LEXWARE_OPERATIONS.CREATE) {
+				// Article creation fields
+				params.articleName = this.getNodeParameter('articleName', i) as string;
+				params.articleDescription = this.getNodeParameter('articleDescription', i, '') as string;
+				params.articleTypeCreate = this.getNodeParameter('articleTypeCreate', i, LEXWARE_ARTICLE_TYPES.SERVICE) as string;
+				params.unitPrice = this.getNodeParameter('unitPrice', i, 0) as number;
+				params.currency = this.getNodeParameter('currency', i, 'EUR') as string;
+				params.taxRate = this.getNodeParameter('taxRate', i, 19) as number;
+				params.unitName = this.getNodeParameter('unitName', i, 'piece') as string;
 			}
 			break;
 			
@@ -4465,6 +4488,14 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.taxType = this.getNodeParameter('taxType', i, '') as string;
 				params.currency = this.getNodeParameter('currency', i, '') as string;
 				params.language = this.getNodeParameter('language', i, '') as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.CREATE) {
+				// Invoice creation fields
+				params.invoiceContactId = this.getNodeParameter('invoiceContactId', i) as string;
+				params.invoiceDate = this.getNodeParameter('invoiceDate', i, '') as string;
+				params.dueDate = this.getNodeParameter('dueDate', i, '') as string;
+				params.invoiceCurrency = this.getNodeParameter('invoiceCurrency', i, 'EUR') as string;
+				params.invoiceLanguage = this.getNodeParameter('invoiceLanguage', i, 'de') as string;
 			}
 			break;
 			
