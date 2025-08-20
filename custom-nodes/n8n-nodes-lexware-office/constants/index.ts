@@ -46,6 +46,7 @@ export const LEXWARE_OPERATIONS = {
 	GET: 'get',
 	GET_ALL: 'getAll',
 	UPDATE: 'update',
+	DELETE: 'delete',
 	FINALIZE: 'finalize',
 	PURSUE: 'pursue',
 	DOCUMENT: 'document',
@@ -160,12 +161,7 @@ export const LEXWARE_DOWN_PAYMENT_INVOICE_STATUSES = {
 	VOIDED: 'voided',
 } as const;
 
-export const LEXWARE_QUOTATION_STATUSES = {
-	DRAFT: 'draft',
-	OPEN: 'open',
-	ACCEPTED: 'accepted',
-	REJECTED: 'rejected',
-} as const;
+
 
 export const LEXWARE_ORDER_CONFIRMATION_STATUSES = {
 	DRAFT: 'draft',
@@ -559,4 +555,62 @@ export const LEXWARE_PROFILE_SYSTEM_ENVIRONMENTS = {
 	DEVELOPMENT: 'development',
 	STAGING: 'staging',
 	PRODUCTION: 'production',
+} as const;
+
+export const LEXWARE_QUOTATION_STATUSES = {
+	DRAFT: 'draft',
+	OPEN: 'open',
+	ACCEPTED: 'accepted',
+	REJECTED: 'rejected',
+	EXPIRED: 'expired',
+	CANCELLED: 'cancelled',
+} as const;
+
+export const LEXWARE_QUOTATION_TYPES = {
+	STANDARD: 'standard',
+	PROPOSAL: 'proposal',
+	ESTIMATE: 'estimate',
+	TENDER: 'tender',
+	REQUEST: 'request',
+} as const;
+
+export const LEXWARE_QUOTATION_PRIORITIES = {
+	LOW: 'low',
+	MEDIUM: 'medium',
+	HIGH: 'high',
+	URGENT: 'urgent',
+} as const;
+
+export const LEXWARE_QUOTATION_APPROVAL_STATUSES = {
+	PENDING: 'pending',
+	APPROVED: 'approved',
+	REJECTED: 'rejected',
+} as const;
+
+export const LEXWARE_QUOTATION_REMINDER_FREQUENCIES = {
+	DAILY: 'daily',
+	WEEKLY: 'weekly',
+	MONTHLY: 'monthly',
+} as const;
+
+export const LEXWARE_QUOTATION_LINE_ITEM_TYPES = {
+	CUSTOM: 'custom',
+	MATERIAL: 'material',
+	SERVICE: 'service',
+	TEXT: 'text',
+	DISCOUNT: 'discount',
+	SHIPPING: 'shipping',
+} as const;
+
+export const LEXWARE_QUOTATION_AVAILABILITY_STATUSES = {
+	IN_STOCK: 'inStock',
+	LOW_STOCK: 'lowStock',
+	OUT_OF_STOCK: 'outOfStock',
+	PRE_ORDER: 'preOrder',
+} as const;
+
+export const LEXWARE_QUOTATION_LEAD_TIME_UNITS = {
+	DAYS: 'days',
+	WEEKS: 'weeks',
+	MONTHS: 'months',
 } as const;

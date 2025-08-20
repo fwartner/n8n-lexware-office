@@ -2220,6 +2220,563 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Backup frequency (daily, weekly, monthly)',
 			},
+			// Quotation specific fields
+			{
+				displayName: 'Quotation ID',
+				name: 'quotationId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE, LEXWARE_OPERATIONS.DELETE],
+					},
+				},
+				description: 'The ID of the quotation',
+			},
+			{
+				displayName: 'Quotation Status',
+				name: 'quotationStatus',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL, LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Draft', value: 'draft' },
+					{ name: 'Open', value: 'open' },
+					{ name: 'Accepted', value: 'accepted' },
+					{ name: 'Rejected', value: 'rejected' },
+					{ name: 'Expired', value: 'expired' },
+					{ name: 'Cancelled', value: 'cancelled' },
+				],
+				description: 'Filter by quotation status',
+			},
+			{
+				displayName: 'Quotation Type',
+				name: 'quotationType',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL, LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'All Types', value: '' },
+					{ name: 'Standard', value: 'standard' },
+					{ name: 'Proposal', value: 'proposal' },
+					{ name: 'Estimate', value: 'estimate' },
+					{ name: 'Tender', value: 'tender' },
+					{ name: 'Request', value: 'request' },
+				],
+				description: 'Filter by quotation type',
+			},
+			{
+				displayName: 'Priority',
+				name: 'priority',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL, LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'All Priorities', value: '' },
+					{ name: 'Low', value: 'low' },
+					{ name: 'Medium', value: 'medium' },
+					{ name: 'High', value: 'high' },
+					{ name: 'Urgent', value: 'urgent' },
+				],
+				description: 'Filter by priority',
+			},
+			{
+				displayName: 'Probability',
+				name: 'probability',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Probability percentage (0-100)',
+			},
+			{
+				displayName: 'Expected Order Value',
+				name: 'expectedOrderValue',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Expected order value',
+			},
+			{
+				displayName: 'Expected Order Date',
+				name: 'expectedOrderDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Expected order date (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Valid Until',
+				name: 'validUntil',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Quotation validity date (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Delivery Date',
+				name: 'deliveryDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Expected delivery date (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Shipping Date',
+				name: 'shippingDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Expected shipping date (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Approval Required',
+				name: 'approvalRequired',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether approval is required',
+			},
+			{
+				displayName: 'Approval Status',
+				name: 'approvalStatus',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL, LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Pending', value: 'pending' },
+					{ name: 'Approved', value: 'approved' },
+					{ name: 'Rejected', value: 'rejected' },
+				],
+				description: 'Filter by approval status',
+			},
+			{
+				displayName: 'Reminder Enabled',
+				name: 'reminderEnabled',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether reminders are enabled',
+			},
+			{
+				displayName: 'Reminder Date',
+				name: 'reminderDate',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Reminder date (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Reminder Frequency',
+				name: 'reminderFrequency',
+				type: 'options',
+				default: 'weekly',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				options: [
+					{ name: 'Daily', value: 'daily' },
+					{ name: 'Weekly', value: 'weekly' },
+					{ name: 'Monthly', value: 'monthly' },
+				],
+				description: 'Reminder frequency',
+			},
+			{
+				displayName: 'Customer Reference',
+				name: 'customerReference',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Customer reference number',
+			},
+			{
+				displayName: 'Sales Person',
+				name: 'salesPerson',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Sales person identifier',
+			},
+			{
+				displayName: 'Sales Channel',
+				name: 'salesChannel',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Sales channel identifier',
+			},
+			{
+				displayName: 'Campaign',
+				name: 'campaign',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Campaign identifier',
+			},
+			{
+				displayName: 'Lead Source',
+				name: 'leadSource',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Lead source identifier',
+			},
+			{
+				displayName: 'Terms and Conditions',
+				name: 'termsAndConditions',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Terms and conditions text',
+			},
+			{
+				displayName: 'Terms Version',
+				name: 'termsVersion',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Terms and conditions version',
+			},
+			{
+				displayName: 'Print Layout',
+				name: 'printLayout',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Print layout ID',
+			},
+			{
+				displayName: 'Logo Enabled',
+				name: 'logoEnabled',
+				type: 'boolean',
+				default: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether logo is enabled',
+			},
+			{
+				displayName: 'Watermark Enabled',
+				name: 'watermarkEnabled',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether watermark is enabled',
+			},
+			{
+				displayName: 'XRechnung Enabled',
+				name: 'xrechnungEnabled',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Whether XRechnung is enabled',
+			},
+			{
+				displayName: 'XRechnung Version',
+				name: 'xrechnungVersion',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'XRechnung version',
+			},
+			{
+				displayName: 'XRechnung Profile',
+				name: 'xrechnungProfile',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'XRechnung profile',
+			},
+			{
+				displayName: 'Tags',
+				name: 'tags',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Comma-separated tags',
+			},
+			{
+				displayName: 'Notes',
+				name: 'notes',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Additional notes',
+			},
+			{
+				displayName: 'Internal Notes',
+				name: 'internalNotes',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'Internal notes (not visible to customer)',
+			},
+			{
+				displayName: 'External ID',
+				name: 'externalId',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'External system ID',
+			},
+			{
+				displayName: 'External System',
+				name: 'externalSystem',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'External system name',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search term for text search',
+			},
+			{
+				displayName: 'Has Attachments',
+				name: 'hasAttachments',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by attachments',
+			},
+			{
+				displayName: 'Min Value',
+				name: 'minValue',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Minimum value filter',
+			},
+			{
+				displayName: 'Max Value',
+				name: 'maxValue',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Maximum value filter',
+			},
+			{
+				displayName: 'Min Probability',
+				name: 'minProbability',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Minimum probability filter (0-100)',
+			},
+			{
+				displayName: 'Max Probability',
+				name: 'maxProbability',
+				type: 'number',
+				default: 100,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Maximum probability filter (0-100)',
+			},
+			{
+				displayName: 'Expiring Within Days',
+				name: 'expiringWithinDays',
+				type: 'number',
+				default: 7,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.QUOTATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter quotations expiring within days',
+			},
 			{
 				displayName: 'Payment Type',
 				name: 'paymentType',
@@ -3252,6 +3809,62 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 						},
 					};
 				}
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.QUOTATION:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE || operation === LEXWARE_OPERATIONS.DELETE) {
+				params.quotationId = this.getNodeParameter('quotationId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.quotationStatus = this.getNodeParameter('quotationStatus', i, '') as string;
+				params.quotationType = this.getNodeParameter('quotationType', i, '') as string;
+				params.priority = this.getNodeParameter('priority', i, '') as string;
+				params.approvalStatus = this.getNodeParameter('approvalStatus', i, '') as string;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.hasAttachments = this.getNodeParameter('hasAttachments', i, false) as boolean;
+				params.minValue = this.getNodeParameter('minValue', i, 0) as number;
+				params.maxValue = this.getNodeParameter('maxValue', i, 0) as number;
+				params.minProbability = this.getNodeParameter('minProbability', i, 0) as number;
+				params.maxProbability = this.getNodeParameter('maxProbability', i, 100) as number;
+				params.expiringWithinDays = this.getNodeParameter('expiringWithinDays', i, 7) as number;
+			}
+			if (operation === LEXWARE_OPERATIONS.CREATE || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.additionalFields = {
+					...params.additionalFields,
+					quotationStatus: this.getNodeParameter('quotationStatus', i, '') as string,
+					quotationType: this.getNodeParameter('quotationType', i, '') as string,
+					priority: this.getNodeParameter('priority', i, '') as string,
+					probability: this.getNodeParameter('probability', i, 0) as number,
+					expectedOrderValue: this.getNodeParameter('expectedOrderValue', i, 0) as number,
+					expectedOrderDate: this.getNodeParameter('expectedOrderDate', i, '') as string,
+					validUntil: this.getNodeParameter('validUntil', i, '') as string,
+					deliveryDate: this.getNodeParameter('deliveryDate', i, '') as string,
+					shippingDate: this.getNodeParameter('shippingDate', i, '') as string,
+					approvalRequired: this.getNodeParameter('approvalRequired', i, false) as boolean,
+					approvalStatus: this.getNodeParameter('approvalStatus', i, '') as string,
+					reminderEnabled: this.getNodeParameter('reminderEnabled', i, false) as boolean,
+					reminderDate: this.getNodeParameter('reminderDate', i, '') as string,
+					reminderFrequency: this.getNodeParameter('reminderFrequency', i, 'weekly') as string,
+					customerReference: this.getNodeParameter('customerReference', i, '') as string,
+					salesPerson: this.getNodeParameter('salesPerson', i, '') as string,
+					salesChannel: this.getNodeParameter('salesChannel', i, '') as string,
+					campaign: this.getNodeParameter('campaign', i, '') as string,
+					leadSource: this.getNodeParameter('leadSource', i, '') as string,
+					termsAndConditions: this.getNodeParameter('termsAndConditions', i, '') as string,
+					termsVersion: this.getNodeParameter('termsVersion', i, '') as string,
+					printLayout: this.getNodeParameter('printLayout', i, '') as string,
+					logoEnabled: this.getNodeParameter('logoEnabled', i, true) as boolean,
+					watermarkEnabled: this.getNodeParameter('watermarkEnabled', i, false) as boolean,
+					xrechnungEnabled: this.getNodeParameter('xrechnungEnabled', i, false) as boolean,
+					xrechnungVersion: this.getNodeParameter('xrechnungVersion', i, '') as string,
+					xrechnungProfile: this.getNodeParameter('xrechnungProfile', i, '') as string,
+					tags: this.getNodeParameter('tags', i, '') as string,
+					notes: this.getNodeParameter('notes', i, '') as string,
+					internalNotes: this.getNodeParameter('internalNotes', i, '') as string,
+					externalId: this.getNodeParameter('externalId', i, '') as string,
+					externalSystem: this.getNodeParameter('externalSystem', i, '') as string,
+				};
 			}
 			break;
 			

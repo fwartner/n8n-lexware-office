@@ -135,7 +135,7 @@ export interface ILexwareVoucher {
 	contactName?: string;
 	lineItems?: Array<{
 		id?: string;
-		type: 'custom' | 'material' | 'service' | 'text';
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
 		name: string;
 		quantity?: number;
 		unitName?: string;
@@ -212,7 +212,7 @@ export interface ILexwareInvoice extends ILexwareVoucher {
 	// Enhanced line items
 	lineItems?: Array<{
 		id?: string;
-		type: 'custom' | 'material' | 'service' | 'text';
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
 		name: string;
 		description?: string;
 		quantity?: number;
@@ -314,7 +314,7 @@ export interface ILexwareDownPaymentInvoice extends ILexwareVoucher {
 	// Line items with enhanced properties
 	lineItems?: Array<{
 		id?: string;
-		type: 'custom' | 'material' | 'service' | 'text';
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
 		name: string;
 		description?: string;
 		quantity?: number;
@@ -351,8 +351,233 @@ export interface ILexwareDownPaymentInvoice extends ILexwareVoucher {
 }
 
 export interface ILexwareQuotation extends ILexwareVoucher {
-	quotationStatus?: 'draft' | 'open' | 'accepted' | 'rejected';
+	// Quotation specific status and lifecycle
+	quotationStatus?: 'draft' | 'open' | 'accepted' | 'rejected' | 'expired' | 'cancelled';
 	validUntil?: string;
+	expiryDate?: string;
+	acceptedDate?: string;
+	rejectedDate?: string;
+	cancelledDate?: string;
+	
+	// Enhanced properties from the official API
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	
+	// Quotation specific properties
+	quotationNumber?: string;
+	quotationDate?: string;
+	deliveryDate?: string;
+	shippingDate?: string;
+	
+	// Payment and financial information
+	paymentConditions?: {
+		paymentTerms?: number;
+		paymentTermsLabel?: string;
+		paymentTermsLabelTemplate?: string;
+		dueDate?: string;
+		discountPercentage?: number;
+		discountDays?: number;
+		earlyPaymentDiscount?: number;
+		latePaymentPenalty?: number;
+		paymentMethods?: string[];
+		bankingInfo?: {
+			accountHolder?: string;
+			iban?: string;
+			bic?: string;
+			bankName?: string;
+		};
+	};
+	
+	// Enhanced tax conditions
+	taxConditions?: {
+		taxType: string;
+		taxRate?: number;
+		taxSubType?: string;
+		taxAmount?: number;
+		netAmount?: number;
+		grossAmount?: number;
+		reverseCharge?: boolean;
+		euVatRules?: boolean;
+		distanceSalesPrinciple?: string;
+		taxExemption?: string;
+		taxExemptionReason?: string;
+	};
+	
+	// Shipping and delivery
+	shippingConditions?: {
+		shippingType: string;
+		shippingCosts?: number;
+		shippingDate?: string;
+		deliveryTerms?: string;
+		deliveryDate?: string;
+		shippingAddress?: {
+			street?: string;
+			zipCode?: string;
+			city?: string;
+			country?: string;
+			countryCode?: string;
+			contactPerson?: string;
+		};
+		shippingMethod?: string;
+		shippingProvider?: string;
+		trackingNumber?: string;
+		shippingNotes?: string;
+	};
+	
+	// Enhanced line items with quotation specific features
+	lineItems?: Array<{
+		id?: string;
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
+		name: string;
+		description?: string;
+		quantity?: number;
+		unitName?: string;
+		unitPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxRatePercentage: number;
+			discountPercentage?: number;
+		};
+		totalPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxAmount?: number;
+			discountAmount?: number;
+		};
+		articleId?: string;
+		articleNumber?: string;
+		discountPercentage?: number;
+		discountAmount?: number;
+		minimumQuantity?: number;
+		maximumQuantity?: number;
+		stockLevel?: number;
+		availability?: 'inStock' | 'lowStock' | 'outOfStock' | 'preOrder';
+		leadTime?: number;
+		leadTimeUnit?: 'days' | 'weeks' | 'months';
+		customFields?: Record<string, any>;
+		attachments?: string[];
+	}>;
+	
+	// Additional quotation properties
+	note?: string;
+	title?: string;
+	language?: string;
+	currency?: string;
+	exchangeRate?: number;
+	baseCurrency?: string;
+	
+	// Financial calculations
+	totalNetAmount?: number;
+	totalGrossAmount?: number;
+	totalTaxAmount?: number;
+	totalDiscountAmount?: number;
+	totalShippingAmount?: number;
+	totalRoundingAmount?: number;
+	
+	// Related vouchers and references
+	relatedVouchers?: Array<{
+		id: string;
+		type: string;
+		number?: string;
+		date?: string;
+		status?: string;
+		amount?: number;
+		currency?: string;
+	}>;
+	
+	// Quotation specific features
+	quotationType?: 'standard' | 'proposal' | 'estimate' | 'tender' | 'request';
+	priority?: 'low' | 'medium' | 'high' | 'urgent';
+	probability?: number; // 0-100 percentage
+	expectedOrderValue?: number;
+	expectedOrderDate?: string;
+	
+	// Approval workflow
+	approvalRequired?: boolean;
+	approvalStatus?: 'pending' | 'approved' | 'rejected';
+	approvalDate?: string;
+	approvedBy?: string;
+	approvalNotes?: string;
+	
+	// Follow-up and reminders
+	reminderEnabled?: boolean;
+	reminderDate?: string;
+	reminderFrequency?: 'daily' | 'weekly' | 'monthly';
+	lastReminderSent?: string;
+	nextReminderDate?: string;
+	
+	// Customer and sales information
+	customerReference?: string;
+	salesPerson?: string;
+	salesChannel?: string;
+	campaign?: string;
+	leadSource?: string;
+	
+	// Terms and conditions
+	termsAndConditions?: string;
+	termsVersion?: string;
+	termsAccepted?: boolean;
+	termsAcceptedDate?: string;
+	termsAcceptedBy?: string;
+	
+	// Attachments and documents
+	attachments?: Array<{
+		id: string;
+		name: string;
+		type: string;
+		size?: number;
+		url?: string;
+		uploadDate?: string;
+	}>;
+	
+	// Print and layout settings
+	printLayout?: string;
+	printLayoutName?: string;
+	logoEnabled?: boolean;
+	watermarkEnabled?: boolean;
+	
+	// XRechnung support (German e-invoicing standard)
+	xrechnung?: {
+		enabled?: boolean;
+		version?: string;
+		profile?: string;
+		reference?: string;
+		deliveryDate?: string;
+		deliveryPeriod?: {
+			startDate?: string;
+			endDate?: string;
+		};
+		deliveryLocation?: {
+			street?: string;
+			zipCode?: string;
+			city?: string;
+			country?: string;
+		};
+		deliveryTerms?: string;
+		deliveryInstructions?: string;
+	};
+	
+	// Custom fields and metadata
+	customFields?: Record<string, any>;
+	tags?: string[];
+	notes?: string;
+	internalNotes?: string;
+	
+	// Audit and tracking
+	createdBy?: string;
+	updatedBy?: string;
+	lastViewed?: string;
+	viewCount?: number;
+	
+	// Integration and external references
+	externalId?: string;
+	externalSystem?: string;
+	syncStatus?: 'synced' | 'pending' | 'failed';
+	lastSyncDate?: string;
 }
 
 export interface ILexwareOrderConfirmation extends ILexwareVoucher {
@@ -409,7 +634,7 @@ export interface ILexwareOrderConfirmation extends ILexwareVoucher {
 	// Enhanced line items
 	lineItems?: Array<{
 		id?: string;
-		type: 'custom' | 'material' | 'service' | 'text';
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
 		name: string;
 		description?: string;
 		quantity?: number;
@@ -501,7 +726,7 @@ export interface ILexwareCreditNote extends ILexwareVoucher {
 	// Line items with enhanced properties
 	lineItems?: Array<{
 		id?: string;
-		type: 'custom' | 'material' | 'service' | 'text';
+		type: 'custom' | 'material' | 'service' | 'text' | 'discount' | 'shipping';
 		name: string;
 		description?: string;
 		quantity?: number;
