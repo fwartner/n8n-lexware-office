@@ -781,6 +781,61 @@ export interface ILexwareEventSubscription {
 	verificationDate?: string;
 }
 
+export interface ILexwarePostingCategory {
+	// Posting category identification
+	id?: string;
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	
+	// Basic properties
+	name: string;
+	description?: string;
+	number?: string;
+	
+	// Category classification
+	type: 'income' | 'expense' | 'asset' | 'liability' | 'equity';
+	status: 'active' | 'inactive' | 'archived';
+	
+	// Hierarchical structure
+	parentId?: string;
+	parentName?: string;
+	level?: number;
+	path?: string;
+	
+	// Financial properties
+	accountNumber?: string;
+	accountType?: string;
+	taxRate?: number;
+	taxType?: string;
+	
+	// Business logic
+	isDefault?: boolean;
+	isSystem?: boolean;
+	isEditable?: boolean;
+	
+	// Additional metadata
+	tags?: string[];
+	customFields?: Record<string, any>;
+	
+	// Usage information
+	usageCount?: number;
+	lastUsed?: string;
+	
+	// Validation and constraints
+	validationRules?: {
+		requiredFields?: string[];
+		allowedValues?: Record<string, any[]>;
+		formatRules?: Record<string, string>;
+	};
+	
+	// Localization
+	language?: string;
+	localizedName?: Record<string, string>;
+	localizedDescription?: Record<string, string>;
+}
+
 export interface ILexwareApiResponse<T> {
 	data: T;
 	status: number;
@@ -822,6 +877,7 @@ export type LexwareResource =
 	| 'country'
 	| 'paymentCondition'
 	| 'payment'
+	| 'postingCategory'
 	| 'eventSubscription';
 
 export type LexwareOperation = 'create' | 'get' | 'getAll' | 'update';

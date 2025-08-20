@@ -15,6 +15,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	COUNTRIES: '/v1/countries',
 	PAYMENT_CONDITIONS: '/v1/payment-conditions',
 	PAYMENTS: '/v1/payments',
+	POSTING_CATEGORIES: '/v1/posting-categories',
 	EVENT_SUBSCRIPTIONS: '/v1/event-subscriptions',
 } as const;
 
@@ -34,6 +35,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	COUNTRY: 'country',
 	PAYMENT_CONDITION: 'paymentCondition',
 	PAYMENT: 'payment',
+	POSTING_CATEGORY: 'postingCategory',
 	EVENT_SUBSCRIPTION: 'eventSubscription',
 } as const;
 
@@ -466,4 +468,18 @@ export const LEXWARE_PAYMENT_ITEM_TYPES = {
 	RECEIVABLE: 'receivable',
 	PAYABLE: 'payable',
 	IRRECOVERABLE_RECEIVABLE: 'irrecoverableReceivable',
+} as const;
+
+export const LEXWARE_POSTING_CATEGORY_TYPES = {
+	INCOME: 'income',
+	EXPENSE: 'expense',
+	ASSET: 'asset',
+	LIABILITY: 'liability',
+	EQUITY: 'equity',
+} as const;
+
+export const LEXWARE_POSTING_CATEGORY_STATUSES = {
+	ACTIVE: 'active',
+	INACTIVE: 'inactive',
+	ARCHIVED: 'archived',
 } as const;

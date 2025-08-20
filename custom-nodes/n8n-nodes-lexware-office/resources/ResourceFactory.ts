@@ -15,6 +15,7 @@ import {
 	CountryResource,
 	PaymentConditionResource,
 	PaymentResource,
+	PostingCategoryResource,
 	EventSubscriptionResource
 } from './index';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
@@ -45,6 +46,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.COUNTRY, new CountryResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION, new PaymentConditionResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT, new PaymentResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY, new PostingCategoryResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
 	}
 
@@ -115,6 +117,8 @@ export class ResourceFactory {
 				return resource.get(params.paymentConditionId);
 			case LEXWARE_RESOURCE_TYPES.PAYMENT:
 				return resource.get(params.paymentId);
+			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
+				return resource.get(params.postingCategoryId);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.get(params.eventSubscriptionId);
 			default:
@@ -158,6 +162,11 @@ export class ResourceFactory {
 		// Handle payment specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.PAYMENT) {
 			return this.executePaymentGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle posting category specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY) {
+			return this.executePostingCategoryGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -425,6 +434,76 @@ export class ResourceFactory {
 		return resource.getAll(paginationParams);
 	}
 
+	private async executePostingCategoryGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle posting category specific filtering
+		if (params.type) {
+			return resource.getByType(params.type, paginationParams);
+		}
+
+		if (params.status) {
+			return resource.getByStatus(params.status, paginationParams);
+		}
+
+		if (params.parentId) {
+			return resource.getByParent(params.parentId, paginationParams);
+		}
+
+		if (params.level !== undefined) {
+			return resource.getByLevel(params.level, paginationParams);
+		}
+
+		if (params.accountNumber) {
+			return resource.getByAccountNumber(params.accountNumber, paginationParams);
+		}
+
+		if (params.taxType) {
+			return resource.getByTaxType(params.taxType, paginationParams);
+		}
+
+		if (params.isDefault === true) {
+			return resource.getDefaults(paginationParams);
+		}
+
+		if (params.isSystem === true) {
+			return resource.getSystemCategories(paginationParams);
+		}
+
+		if (params.isEditable === true) {
+			return resource.getEditable(paginationParams);
+		}
+
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+
+		if (params.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+
+		if (params.usageCountFrom && params.usageCountTo) {
+			return resource.getByUsageRange(params.usageCountFrom, params.usageCountTo, paginationParams);
+		}
+
+		if (params.lastUsedFrom && params.lastUsedTo) {
+			return resource.getByLastUsedRange(params.lastUsedFrom, params.lastUsedTo, paginationParams);
+		}
+
+		if (params.includeHierarchy === true) {
+			return resource.getHierarchy(paginationParams);
+		}
+
+		if (params.includeChildren === true && params.parentId) {
+			return resource.getWithChildren(params.parentId, paginationParams);
+		}
+
+		if (params.tag) {
+			return resource.getByTag(params.tag, paginationParams);
+		}
+
+		// Default: get all posting categories
+		return resource.getAll(paginationParams);
+	}
+
 	private async executeInvoiceGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
 		// Handle invoice specific filtering
 		if (params.invoiceStatus) {
@@ -501,6 +580,8 @@ export class ResourceFactory {
 				return resource.create(additionalFields);
 			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
 				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
+				return resource.create(additionalFields);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.create(additionalFields);
 			default:
@@ -532,6 +613,8 @@ export class ResourceFactory {
 				return resource.update(additionalFields);
 			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
 				return resource.update(params.paymentConditionId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
+				return resource.update(params.postingCategoryId, additionalFields);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.update(params.eventSubscriptionId, additionalFields);
 			default:
@@ -612,6 +695,8 @@ export class ResourceFactory {
 				case LEXWARE_RESOURCE_TYPES.DUNNING:
 					return resource.validateCreateData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
 					return resource.validateCreateData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.PAYMENT:
 					return resource.validatePaymentData(params.additionalFields || {});

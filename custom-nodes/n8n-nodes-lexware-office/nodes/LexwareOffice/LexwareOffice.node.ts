@@ -1082,6 +1082,269 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the payment',
 			},
+			// Posting Category specific fields
+			{
+				displayName: 'Posting Category ID',
+				name: 'postingCategoryId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'The ID of the posting category',
+			},
+			{
+				displayName: 'Posting Category Type',
+				name: 'type',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Types', value: '' },
+					{ name: 'Income', value: 'income' },
+					{ name: 'Expense', value: 'expense' },
+					{ name: 'Asset', value: 'asset' },
+					{ name: 'Liability', value: 'liability' },
+					{ name: 'Equity', value: 'equity' },
+				],
+				description: 'Filter by posting category type',
+			},
+			{
+				displayName: 'Posting Category Status',
+				name: 'status',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Active', value: 'active' },
+					{ name: 'Inactive', value: 'inactive' },
+					{ name: 'Archived', value: 'archived' },
+				],
+				description: 'Filter by posting category status',
+			},
+			{
+				displayName: 'Parent ID',
+				name: 'parentId',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by parent category ID',
+			},
+			{
+				displayName: 'Level',
+				name: 'level',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by hierarchy level',
+			},
+			{
+				displayName: 'Account Number',
+				name: 'accountNumber',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by account number',
+			},
+			{
+				displayName: 'Tax Type',
+				name: 'taxType',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by tax type',
+			},
+			{
+				displayName: 'Is Default',
+				name: 'isDefault',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by default categories',
+			},
+			{
+				displayName: 'Is System',
+				name: 'isSystem',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by system categories',
+			},
+			{
+				displayName: 'Is Editable',
+				name: 'isEditable',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by editable categories',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search term for filtering',
+			},
+			{
+				displayName: 'Language',
+				name: 'language',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by language',
+			},
+			{
+				displayName: 'Usage Count From',
+				name: 'usageCountFrom',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Minimum usage count for filtering',
+			},
+			{
+				displayName: 'Usage Count To',
+				name: 'usageCountTo',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Maximum usage count for filtering',
+			},
+			{
+				displayName: 'Last Used From',
+				name: 'lastUsedFrom',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start date for last used filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Last Used To',
+				name: 'lastUsedTo',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End date for last used filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Include Hierarchy',
+				name: 'includeHierarchy',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Include hierarchical structure',
+			},
+			{
+				displayName: 'Include Children',
+				name: 'includeChildren',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Include child categories',
+			},
+			{
+				displayName: 'Tag',
+				name: 'tag',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by tag',
+			},
 			{
 				displayName: 'Payment Type',
 				name: 'paymentType',
@@ -1977,6 +2240,32 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.transactionId = this.getNodeParameter('transactionId', i, '') as string;
 				params.reference = this.getNodeParameter('reference', i, '') as string;
 				params.iban = this.getNodeParameter('iban', i, '') as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.postingCategoryId = this.getNodeParameter('postingCategoryId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.type = this.getNodeParameter('type', i, '') as string;
+				params.status = this.getNodeParameter('status', i, '') as string;
+				params.parentId = this.getNodeParameter('parentId', i, '') as string;
+				params.level = this.getNodeParameter('level', i, 0) as number;
+				params.accountNumber = this.getNodeParameter('accountNumber', i, '') as string;
+				params.taxType = this.getNodeParameter('taxType', i, '') as string;
+				params.isDefault = this.getNodeParameter('isDefault', i, false) as boolean;
+				params.isSystem = this.getNodeParameter('isSystem', i, false) as boolean;
+				params.isEditable = this.getNodeParameter('isEditable', i, false) as boolean;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.language = this.getNodeParameter('language', i, '') as string;
+				params.usageCountFrom = this.getNodeParameter('usageCountFrom', i, 0) as number;
+				params.usageCountTo = this.getNodeParameter('usageCountTo', i, 0) as number;
+				params.lastUsedFrom = this.getNodeParameter('lastUsedFrom', i, '') as string;
+				params.lastUsedTo = this.getNodeParameter('lastUsedTo', i, '') as string;
+				params.includeHierarchy = this.getNodeParameter('includeHierarchy', i, false) as boolean;
+				params.includeChildren = this.getNodeParameter('includeChildren', i, false) as boolean;
+				params.tag = this.getNodeParameter('tag', i, '') as string;
 			}
 			break;
 			
