@@ -3883,7 +3883,7 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Filter by tag',
 			},
-			// Common fields for creation
+			// Generic additional fields for creation/update
 			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
@@ -3910,309 +3910,26 @@ export class LexwareOffice implements INodeType {
 						default: '',
 						description: 'Description of the resource',
 					},
-					// Delivery Note specific fields
 					{
-						displayName: 'Voucher Date',
-						name: 'voucherDate',
-						type: 'dateTime',
-						default: '',
-						description: 'Date of the delivery note (required for creation)',
-					},
-					{
-						displayName: 'Contact ID',
-						name: 'contactId',
+						displayName: 'Notes',
+						name: 'notes',
 						type: 'string',
 						default: '',
-						description: 'ID of the contact (required for creation)',
+						description: 'Additional notes for the resource',
 					},
 					{
-						displayName: 'Delivery Note Status',
-						name: 'deliveryNoteStatus',
-						type: 'options',
-						default: 'draft',
-						options: [
-							{
-								name: 'Draft',
-								value: 'draft',
-								description: 'Draft status - can be edited',
-							},
-							{
-								name: 'Open',
-								value: 'open',
-								description: 'Open status - can be delivered',
-							},
-							{
-								name: 'Delivered',
-								value: 'delivered',
-								description: 'Delivered status - final state',
-							},
-						],
-						description: 'Status of the delivery note',
-					},
-					{
-						displayName: 'Delivery Date',
-						name: 'deliveryDate',
-						type: 'dateTime',
-						default: '',
-						description: 'Date when the delivery should be made',
-					},
-					{
-						displayName: 'Language',
-						name: 'language',
-						type: 'options',
-						default: 'de',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
-						options: [
-							{
-								name: 'German',
-								value: 'de',
-								description: 'German language',
-							},
-							{
-								name: 'English',
-								value: 'en',
-								description: 'English language',
-							},
-						],
-						description: 'Language of the delivery note',
-					},
-					// Down Payment Invoice specific fields
-					{
-						displayName: 'Closing Invoice ID',
-						name: 'closingInvoiceId',
+						displayName: 'Tags',
+						name: 'tags',
 						type: 'string',
 						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						description: 'ID of the closing invoice to filter by',
+						description: 'Tags for the resource',
 					},
 					{
-						displayName: 'Status',
-						name: 'status',
-						type: 'options',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						options: [
-							{
-								name: 'All',
-								value: '',
-								description: 'All statuses',
-							},
-							{
-								name: 'Draft',
-								value: 'draft',
-								description: 'Draft status',
-							},
-							{
-								name: 'Open',
-								value: 'open',
-								description: 'Open status',
-							},
-							{
-								name: 'Paid',
-								value: 'paid',
-								description: 'Paid status',
-							},
-							{
-								name: 'Voided',
-								value: 'voided',
-								description: 'Voided status',
-							},
-						],
-						description: 'Filter by down payment invoice status',
-					},
-					{
-						displayName: 'Start Date',
-						name: 'startDate',
-						type: 'dateTime',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						description: 'Start date for filtering (YYYY-MM-DD)',
-					},
-					{
-						displayName: 'End Date',
-						name: 'endDate',
-						type: 'dateTime',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						description: 'End date for filtering (YYYY-MM-DD)',
-					},
-					{
-						displayName: 'Invoice Number',
-						name: 'invoiceNumber',
+						displayName: 'External ID',
+						name: 'externalId',
 						type: 'string',
 						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						description: 'Invoice number to search for',
-					},
-					{
-						displayName: 'Tax Type',
-						name: 'taxType',
-						type: 'string',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						description: 'Tax type to filter by',
-					},
-					{
-						displayName: 'Tax Sub Type',
-						name: 'taxSubType',
-						type: 'string',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE],
-								operation: [LEXWARE_OPERATIONS.GET_ALL],
-							},
-						},
-						description: 'Tax sub type to filter by',
-					},
-					// Dunning specific fields
-					{
-						displayName: 'Voucher Date',
-						name: 'voucherDate',
-						type: 'dateTime',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
-								operation: [LEXWARE_OPERATIONS.CREATE],
-							},
-						},
-						description: 'Date of the dunning (required for creation)',
-					},
-					{
-						displayName: 'Contact ID',
-						name: 'contactId',
-						type: 'string',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
-								operation: [LEXWARE_OPERATIONS.CREATE],
-							},
-						},
-						description: 'ID of the contact (required for creation)',
-					},
-					{
-						displayName: 'Preceding Sales Voucher ID',
-						name: 'precedingSalesVoucherId',
-						type: 'string',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
-								operation: [LEXWARE_OPERATIONS.CREATE],
-							},
-						},
-						description: 'ID of the preceding sales voucher (required for creation)',
-					},
-					{
-						displayName: 'Dunning Level',
-						name: 'dunningLevel',
-						type: 'number',
-						default: 1,
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
-						description: 'Dunning level (1-5, required for creation)',
-					},
-					{
-						displayName: 'Dunning Status',
-						name: 'dunningStatus',
-						type: 'options',
-						default: 'draft',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DUNNING],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
-						options: [
-							{
-								name: 'Draft',
-								value: 'draft',
-								description: 'Draft status - can be edited',
-							},
-							{
-								name: 'Open',
-								value: 'open',
-								description: 'Open status - can be finalized',
-							},
-							{
-								name: 'Paid',
-								value: 'paid',
-								description: 'Paid status - final state',
-							},
-							{
-								name: 'Voided',
-								value: 'voided',
-								description: 'Voided status - cancelled',
-							},
-						],
-						description: 'Status of the dunning',
-					},
-					{
-						displayName: 'Currency',
-						name: 'currency',
-						type: 'string',
-						default: 'EUR',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
-						description: 'Currency code (e.g., EUR, USD)',
-					},
-					{
-						displayName: 'Note',
-						name: 'note',
-						type: 'string',
-						default: '',
-						displayOptions: {
-							show: {
-								resource: [LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE],
-								operation: [LEXWARE_OPERATIONS.CREATE, LEXWARE_OPERATIONS.UPDATE],
-							},
-						},
-						description: 'Additional notes for the delivery note',
+						description: 'External ID for the resource',
 					},
 				],
 			},
