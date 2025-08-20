@@ -1,0 +1,438 @@
+{
+	"name": "Lexware Office Down Payment Invoices Test Workflow",
+	"nodes": [
+		{
+			"parameters": {
+				"httpMethod": "POST",
+				"path": "webhook/down-payment-invoices-test",
+				"responseMode": "responseNode",
+				"options": {}
+			},
+			"id": "webhook-trigger",
+			"name": "Webhook Trigger",
+			"type": "n8n-nodes-base.webhook",
+			"typeVersion": 1,
+			"position": [240, 300],
+			"webhookId": "down-payment-invoices-test"
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "get",
+				"downPaymentInvoiceId": "{{ $json.downPaymentInvoiceId || 'test-down-payment-invoice-id' }}"
+			},
+			"id": "get-down-payment-invoice",
+			"name": "Get Down Payment Invoice",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [460, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"additionalFields": {
+					"voucherType": "downpaymentinvoice"
+				}
+			},
+			"id": "get-all-down-payment-invoices",
+			"name": "Get All Down Payment Invoices",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [680, 300],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"closingInvoiceId": "{{ $json.closingInvoiceId || 'test-closing-invoice-id' }}"
+			},
+			"id": "get-by-closing-invoice",
+			"name": "Get by Closing Invoice",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [900, 200],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"contactId": "{{ $json.contactId || 'test-contact-id' }}"
+			},
+			"id": "get-by-contact",
+			"name": "Get by Contact",
+			"type": "lexwareOffice",
+			"typeVersion": 1,
+			"position": [900, 400],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"status": "open"
+			},
+			"id": "get-by-status",
+			"name": "Get by Status (Open)",
+			"type": "n8n-nodes-base.httpRequest",
+			"typeVersion": 4.1,
+			"position": [1120, 200],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"startDate": "2024-01-01",
+				"endDate": "2024-12-31"
+			},
+			"id": "get-by-date-range",
+			"name": "Get by Date Range",
+			"type": "n8n-nodes-base.httpRequest",
+			"typeVersion": 4.1,
+			"position": [1120, 400],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"invoiceNumber": "{{ $json.invoiceNumber || 'DP-2024-001' }}"
+			},
+			"id": "search-by-number",
+			"name": "Search by Number",
+			"type": "n8n-nodes-base.httpRequest",
+			"typeVersion": 4.1,
+			"position": [1340, 200],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "downPaymentInvoice",
+				"operation": "getAll",
+				"returnAll": true,
+				"taxType": "net",
+				"taxSubType": "intraCommunitySupply"
+			},
+			"id": "get-by-tax-conditions",
+			"name": "Get by Tax Conditions",
+			"type": "n8n-nodes-base.httpRequest",
+			"typeVersion": 4.1,
+			"position": [1340, 400],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"httpMethod": "GET",
+				"url": "={{ $('Get Down Payment Invoice').item.json.resourceUri }}/file",
+				"authentication": "genericCredentialType",
+				"genericAuthType": "httpHeaderAuth",
+				"sendHeaders": true,
+				"headerParameters": {
+					"parameters": [
+						{
+							"name": "Authorization",
+							"value": "Bearer {{ $credentials.lexwareOfficeApi.apiKey }}"
+						},
+						{
+							"name": "Accept",
+							"value": "application/pdf"
+						}
+					]
+				}
+			},
+			"id": "download-down-payment-file",
+			"name": "Download Down Payment File",
+			"type": "n8n-nodes-base.httpRequest",
+			"typeVersion": 4.1,
+			"position": [1560, 200],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"httpMethod": "GET",
+				"url": "={{ $('Get Down Payment Invoice').item.json.resourceUri }}/deeplink",
+				"authentication": "genericCredentialType",
+				"genericAuthType": "httpHeaderAuth",
+				"sendHeaders": true,
+				"headerParameters": {
+					"parameters": [
+						{
+							"name": "Authorization",
+							"value": "Bearer {{ $credentials.lexwareOfficeApi.apiKey }}"
+						},
+						{
+							"name": "Accept",
+							"value": "application/json"
+						}
+					]
+				}
+			},
+			"id": "get-down-payment-deeplink",
+			"name": "Get Down Payment Deeplink",
+			"type": "n8n-nodes-base.httpRequest",
+			"typeVersion": 4.1,
+			"position": [1560, 400],
+			"credentials": {
+				"lexwareOfficeApi": {
+					"id": "lexware-api-credentials",
+					"name": "Lexware Office API"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"jsCode": "// Get summary statistics for down payment invoices\nconst allInvoices = $('Get All Down Payment Invoices').item.json;\n\nconst summary = {\n  total: allInvoices.length,\n  draft: allInvoices.filter(inv => inv.downPaymentInvoiceStatus === 'draft').length,\n  open: allInvoices.filter(inv => inv.downPaymentInvoiceStatus === 'open').length,\n  paid: allInvoices.filter(inv => inv.downPaymentInvoiceStatus === 'paid').length,\n  voided: allInvoices.filter(inv => inv.downPaymentInvoiceStatus === 'voided').length,\n  totalAmount: allInvoices.reduce((sum, inv) => sum + (inv.totalAmount || 0), 0),\n  paidAmount: allInvoices\n    .filter(inv => inv.downPaymentInvoiceStatus === 'paid')\n    .reduce((sum, inv) => sum + (inv.totalAmount || 0), 0),\n  openAmount: allInvoices\n    .filter(inv => inv.downPaymentInvoiceStatus === 'open')\n    .reduce((sum, inv) => sum + (inv.totalAmount || 0), 0),\n};\n\nreturn summary;"
+			},
+			"id": "calculate-summary",
+			"name": "Calculate Summary",
+			"type": "n8n-nodes-base.code",
+			"typeVersion": 2,
+			"position": [1780, 300]
+		},
+		{
+			"parameters": {
+				"jsCode": "// Combine all results into a comprehensive response\nconst results = {\n  singleDownPaymentInvoice: $('Get Down Payment Invoice').item.json,\n  allDownPaymentInvoices: $('Get All Down Payment Invoices').item.json,\n  byClosingInvoice: $('Get by Closing Invoice').item.json,\n  byContact: $('Get by Contact').item.json,\n  byStatus: $('Get by Status (Open)').item.json,\n  byDateRange: $('Get by Date Range').item.json,\n  byNumber: $('Search by Number').item.json,\n  byTaxConditions: $('Get by Tax Conditions').item.json,\n  downloadedFile: $('Download Down Payment File').item.json,\n  deeplink: $('Get Down Payment Deeplink').item.json,\n  summary: $('Calculate Summary').item.json,\n  workflowStatus: 'Completed Successfully',\n  timestamp: new Date().toISOString()\n};\n\nreturn results;"
+			},
+			"id": "combine-results",
+			"name": "Combine Results",
+			"type": "n8n-nodes-base.code",
+			"typeVersion": 2,
+			"position": [2000, 300]
+		},
+		{
+			"parameters": {
+				"respondWith": "json",
+				"responseBody": "={{ $json }}",
+				"options": {}
+			},
+			"id": "webhook-response",
+			"name": "Webhook Response",
+			"type": "n8n-nodes-base.respondToWebhook",
+			"typeVersion": 1,
+			"position": [2220, 300]
+		}
+	],
+	"connections": {
+		"Webhook Trigger": {
+			"main": [
+				[
+					{
+						"node": "Get Down Payment Invoice",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get Down Payment Invoice": {
+			"main": [
+				[
+					{
+						"node": "Get All Down Payment Invoices",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get All Down Payment Invoices": {
+			"main": [
+				[
+					{
+						"node": "Get by Closing Invoice",
+						"type": "main",
+						"index": 0
+					}
+				],
+				[
+					{
+						"node": "Get by Contact",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get by Closing Invoice": {
+			"main": [
+				[
+					{
+						"node": "Get by Status (Open)",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get by Contact": {
+			"main": [
+				[
+					{
+						"node": "Get by Date Range",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get by Status (Open)": {
+			"main": [
+				[
+					{
+						"node": "Search by Number",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get by Date Range": {
+			"main": [
+				[
+					{
+						"node": "Get by Tax Conditions",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Search by Number": {
+			"main": [
+				[
+					{
+						"node": "Download Down Payment File",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get by Tax Conditions": {
+			"main": [
+				[
+					{
+						"node": "Get Down Payment Deeplink",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Download Down Payment File": {
+			"main": [
+				[
+					{
+						"node": "Calculate Summary",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Get Down Payment Deeplink": {
+			"main": [
+				[
+					{
+						"node": "Calculate Summary",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Calculate Summary": {
+			"main": [
+				[
+					{
+						"node": "Combine Results",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Combine Results": {
+			"main": [
+				[
+					{
+						"node": "Webhook Response",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"pinData": {},
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"staticData": null,
+	"tags": [
+		{
+			"createdAt": "2024-01-01T00:00:00.000Z",
+			"updatedAt": "2024-01-01T00:00:00.000Z",
+			"id": "down-payment-invoices-test",
+			"name": "down-payment-invoices-test"
+		}
+	],
+	"triggerCount": 1,
+	"updatedAt": "2024-01-01T00:00:00.000Z",
+	"versionId": "1"
+}
