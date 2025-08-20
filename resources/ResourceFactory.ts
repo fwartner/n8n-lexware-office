@@ -846,23 +846,26 @@ export class ResourceFactory {
 			return resource.getPublic(paginationParams);
 		}
 		
-		if (params?.contactId) {
+		if (params?.contactId && params.contactId !== '') {
 			return resource.getByContact(params.contactId, paginationParams);
 		}
 		
-		if (params?.voucherDateFrom && params?.voucherDateTo) {
+		if (params?.voucherDateFrom && params?.voucherDateTo && 
+			params.voucherDateFrom !== '' && params.voucherDateTo !== '') {
 			return resource.getByDateRange(params.voucherDateFrom, params.voucherDateTo, paginationParams);
 		}
 		
-		if (params?.createdDateFrom && params?.createdDateTo) {
+		if (params?.createdDateFrom && params?.createdDateTo && 
+			params.createdDateFrom !== '' && params.createdDateTo !== '') {
 			return resource.getByCreationDateRange(params.createdDateFrom, params.createdDateTo, paginationParams);
 		}
 		
-		if (params?.updatedDateFrom && params?.updatedDateTo) {
+		if (params?.updatedDateFrom && params?.updatedDateTo && 
+			params.updatedDateFrom !== '' && params.updatedDateTo !== '') {
 			return resource.getByUpdateDateRange(params.updatedDateFrom, params.updatedDateTo, paginationParams);
 		}
 		
-		if (params?.voucherNumber) {
+		if (params?.voucherNumber && params.voucherNumber !== '') {
 			return resource.searchByNumber(params.voucherNumber, paginationParams);
 		}
 		
