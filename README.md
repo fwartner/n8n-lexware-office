@@ -55,6 +55,20 @@ npm install @pixelandprocess_de/n8n-nodes-lexware-office
 docker-compose restart n8n
 ```
 
+#### Method 4: GitHub Installation
+
+For developers or users who want the latest features:
+
+```bash
+cd ~/.n8n/custom
+git clone https://github.com/fwartner/n8n-nodes-lexware-office.git
+cd n8n-nodes-lexware-office
+npm install && npm run build
+cp -r dist ../@pixelandprocess_de/n8n-nodes-lexware-office
+```
+
+See [GitHub Installation Guide](GITHUB_INSTALLATION.md) for detailed instructions.
+
 ### Configuration
 
 1. **Restart n8n** after installation
@@ -153,6 +167,7 @@ n8n-lexware-office/
 ## 📚 Documentation
 
 - 📖 **[Installation Guide](INSTALLATION.md)** - Complete setup instructions
+- 🐙 **[GitHub Installation](GITHUB_INSTALLATION.md)** - Install directly from GitHub
 - 🔧 **[API Reference](README.md)** - Detailed operation documentation
 - 🚀 **[Quick Start](README.md#-quick-start)** - Get up and running fast
 - 🏗️ **[Project Structure](README.md#-project-structure)** - Code organization
