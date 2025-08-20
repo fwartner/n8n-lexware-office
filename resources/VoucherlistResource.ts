@@ -13,7 +13,8 @@ export class VoucherlistResource {
 	 * Get all vouchers with optional filtering
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		// Ensure all required parameters are present, even if they're empty strings
+		// Always include required parameters, even if they're empty strings
+		// The API seems to require these parameters to be present
 		const apiParams = {
 			voucherType: params?.voucherType || '',
 			voucherStatus: params?.voucherStatus || '',
