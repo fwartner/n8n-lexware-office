@@ -664,6 +664,68 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the credit note',
 			},
+			// Order Confirmation specific fields
+			{
+				displayName: 'Order Confirmation ID',
+				name: 'orderConfirmationId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'The ID of the order confirmation',
+			},
+			{
+				displayName: 'Order Confirmation Status',
+				name: 'orderConfirmationStatus',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Draft', value: 'draft' },
+					{ name: 'Open', value: 'open' },
+					{ name: 'Confirmed', value: 'confirmed' },
+					{ name: 'Cancelled', value: 'cancelled' },
+					{ name: 'Completed', value: 'completed' },
+				],
+				description: 'Filter by order confirmation status',
+			},
+			{
+				displayName: 'Delivery Date Start',
+				name: 'deliveryDateStart',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start delivery date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Delivery Date End',
+				name: 'deliveryDateEnd',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End delivery date for filtering (YYYY-MM-DD)',
+			},
 			// Delivery Note specific fields
 			{
 				displayName: 'Delivery Note ID',
@@ -1641,6 +1703,26 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.creditNoteId = this.getNodeParameter('creditNoteId', i) as string;
+			}
+			break;
+		case LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.orderConfirmationId = this.getNodeParameter('orderConfirmationId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.orderConfirmationStatus = this.getNodeParameter('orderConfirmationStatus', i, '') as string;
+				params.startDate = this.getNodeParameter('startDate', i, '') as string;
+				params.endDate = this.getNodeParameter('endDate', i, '') as string;
+				params.deliveryDateStart = this.getNodeParameter('deliveryDateStart', i, '') as string;
+				params.deliveryDateEnd = this.getNodeParameter('deliveryDateEnd', i, '') as string;
+				params.minAmount = this.getNodeParameter('minAmount', i, 0) as number;
+				params.maxAmount = this.getNodeParameter('maxAmount', i, 0) as number;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.isXRechnung = this.getNodeParameter('isXRechnung', i, false) as boolean;
+				params.isRecurring = this.getNodeParameter('isRecurring', i, false) as boolean;
+				params.taxType = this.getNodeParameter('taxType', i, '') as string;
+				params.currency = this.getNodeParameter('currency', i, '') as string;
+				params.language = this.getNodeParameter('language', i, '') as string;
 			}
 			break;
 			

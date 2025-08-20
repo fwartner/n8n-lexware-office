@@ -4,6 +4,7 @@ import {
 	ILexwareVoucher,
 	ILexwareInvoice,
 	ILexwareQuotation,
+	ILexwareOrderConfirmation,
 	ILexwareCreditNote,
 	ILexwareDeliveryNote,
 	ILexwareDunning
@@ -203,6 +204,46 @@ export class LexwareDataTransformer {
 			...baseVoucher,
 			quotationStatus: additionalFields.quotationStatus || 'draft',
 			validUntil: additionalFields.validUntil,
+		};
+	}
+
+	static transformOrderConfirmationData(additionalFields: Record<string, any>): ILexwareOrderConfirmation {
+		const baseVoucher = this.transformVoucherData('orderconfirmation', additionalFields);
+		return {
+			...baseVoucher,
+			orderConfirmationStatus: additionalFields.orderConfirmationStatus || 'draft',
+			validUntil: additionalFields.validUntil,
+			deliveryDate: additionalFields.deliveryDate,
+			shippingDate: additionalFields.shippingDate,
+			// Enhanced line items with additional properties
+			lineItems: additionalFields.lineItems?.map((item: any) => ({
+				id: item.id,
+				type: item.type || LEXWARE_LINE_ITEM_TYPES.SERVICE,
+				name: item.name,
+				description: item.description,
+				quantity: item.quantity || 1,
+				unitName: item.unitName || LEXWARE_DEFAULT_VALUES.DEFAULT_UNIT_NAME,
+				unitPrice: item.unitPrice ? {
+					currency: item.unitPrice.currency || LEXWARE_DEFAULT_VALUES.DEFAULT_CURRENCY,
+					netAmount: item.unitPrice.netAmount,
+					grossAmount: item.unitPrice.grossAmount,
+					taxRatePercentage: item.unitPrice.taxRatePercentage || LEXWARE_DEFAULT_VALUES.DEFAULT_TAX_RATE,
+				} : undefined,
+				totalPrice: item.totalPrice ? {
+					currency: item.totalPrice.currency || LEXWARE_DEFAULT_VALUES.DEFAULT_CURRENCY,
+					netAmount: item.totalPrice.netAmount,
+					grossAmount: item.totalPrice.grossAmount,
+					taxAmount: item.totalPrice.taxAmount,
+				} : undefined,
+				articleId: item.articleId,
+				articleNumber: item.articleNumber,
+			})) || [],
+			// Additional properties
+			note: additionalFields.note,
+			title: additionalFields.title,
+			language: additionalFields.language || 'de',
+			// Print layout
+			printLayoutId: additionalFields.printLayoutId,
 		};
 	}
 

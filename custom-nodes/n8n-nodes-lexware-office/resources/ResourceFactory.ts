@@ -7,6 +7,7 @@ import {
 	DownPaymentInvoiceResource,
 	QuotationResource,
 	CreditNoteResource,
+	OrderConfirmationResource,
 	DeliveryNoteResource,
 	DunningResource,
 	FileResource,
@@ -35,6 +36,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE, new DownPaymentInvoiceResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.QUOTATION, new QuotationResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.CREDIT_NOTE, new CreditNoteResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION, new OrderConfirmationResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE, new DeliveryNoteResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.DUNNING, new DunningResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.FILE, new FileResource(this.credentials));
@@ -70,6 +72,8 @@ export class ResourceFactory {
 				return this.executeUpdate(resource, resourceType, params);
 			case 'finalize':
 				return this.executeFinalize(resource, resourceType, params);
+			case 'pursue':
+				return this.executePursue(resource, resourceType, params);
 			case 'document':
 				return this.executeDocument(resource, resourceType, params);
 			case 'downloadFile':
@@ -140,6 +144,11 @@ export class ResourceFactory {
 		// Handle invoice specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.INVOICE) {
 			return this.executeInvoiceGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle order confirmation specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION) {
+			return this.executeOrderConfirmationGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -291,6 +300,56 @@ export class ResourceFactory {
 		return resource.getAll(paginationParams);
 	}
 
+	private async executeOrderConfirmationGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle order confirmation specific filtering
+		if (params.orderConfirmationStatus) {
+			return resource.getByStatus(params.orderConfirmationStatus, paginationParams);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.startDate && params.endDate) {
+			return resource.getByDateRange(params.startDate, params.endDate, paginationParams);
+		}
+		
+		if (params.deliveryDateStart && params.deliveryDateEnd) {
+			return resource.getByDeliveryDateRange(params.deliveryDateStart, params.deliveryDateEnd, paginationParams);
+		}
+		
+		if (params.minAmount && params.maxAmount) {
+			return resource.getByAmountRange(params.minAmount, params.maxAmount, paginationParams);
+		}
+		
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		if (params.isXRechnung === true) {
+			return resource.getXRechnungOrderConfirmations(paginationParams);
+		}
+		
+		if (params.isRecurring === true) {
+			return resource.getRecurringOrderConfirmations(paginationParams);
+		}
+		
+		if (params.taxType) {
+			return resource.getByTaxType(params.taxType, paginationParams);
+		}
+		
+		if (params.currency) {
+			return resource.getByCurrency(params.currency, paginationParams);
+		}
+		
+		if (params.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+		
+		// Default: get all order confirmations
+		return resource.getAll(paginationParams);
+	}
+
 	private async executeInvoiceGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
 		// Handle invoice specific filtering
 		if (params.invoiceStatus) {
@@ -422,6 +481,19 @@ export class ResourceFactory {
 				return resource.finalize(params.dunningId);
 			default:
 				throw new Error(`Finalize operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executePursue(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION:
+				return resource.pursue(params.orderConfirmationId);
+			case LEXWARE_RESOURCE_TYPES.INVOICE:
+				return resource.pursue(params.invoiceId);
+			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+				return resource.pursue(params.creditNoteId);
+			default:
+				throw new Error(`Pursue operation not supported for resource type: ${resourceType}`);
 		}
 	}
 

@@ -5,6 +5,7 @@ export { InvoiceResource } from './InvoiceResource';
 export { DownPaymentInvoiceResource } from './DownPaymentInvoiceResource';
 export { QuotationResource } from './QuotationResource';
 export { CreditNoteResource } from './CreditNoteResource';
+export { OrderConfirmationResource } from './OrderConfirmationResource';
 export { DeliveryNoteResource } from './DeliveryNoteResource';
 export { DunningResource } from './DunningResource';
 export { FileResource } from './FileResource';

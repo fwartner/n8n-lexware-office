@@ -355,6 +355,127 @@ export interface ILexwareQuotation extends ILexwareVoucher {
 	validUntil?: string;
 }
 
+export interface ILexwareOrderConfirmation extends ILexwareVoucher {
+	// Order confirmation specific status
+	orderConfirmationStatus?: 'draft' | 'open' | 'confirmed' | 'cancelled' | 'completed';
+	validUntil?: string;
+	
+	// Enhanced properties from the official API
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	
+	// Order confirmation specific properties
+	orderConfirmationNumber?: string;
+	orderConfirmationDate?: string;
+	deliveryDate?: string;
+	shippingDate?: string;
+	
+	// Payment and financial information
+	paymentConditions?: {
+		paymentTerms?: number;
+		paymentTermsLabel?: string;
+		paymentTermsLabelTemplate?: string;
+		dueDate?: string;
+		discountPercentage?: number;
+		discountDays?: number;
+	};
+	
+	// Enhanced tax conditions
+	taxConditions?: {
+		taxType: string;
+		taxRate?: number;
+		taxSubType?: string;
+		taxAmount?: number;
+		netAmount?: number;
+		grossAmount?: number;
+	};
+	
+	// Shipping and delivery
+	shippingConditions?: {
+		shippingType: string;
+		shippingCosts?: number;
+		shippingDate?: string;
+		deliveryTerms?: string;
+		shippingAddress?: {
+			street?: string;
+			zipCode?: string;
+			city?: string;
+			country?: string;
+		};
+	};
+	
+	// Enhanced line items
+	lineItems?: Array<{
+		id?: string;
+		type: 'custom' | 'material' | 'service' | 'text';
+		name: string;
+		description?: string;
+		quantity?: number;
+		unitName?: string;
+		unitPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxRatePercentage: number;
+		};
+		totalPrice?: {
+			currency: string;
+			netAmount?: number;
+			grossAmount?: number;
+			taxAmount?: number;
+		};
+		articleId?: string;
+		articleNumber?: string;
+		discountPercentage?: number;
+		discountAmount?: number;
+	}>;
+	
+	// Additional order confirmation properties
+	note?: string;
+	title?: string;
+	language?: string;
+	currency?: string;
+	
+	// Financial calculations
+	totalNetAmount?: number;
+	totalGrossAmount?: number;
+	totalTaxAmount?: number;
+	totalDiscountAmount?: number;
+	totalShippingAmount?: number;
+	
+	// Related vouchers and references
+	relatedVouchers?: Array<{
+		id: string;
+		type: string;
+		number?: string;
+		relationship?: string;
+	}>;
+	
+	// Print and document settings
+	printLayoutId?: string;
+	documentLanguage?: string;
+	
+	// XRechnung and e-invoice support
+	isXRechnung?: boolean;
+	xrechnungVersion?: string;
+	xrechnungProfile?: string;
+	
+	// Distance sales support
+	distanceSalesPrinciple?: string;
+	euDestinationCountry?: string;
+	
+	// Recurring order confirmation support
+	recurringTemplateId?: string;
+	isRecurring?: boolean;
+	recurringInterval?: string;
+	
+	// Additional metadata
+	tags?: string[];
+	customFields?: Record<string, any>;
+}
+
 export interface ILexwareCreditNote extends ILexwareVoucher {
 	creditNoteStatus?: 'draft' | 'open' | 'voided';
 	precedingSalesVoucherId?: string;

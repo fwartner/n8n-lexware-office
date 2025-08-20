@@ -7,6 +7,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	DOWN_PAYMENT_INVOICES: '/v1/down-payment-invoices',
 	QUOTATIONS: '/v1/quotations',
 	CREDIT_NOTES: '/v1/credit-notes',
+	ORDER_CONFIRMATIONS: '/v1/order-confirmations',
 	DELIVERY_NOTES: '/v1/delivery-notes',
 	DUNNINGS: '/v1/dunnings',
 	FILES: '/v1/files',
@@ -24,6 +25,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	DOWN_PAYMENT_INVOICE: 'downPaymentInvoice',
 	QUOTATION: 'quotation',
 	CREDIT_NOTE: 'creditNote',
+	ORDER_CONFIRMATION: 'orderConfirmation',
 	DELIVERY_NOTE: 'deliveryNote',
 	DUNNING: 'dunning',
 	FILE: 'file',
@@ -39,6 +41,7 @@ export const LEXWARE_OPERATIONS = {
 	GET_ALL: 'getAll',
 	UPDATE: 'update',
 	FINALIZE: 'finalize',
+	PURSUE: 'pursue',
 	DOCUMENT: 'document',
 	DOWNLOAD_FILE: 'downloadFile',
 } as const;
@@ -156,6 +159,14 @@ export const LEXWARE_QUOTATION_STATUSES = {
 	OPEN: 'open',
 	ACCEPTED: 'accepted',
 	REJECTED: 'rejected',
+} as const;
+
+export const LEXWARE_ORDER_CONFIRMATION_STATUSES = {
+	DRAFT: 'draft',
+	OPEN: 'open',
+	CONFIRMED: 'confirmed',
+	CANCELLED: 'cancelled',
+	COMPLETED: 'completed',
 } as const;
 
 export const LEXWARE_CREDIT_NOTE_STATUSES = {
