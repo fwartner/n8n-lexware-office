@@ -32,6 +32,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.ARTICLE, new ArticleResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.VOUCHER, new VoucherResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.INVOICE, new InvoiceResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE, new DownPaymentInvoiceResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.QUOTATION, new QuotationResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.CREDIT_NOTE, new CreditNoteResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE, new DeliveryNoteResource(this.credentials));
@@ -88,6 +89,8 @@ export class ResourceFactory {
 				return resource.get(params.voucherId);
 			case LEXWARE_RESOURCE_TYPES.INVOICE:
 				return resource.get(params.invoiceId);
+			case LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE:
+				return resource.get(params.downPaymentInvoiceId);
 			case LEXWARE_RESOURCE_TYPES.QUOTATION:
 				return resource.get(params.quotationId);
 			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
@@ -119,6 +122,11 @@ export class ResourceFactory {
 			return this.executeCountryGetAll(resource, paginationParams, params);
 		}
 		
+		// Handle down payment invoice specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE) {
+			return this.executeDownPaymentInvoiceGetAll(resource, paginationParams, params);
+		}
+		
 		return resource.getAll(paginationParams);
 	}
 
@@ -148,6 +156,36 @@ export class ResourceFactory {
 			default:
 				return resource.getAll(paginationParams);
 		}
+	}
+
+	private async executeDownPaymentInvoiceGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle down payment invoice specific filtering
+		if (params.closingInvoiceId) {
+			return resource.getByClosingInvoice(params.closingInvoiceId);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.status) {
+			return resource.getByStatus(params.status, paginationParams);
+		}
+		
+		if (params.startDate && params.endDate) {
+			return resource.getByDateRange(params.startDate, params.endDate, paginationParams);
+		}
+		
+		if (params.invoiceNumber) {
+			return resource.searchByNumber(params.invoiceNumber, paginationParams);
+		}
+		
+		if (params.taxType) {
+			return resource.getByTaxConditions(params.taxType, params.taxSubType, paginationParams);
+		}
+		
+		// Default: get all down payment invoices
+		return resource.getAll(paginationParams);
 	}
 
 	private async executeCreate(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {

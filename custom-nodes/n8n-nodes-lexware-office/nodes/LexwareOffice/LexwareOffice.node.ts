@@ -67,6 +67,10 @@ export class LexwareOffice implements INodeType {
 						value: LEXWARE_RESOURCE_TYPES.INVOICE,
 					},
 					{
+						name: 'Down Payment Invoice',
+						value: LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE,
+					},
+					{
 						name: 'Quotation',
 						value: LEXWARE_RESOURCE_TYPES.QUOTATION,
 					},
@@ -117,6 +121,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.ARTICLE,
 							LEXWARE_RESOURCE_TYPES.VOUCHER,
 							LEXWARE_RESOURCE_TYPES.INVOICE,
+							LEXWARE_RESOURCE_TYPES.DOWN_PAYMENT_INVOICE,
 							LEXWARE_RESOURCE_TYPES.QUOTATION,
 							LEXWARE_RESOURCE_TYPES.CREDIT_NOTE,
 							LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE,

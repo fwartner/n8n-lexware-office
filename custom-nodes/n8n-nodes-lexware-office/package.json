@@ -9,7 +9,8 @@
     "dev": "tsc --watch"
   },
   "files": [
-    "dist"
+    "dist",
+    "scripts"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
