@@ -13,29 +13,37 @@ export class VoucherlistResource {
 	 * Get all vouchers with optional filtering
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareVoucherList[]> {
-		// Try a different approach - send only the essential parameters
-		// and let the API handle defaults
-		const apiParams: Record<string, any> = {};
+		// Let's try a completely different approach
+		// Maybe the API expects the parameters in the URL path or as headers
+		// Let's build the request manually to see exactly what's happening
 		
-		// Always include voucherStatus as it seems to be required
-		apiParams.voucherStatus = params?.voucherStatus || 'ALL';
+		// Build the URL with query parameters manually
+		const queryParams = new URLSearchParams();
 		
-		// Include other parameters only if they have values
-		if (params?.voucherType) apiParams.voucherType = params.voucherType;
-		if (params?.archived !== undefined) apiParams.archived = params.archived.toString();
-		if (params?.contactId) apiParams.contactId = params.contactId;
-		if (params?.voucherDateFrom) apiParams.voucherDateFrom = params.voucherDateFrom;
-		if (params?.voucherDateTo) apiParams.voucherDateTo = params.voucherDateTo;
-		if (params?.createdDateFrom) apiParams.createdDateFrom = params.createdDateFrom;
-		if (params?.createdDateTo) apiParams.createdDateTo = params.createdDateTo;
-		if (params?.updatedDateFrom) apiParams.updatedDateFrom = params.updatedDateFrom;
-		if (params?.updatedDateTo) apiParams.updatedDateTo = params.updatedDateTo;
-		if (params?.voucherNumber) apiParams.voucherNumber = params.voucherNumber;
-		if (params?.size) apiParams.size = params.size.toString();
-		if (params?.page) apiParams.page = params.page.toString();
-		if (params?.sort) apiParams.sort = params.sort;
+		// Always include voucherStatus - this seems to be required
+		queryParams.append('voucherStatus', params?.voucherStatus || '');
+		
+		// Include other parameters
+		if (params?.voucherType !== undefined) queryParams.append('voucherType', params.voucherType);
+		if (params?.archived !== undefined) queryParams.append('archived', params.archived.toString());
+		if (params?.contactId !== undefined) queryParams.append('contactId', params.contactId);
+		if (params?.voucherDateFrom !== undefined) queryParams.append('voucherDateFrom', params.voucherDateFrom);
+		if (params?.voucherDateTo !== undefined) queryParams.append('voucherDateTo', params.voucherDateTo);
+		if (params?.createdDateFrom !== undefined) queryParams.append('createdDateFrom', params.createdDateFrom);
+		if (params?.createdDateTo !== undefined) queryParams.append('createdDateTo', params.createdDateTo);
+		if (params?.updatedDateFrom !== undefined) queryParams.append('updatedDateFrom', params.updatedDateFrom);
+		if (params?.updatedDateTo !== undefined) queryParams.append('updatedDateTo', params.updatedDateTo);
+		if (params?.voucherNumber !== undefined) queryParams.append('voucherNumber', params.voucherNumber);
+		if (params?.size !== undefined) queryParams.append('size', params.size.toString());
+		if (params?.page !== undefined) queryParams.append('page', params.page.toString());
+		if (params?.sort !== undefined) queryParams.append('sort', params.sort);
 
-		return this.apiClient.get<ILexwareVoucherList[]>(LEXWARE_API_ENDPOINTS.VOUCHERLIST, apiParams);
+		// Build the full URL with query parameters
+		const url = `${LEXWARE_API_ENDPOINTS.VOUCHERLIST}?${queryParams.toString()}`;
+		
+		// Call the API client with the pre-built URL and no additional params
+		// This way we have full control over the query string
+		return this.apiClient.get<ILexwareVoucherList[]>(url);
 	}
 
 	/**
