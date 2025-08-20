@@ -1345,6 +1345,335 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Filter by tag',
 			},
+			// Print Layout specific fields
+			{
+				displayName: 'Print Layout ID',
+				name: 'printLayoutId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET, LEXWARE_OPERATIONS.UPDATE],
+					},
+				},
+				description: 'The ID of the print layout',
+			},
+			{
+				displayName: 'Print Layout Type',
+				name: 'type',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Types', value: '' },
+					{ name: 'Invoice', value: 'invoice' },
+					{ name: 'Quotation', value: 'quotation' },
+					{ name: 'Order Confirmation', value: 'orderConfirmation' },
+					{ name: 'Delivery Note', value: 'deliveryNote' },
+					{ name: 'Credit Note', value: 'creditNote' },
+					{ name: 'Dunning', value: 'dunning' },
+					{ name: 'Down Payment Invoice', value: 'downPaymentInvoice' },
+					{ name: 'Receipt', value: 'receipt' },
+					{ name: 'Reminder', value: 'reminder' },
+					{ name: 'Confirmation', value: 'confirmation' },
+				],
+				description: 'Filter by print layout type',
+			},
+			{
+				displayName: 'Print Layout Status',
+				name: 'status',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Active', value: 'active' },
+					{ name: 'Inactive', value: 'inactive' },
+					{ name: 'Archived', value: 'archived' },
+					{ name: 'Draft', value: 'draft' },
+				],
+				description: 'Filter by print layout status',
+			},
+			{
+				displayName: 'Format',
+				name: 'format',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Formats', value: '' },
+					{ name: 'PDF', value: 'pdf' },
+					{ name: 'HTML', value: 'html' },
+					{ name: 'XML', value: 'xml' },
+					{ name: 'JSON', value: 'json' },
+				],
+				description: 'Filter by print layout format',
+			},
+			{
+				displayName: 'Page Size',
+				name: 'pageSize',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Sizes', value: '' },
+					{ name: 'A4', value: 'A4' },
+					{ name: 'A3', value: 'A3' },
+					{ name: 'A5', value: 'A5' },
+					{ name: 'Letter', value: 'letter' },
+					{ name: 'Legal', value: 'legal' },
+					{ name: 'Custom', value: 'custom' },
+				],
+				description: 'Filter by page size',
+			},
+			{
+				displayName: 'Orientation',
+				name: 'orientation',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Orientations', value: '' },
+					{ name: 'Portrait', value: 'portrait' },
+					{ name: 'Landscape', value: 'landscape' },
+				],
+				description: 'Filter by orientation',
+			},
+			{
+				displayName: 'Is Default',
+				name: 'isDefault',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by default layouts',
+			},
+			{
+				displayName: 'Is System',
+				name: 'isSystem',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by system layouts',
+			},
+			{
+				displayName: 'Is Editable',
+				name: 'isEditable',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by editable layouts',
+			},
+			{
+				displayName: 'Is Public',
+				name: 'isPublic',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by public layouts',
+			},
+			{
+				displayName: 'Search Term',
+				name: 'searchTerm',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Search term for filtering',
+			},
+			{
+				displayName: 'Language',
+				name: 'language',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by language',
+			},
+			{
+				displayName: 'Usage Count From',
+				name: 'usageCountFrom',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Minimum usage count for filtering',
+			},
+			{
+				displayName: 'Usage Count To',
+				name: 'usageCountTo',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Maximum usage count for filtering',
+			},
+			{
+				displayName: 'Last Used From',
+				name: 'lastUsedFrom',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start date for last used filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Last Used To',
+				name: 'lastUsedTo',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End date for last used filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Tag',
+				name: 'tag',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by tag',
+			},
+			{
+				displayName: 'Font',
+				name: 'font',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by font',
+			},
+			{
+				displayName: 'Header Enabled',
+				name: 'headerEnabled',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by layouts with headers',
+			},
+			{
+				displayName: 'Footer Enabled',
+				name: 'footerEnabled',
+				type: 'boolean',
+				default: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by layouts with footers',
+			},
+			{
+				displayName: 'Template Version',
+				name: 'templateVersion',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by template version',
+			},
+			{
+				displayName: 'Resolution',
+				name: 'resolution',
+				type: 'number',
+				default: 300,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by resolution (DPI)',
+			},
 			{
 				displayName: 'Payment Type',
 				name: 'paymentType',
@@ -2266,6 +2595,35 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				params.includeHierarchy = this.getNodeParameter('includeHierarchy', i, false) as boolean;
 				params.includeChildren = this.getNodeParameter('includeChildren', i, false) as boolean;
 				params.tag = this.getNodeParameter('tag', i, '') as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.printLayoutId = this.getNodeParameter('printLayoutId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.type = this.getNodeParameter('type', i, '') as string;
+				params.status = this.getNodeParameter('status', i, '') as string;
+				params.format = this.getNodeParameter('format', i, '') as string;
+				params.pageSize = this.getNodeParameter('pageSize', i, '') as string;
+				params.orientation = this.getNodeParameter('orientation', i, '') as string;
+				params.isDefault = this.getNodeParameter('isDefault', i, false) as boolean;
+				params.isSystem = this.getNodeParameter('isSystem', i, false) as boolean;
+				params.isEditable = this.getNodeParameter('isEditable', i, false) as boolean;
+				params.isPublic = this.getNodeParameter('isPublic', i, false) as boolean;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.language = this.getNodeParameter('language', i, '') as string;
+				params.usageCountFrom = this.getNodeParameter('usageCountFrom', i, 0) as number;
+				params.usageCountTo = this.getNodeParameter('usageCountTo', i, 0) as number;
+				params.lastUsedFrom = this.getNodeParameter('lastUsedFrom', i, '') as string;
+				params.lastUsedTo = this.getNodeParameter('lastUsedTo', i, '') as string;
+				params.tag = this.getNodeParameter('tag', i, '') as string;
+				params.font = this.getNodeParameter('font', i, '') as string;
+				params.headerEnabled = this.getNodeParameter('headerEnabled', i, false) as boolean;
+				params.footerEnabled = this.getNodeParameter('footerEnabled', i, false) as boolean;
+				params.templateVersion = this.getNodeParameter('templateVersion', i, '') as string;
+				params.resolution = this.getNodeParameter('resolution', i, 300) as number;
 			}
 			break;
 			

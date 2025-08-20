@@ -836,6 +836,118 @@ export interface ILexwarePostingCategory {
 	localizedDescription?: Record<string, string>;
 }
 
+export interface ILexwarePrintLayout {
+	// Print layout identification
+	id?: string;
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	
+	// Basic properties
+	name: string;
+	description?: string;
+	number?: string;
+	
+	// Layout classification
+	type: 'invoice' | 'quotation' | 'orderConfirmation' | 'deliveryNote' | 'creditNote' | 'dunning' | 'downPaymentInvoice' | 'receipt' | 'reminder' | 'confirmation';
+	status: 'active' | 'inactive' | 'archived' | 'draft';
+	
+	// Layout configuration
+	format: 'pdf' | 'html' | 'xml' | 'json';
+	template?: string;
+	templateVersion?: string;
+	
+	// Design properties
+	orientation?: 'portrait' | 'landscape';
+	pageSize?: 'A4' | 'A3' | 'A5' | 'letter' | 'legal' | 'custom';
+	customPageSize?: {
+		width: number;
+		height: number;
+		unit: 'mm' | 'cm' | 'inch' | 'pt';
+	};
+	
+	// Margins and spacing
+	margins?: {
+		top: number;
+		bottom: number;
+		left: number;
+		right: number;
+		unit: 'mm' | 'cm' | 'inch' | 'pt';
+	};
+	
+	// Font and styling
+	defaultFont?: string;
+	defaultFontSize?: number;
+	headerFont?: string;
+	headerFontSize?: number;
+	footerFont?: string;
+	footerFontSize?: number;
+	
+	// Header and footer configuration
+	headerEnabled?: boolean;
+	headerTemplate?: string;
+	footerEnabled?: boolean;
+	footerTemplate?: string;
+	
+	// Content sections
+	sections?: Array<{
+		id: string;
+		name: string;
+		type: 'header' | 'content' | 'footer' | 'custom';
+		content?: string;
+		position: {
+			x: number;
+			y: number;
+			width: number;
+			height: number;
+		};
+		visible?: boolean;
+		editable?: boolean;
+	}>;
+	
+	// Business logic
+	isDefault?: boolean;
+	isSystem?: boolean;
+	isEditable?: boolean;
+	isPublic?: boolean;
+	
+	// Usage and references
+	usageCount?: number;
+	lastUsed?: string;
+	referencedBy?: Array<{
+		id: string;
+		type: string;
+		name?: string;
+	}>;
+	
+	// Additional metadata
+	tags?: string[];
+	customFields?: Record<string, any>;
+	
+	// Validation and constraints
+	validationRules?: {
+		requiredFields?: string[];
+		allowedValues?: Record<string, any[]>;
+		formatRules?: Record<string, string>;
+	};
+	
+	// Localization
+	language?: string;
+	localizedName?: Record<string, string>;
+	localizedDescription?: Record<string, string>;
+	
+	// Preview and rendering
+	previewUrl?: string;
+	thumbnailUrl?: string;
+	renderSettings?: {
+		resolution?: number;
+		quality?: number;
+		compression?: boolean;
+		watermark?: boolean;
+	};
+}
+
 export interface ILexwareApiResponse<T> {
 	data: T;
 	status: number;
@@ -878,6 +990,7 @@ export type LexwareResource =
 	| 'paymentCondition'
 	| 'payment'
 	| 'postingCategory'
+	| 'printLayout'
 	| 'eventSubscription';
 
 export type LexwareOperation = 'create' | 'get' | 'getAll' | 'update';

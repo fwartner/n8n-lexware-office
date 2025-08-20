@@ -14,5 +14,6 @@ export { CountryResource } from './CountryResource';
 export { PaymentConditionResource } from './PaymentConditionResource';
 export { PaymentResource } from './PaymentResource';
 export { PostingCategoryResource } from './PostingCategoryResource';
+export { PrintLayoutResource } from './PrintLayoutResource';
 export { EventSubscriptionResource } from './EventSubscriptionResource';
 export { ResourceFactory } from './ResourceFactory';

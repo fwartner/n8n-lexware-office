@@ -16,6 +16,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	PAYMENT_CONDITIONS: '/v1/payment-conditions',
 	PAYMENTS: '/v1/payments',
 	POSTING_CATEGORIES: '/v1/posting-categories',
+	PRINT_LAYOUTS: '/v1/print-layouts',
 	EVENT_SUBSCRIPTIONS: '/v1/event-subscriptions',
 } as const;
 
@@ -36,6 +37,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	PAYMENT_CONDITION: 'paymentCondition',
 	PAYMENT: 'payment',
 	POSTING_CATEGORY: 'postingCategory',
+	PRINT_LAYOUT: 'printLayout',
 	EVENT_SUBSCRIPTION: 'eventSubscription',
 } as const;
 
@@ -482,4 +484,31 @@ export const LEXWARE_POSTING_CATEGORY_STATUSES = {
 	ACTIVE: 'active',
 	INACTIVE: 'inactive',
 	ARCHIVED: 'archived',
+} as const;
+
+export const LEXWARE_PRINT_LAYOUT_TYPES = {
+	INVOICE: 'invoice',
+	QUOTATION: 'quotation',
+	ORDER_CONFIRMATION: 'orderConfirmation',
+	DELIVERY_NOTE: 'deliveryNote',
+	CREDIT_NOTE: 'creditNote',
+	DUNNING: 'dunning',
+	DOWN_PAYMENT_INVOICE: 'downPaymentInvoice',
+	RECEIPT: 'receipt',
+	REMINDER: 'reminder',
+	CONFIRMATION: 'confirmation',
+} as const;
+
+export const LEXWARE_PRINT_LAYOUT_STATUSES = {
+	ACTIVE: 'active',
+	INACTIVE: 'inactive',
+	ARCHIVED: 'archived',
+	DRAFT: 'draft',
+} as const;
+
+export const LEXWARE_PRINT_LAYOUT_FORMATS = {
+	PDF: 'pdf',
+	HTML: 'html',
+	XML: 'xml',
+	JSON: 'json',
 } as const;

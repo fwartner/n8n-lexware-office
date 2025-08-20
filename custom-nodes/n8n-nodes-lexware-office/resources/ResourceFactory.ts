@@ -16,6 +16,7 @@ import {
 	PaymentConditionResource,
 	PaymentResource,
 	PostingCategoryResource,
+	PrintLayoutResource,
 	EventSubscriptionResource
 } from './index';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
@@ -47,6 +48,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION, new PaymentConditionResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT, new PaymentResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY, new PostingCategoryResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT, new PrintLayoutResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
 	}
 
@@ -119,6 +121,8 @@ export class ResourceFactory {
 				return resource.get(params.paymentId);
 			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
 				return resource.get(params.postingCategoryId);
+			case LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT:
+				return resource.get(params.printLayoutId);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.get(params.eventSubscriptionId);
 			default:
@@ -167,6 +171,11 @@ export class ResourceFactory {
 		// Handle posting category specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY) {
 			return this.executePostingCategoryGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle print layout specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT) {
+			return this.executePrintLayoutGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -504,6 +513,88 @@ export class ResourceFactory {
 		return resource.getAll(paginationParams);
 	}
 
+	private async executePrintLayoutGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle print layout specific filtering
+		if (params.type) {
+			return resource.getByType(params.type, paginationParams);
+		}
+
+		if (params.status) {
+			return resource.getByStatus(params.status, paginationParams);
+		}
+
+		if (params.format) {
+			return resource.getByFormat(params.format, paginationParams);
+		}
+
+		if (params.pageSize) {
+			return resource.getByPageSize(params.pageSize, paginationParams);
+		}
+
+		if (params.orientation) {
+			return resource.getByOrientation(params.orientation, paginationParams);
+		}
+
+		if (params.isDefault === true) {
+			return resource.getDefaults(paginationParams);
+		}
+
+		if (params.isSystem === true) {
+			return resource.getSystemLayouts(paginationParams);
+		}
+
+		if (params.isEditable === true) {
+			return resource.getEditable(paginationParams);
+		}
+
+		if (params.isPublic === true) {
+			return resource.getPublic(paginationParams);
+		}
+
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+
+		if (params.language) {
+			return resource.getByLanguage(params.language, paginationParams);
+		}
+
+		if (params.usageCountFrom && params.usageCountTo) {
+			return resource.getByUsageRange(params.usageCountFrom, params.usageCountTo, paginationParams);
+		}
+
+		if (params.lastUsedFrom && params.lastUsedTo) {
+			return resource.getByLastUsedRange(params.lastUsedFrom, params.lastUsedTo, paginationParams);
+		}
+
+		if (params.tag) {
+			return resource.getByTag(params.tag, paginationParams);
+		}
+
+		if (params.font) {
+			return resource.getByFont(params.font, paginationParams);
+		}
+
+		if (params.headerEnabled === true) {
+			return resource.getWithHeaders(paginationParams);
+		}
+
+		if (params.footerEnabled === true) {
+			return resource.getWithFooters(paginationParams);
+		}
+
+		if (params.templateVersion) {
+			return resource.getByTemplateVersion(params.templateVersion, paginationParams);
+		}
+
+		if (params.resolution) {
+			return resource.getByResolution(params.resolution, paginationParams);
+		}
+
+		// Default: get all print layouts
+		return resource.getAll(paginationParams);
+	}
+
 	private async executeInvoiceGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
 		// Handle invoice specific filtering
 		if (params.invoiceStatus) {
@@ -582,6 +673,8 @@ export class ResourceFactory {
 				return resource.create(additionalFields);
 			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
 				return resource.create(additionalFields);
+			case LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT:
+				return resource.create(additionalFields);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.create(additionalFields);
 			default:
@@ -615,6 +708,8 @@ export class ResourceFactory {
 				return resource.update(params.paymentConditionId, additionalFields);
 			case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
 				return resource.update(params.postingCategoryId, additionalFields);
+			case LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT:
+				return resource.update(params.printLayoutId, additionalFields);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.update(params.eventSubscriptionId, additionalFields);
 			default:
@@ -697,6 +792,8 @@ export class ResourceFactory {
 				case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
 					return resource.validateCreateData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.POSTING_CATEGORY:
+					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.PRINT_LAYOUT:
 					return resource.validateCreateData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.PAYMENT:
 					return resource.validatePaymentData(params.additionalFields || {});
