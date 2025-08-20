@@ -20,7 +20,7 @@ export class LexwareOffice implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Lexware Office',
 		name: 'lexwareOffice',
-		icon: './lexware.svg',
+		icon: 'lexware.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',

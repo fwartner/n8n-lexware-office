@@ -4,7 +4,8 @@
   "description": "n8n node for Lexware Office API integration",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy-assets",
+    "copy-assets": "node scripts/copy-assets.js",
     "dev": "tsc --watch"
   },
   "files": [
