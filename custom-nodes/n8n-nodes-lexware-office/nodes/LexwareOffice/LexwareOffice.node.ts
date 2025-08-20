@@ -14,6 +14,7 @@ import {
 	LEXWARE_ARTICLE_TYPES,
 	LEXWARE_DEFAULT_VALUES
 } from '../../constants';
+import { ILexwareCredentials, ICredentialDataDecryptedObject } from '../../types';
 
 export class LexwareOffice implements INodeType {
 	description: INodeTypeDescription = {
@@ -466,14 +467,21 @@ export class LexwareOffice implements INodeType {
 
 		for (let i = 0; i < items.length; i++) {
 			try {
-				const credentials = await this.getCredentials('lexwareOfficeApi');
-				const resourceFactory = new ResourceFactory(credentials);
+				const credentials = await this.getCredentials('lexwareOfficeApi') as ICredentialDataDecryptedObject;
+				
+				// Convert credentials to our interface
+				const lexwareCredentials: ILexwareCredentials = {
+					apiKey: credentials.apiKey as string,
+					resourceUrl: credentials.resourceUrl as string,
+				};
+				
+				const resourceFactory = new ResourceFactory(lexwareCredentials);
 				
 				const resource = this.getNodeParameter('resource', i) as string;
 				const operation = this.getNodeParameter('operation', i) as string;
 				
 				// Build parameters object
-				const params = this.buildParameters(i);
+				const params = buildParameters.call(this, i);
 				
 				// Validate operation if it's a create operation
 				if (operation === LEXWARE_OPERATIONS.CREATE) {
@@ -506,81 +514,84 @@ export class LexwareOffice implements INodeType {
 		return [this.helpers.returnJsonArray(returnData)];
 	}
 
-	private buildParameters(i: number): Record<string, any> {
-		const resource = this.getNodeParameter('resource', i) as string;
-		const operation = this.getNodeParameter('operation', i) as string;
-		
-		const params: Record<string, any> = {
-			resource,
-			operation,
-			returnAll: this.getNodeParameter('returnAll', i, false) as boolean,
-			limit: this.getNodeParameter('limit', i, LEXWARE_DEFAULT_VALUES.DEFAULT_PAGE_SIZE) as number,
-			additionalFields: this.getNodeParameter('additionalFields', i, {}) as Record<string, any>,
-		};
 
-		// Add resource-specific parameters
-		switch (resource) {
-			case LEXWARE_RESOURCE_TYPES.CONTACT:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.contactId = this.getNodeParameter('contactId', i) as string;
-				}
-				if (operation === LEXWARE_OPERATIONS.CREATE) {
-					params.contactType = this.getNodeParameter('contactType', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.ARTICLE:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.articleId = this.getNodeParameter('articleId', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.VOUCHER:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.voucherId = this.getNodeParameter('voucherId', i) as string;
-				}
-				if (operation === LEXWARE_OPERATIONS.CREATE) {
-					params.voucherType = this.getNodeParameter('voucherType', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.INVOICE:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.invoiceId = this.getNodeParameter('invoiceId', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.QUOTATION:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.quotationId = this.getNodeParameter('quotationId', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.creditNoteId = this.getNodeParameter('creditNoteId', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.deliveryNoteId = this.getNodeParameter('deliveryNoteId', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.DUNNING:
-				if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-					params.dunningId = this.getNodeParameter('dunningId', i) as string;
-				}
-				break;
-				
-			case LEXWARE_RESOURCE_TYPES.FILE:
-				if (operation === LEXWARE_OPERATIONS.GET) {
-					params.fileId = this.getNodeParameter('fileId', i) as string;
-				}
-				break;
-		}
+}
 
-		return params;
+function buildParameters(this: IExecuteFunctions, i: number): Record<string, any> {
+	const resource = this.getNodeParameter('resource', i) as string;
+	const operation = this.getNodeParameter('operation', i) as string;
+	
+	const params: Record<string, any> = {
+		resource,
+		operation,
+		returnAll: this.getNodeParameter('returnAll', i, false) as boolean,
+		limit: this.getNodeParameter('limit', i, LEXWARE_DEFAULT_VALUES.DEFAULT_PAGE_SIZE) as number,
+		additionalFields: this.getNodeParameter('additionalFields', i, {}) as Record<string, any>,
+	};
+
+	// Add resource-specific parameters
+	switch (resource) {
+		case LEXWARE_RESOURCE_TYPES.CONTACT:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.contactId = this.getNodeParameter('contactId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.CREATE) {
+				params.contactId = this.getNodeParameter('contactType', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.ARTICLE:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.articleId = this.getNodeParameter('articleId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.VOUCHER:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.voucherId = this.getNodeParameter('voucherId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.CREATE) {
+				params.voucherType = this.getNodeParameter('voucherType', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.INVOICE:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.invoiceId = this.getNodeParameter('invoiceId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.QUOTATION:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.quotationId = this.getNodeParameter('quotationId', i) as string;
+				params.contactType = this.getNodeParameter('quotationId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.creditNoteId = this.getNodeParameter('creditNoteId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.DELIVERY_NOTE:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.deliveryNoteId = this.getNodeParameter('deliveryNoteId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.DUNNING:
+			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
+				params.dunningId = this.getNodeParameter('dunningId', i) as string;
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.FILE:
+			if (operation === LEXWARE_OPERATIONS.GET) {
+				params.fileId = this.getNodeParameter('fileId', i) as string;
+			}
+			break;
 	}
+
+	return params;
 }
