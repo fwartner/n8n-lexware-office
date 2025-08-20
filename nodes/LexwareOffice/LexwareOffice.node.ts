@@ -534,6 +534,110 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Filter articles by archived status',
 			},
+			// Article creation fields
+			{
+				displayName: 'Article Name',
+				name: 'articleName',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Name of the article',
+			},
+			{
+				displayName: 'Article Description',
+				name: 'articleDescription',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Description of the article',
+			},
+			{
+				displayName: 'Article Type (Create)',
+				name: 'articleTypeCreate',
+				type: 'options',
+				options: [
+					{ name: 'Service', value: LEXWARE_ARTICLE_TYPES.SERVICE },
+					{ name: 'Material', value: LEXWARE_ARTICLE_TYPES.MATERIAL },
+					{ name: 'Custom', value: LEXWARE_ARTICLE_TYPES.CUSTOM },
+				],
+				default: LEXWARE_ARTICLE_TYPES.SERVICE,
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Type of article to create',
+			},
+			{
+				displayName: 'Unit Price',
+				name: 'unitPrice',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Unit price of the article',
+			},
+			{
+				displayName: 'Currency',
+				name: 'currency',
+				type: 'string',
+				default: 'EUR',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Currency for the article price',
+			},
+			{
+				displayName: 'Tax Rate',
+				name: 'taxRate',
+				type: 'number',
+				default: 19,
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Tax rate percentage for the article',
+			},
+			{
+				displayName: 'Unit Name',
+				name: 'unitName',
+				type: 'string',
+				default: 'piece',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.ARTICLE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Unit name (e.g., piece, hour, kg)',
+			},
 			// Voucher specific fields
 			{
 				displayName: 'Voucher ID',
@@ -619,6 +723,77 @@ export class LexwareOffice implements INodeType {
 					},
 				},
 				description: 'The ID of the invoice',
+			},
+			// Invoice creation fields
+			{
+				displayName: 'Contact ID',
+				name: 'invoiceContactId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'ID of the contact for this invoice',
+			},
+			{
+				displayName: 'Invoice Date',
+				name: 'invoiceDate',
+				type: 'dateTime',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Date of the invoice',
+			},
+			{
+				displayName: 'Due Date',
+				name: 'dueDate',
+				type: 'dateTime',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Due date of the invoice',
+			},
+			{
+				displayName: 'Currency',
+				name: 'invoiceCurrency',
+				type: 'string',
+				default: 'EUR',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Currency for the invoice',
+			},
+			{
+				displayName: 'Language',
+				name: 'invoiceLanguage',
+				type: 'string',
+				default: 'de',
+				required: false,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.INVOICE],
+						operation: [LEXWARE_OPERATIONS.CREATE],
+					},
+				},
+				description: 'Language for the invoice',
 			},
 			{
 				displayName: 'Invoice Status',
