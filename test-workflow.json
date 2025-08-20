@@ -1,0 +1,39 @@
+{
+  "name": "Test Lexware Office Node",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 10
+      },
+      "id": "lexware-test",
+      "name": "Test Lexware Office",
+      "type": "lexwareOffice",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    }
+  ],
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "test-001",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "test-workflow",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "test-tag",
+      "name": "test"
+    }
+  ]
+}
