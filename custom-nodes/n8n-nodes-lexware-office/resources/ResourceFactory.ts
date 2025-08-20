@@ -14,6 +14,7 @@ import {
 	ProfileResource,
 	CountryResource,
 	PaymentConditionResource,
+	PaymentResource,
 	EventSubscriptionResource
 } from './index';
 import { LEXWARE_RESOURCE_TYPES } from '../constants';
@@ -43,6 +44,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PROFILE, new ProfileResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.COUNTRY, new CountryResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION, new PaymentConditionResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.PAYMENT, new PaymentResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
 	}
 
@@ -111,6 +113,8 @@ export class ResourceFactory {
 				return resource.get(params.countryCode);
 			case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
 				return resource.get(params.paymentConditionId);
+			case LEXWARE_RESOURCE_TYPES.PAYMENT:
+				return resource.get(params.paymentId);
 			case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 				return resource.get(params.eventSubscriptionId);
 			default:
@@ -149,6 +153,11 @@ export class ResourceFactory {
 		// Handle order confirmation specific filtering
 		if (resourceType === LEXWARE_RESOURCE_TYPES.ORDER_CONFIRMATION) {
 			return this.executeOrderConfirmationGetAll(resource, paginationParams, params);
+		}
+		
+		// Handle payment specific filtering
+		if (resourceType === LEXWARE_RESOURCE_TYPES.PAYMENT) {
+			return this.executePaymentGetAll(resource, paginationParams, params);
 		}
 		
 		return resource.getAll(paginationParams);
@@ -350,6 +359,72 @@ export class ResourceFactory {
 		return resource.getAll(paginationParams);
 	}
 
+	private async executePaymentGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
+		// Handle payment specific filtering
+		if (params.paymentType) {
+			return resource.getByType(params.paymentType, paginationParams);
+		}
+		
+		if (params.paymentStatus) {
+			return resource.getByStatus(params.paymentStatus, paginationParams);
+		}
+		
+		if (params.contactId) {
+			return resource.getByContact(params.contactId, paginationParams);
+		}
+		
+		if (params.voucherId) {
+			return resource.getByVoucher(params.voucherId, paginationParams);
+		}
+		
+		if (params.startDate && params.endDate) {
+			return resource.getByDateRange(params.startDate, params.endDate, paginationParams);
+		}
+		
+		if (params.paidDateStart && params.paidDateEnd) {
+			return resource.getByPaidDateRange(params.paidDateStart, params.paidDateEnd, paginationParams);
+		}
+		
+		if (params.clearingDateStart && params.clearingDateEnd) {
+			return resource.getByClearingDateRange(params.clearingDateStart, params.clearingDateEnd, paginationParams);
+		}
+		
+		if (params.minAmount && params.maxAmount) {
+			return resource.getByAmountRange(params.minAmount, params.maxAmount, paginationParams);
+		}
+		
+		if (params.currency) {
+			return resource.getByCurrency(params.currency, paginationParams);
+		}
+		
+		if (params.paymentMethod) {
+			return resource.getByPaymentMethod(params.paymentMethod, paginationParams);
+		}
+		
+		if (params.paymentItemType) {
+			return resource.getByPaymentItemType(params.paymentItemType, paginationParams);
+		}
+		
+		if (params.searchTerm) {
+			return resource.search(params.searchTerm, paginationParams);
+		}
+		
+		if (params.transactionId) {
+			return resource.getByTransactionId(params.transactionId, paginationParams);
+		}
+		
+		if (params.reference) {
+			return resource.getByReference(params.reference, paginationParams);
+		}
+		
+		if (params.iban) {
+			return resource.getByBankAccount(params.iban, paginationParams);
+		}
+		
+		// Default: get all payments
+		return resource.getAll(paginationParams);
+	}
+
 	private async executeInvoiceGetAll(resource: any, paginationParams: Record<string, any>, params: Record<string, any>): Promise<any> {
 		// Handle invoice specific filtering
 		if (params.invoiceStatus) {
@@ -538,6 +613,8 @@ export class ResourceFactory {
 					return resource.validateCreateData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
 					return resource.validateCreateData(params.additionalFields || {});
+				case LEXWARE_RESOURCE_TYPES.PAYMENT:
+					return resource.validatePaymentData(params.additionalFields || {});
 				case LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION:
 					return resource.validateCreateData(params.additionalFields || {});
 				default:

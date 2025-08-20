@@ -661,6 +661,82 @@ export interface ILexwarePaymentCondition {
 	paymentTerms?: number;
 }
 
+export interface ILexwarePayment {
+	// Payment identification
+	id?: string;
+	version?: number;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	
+	// Payment details
+	paymentNumber?: string;
+	paymentDate?: string;
+	paidDate?: string;
+	amount?: number;
+	currency?: string;
+	
+	// Payment type and status
+	paymentType?: 'incoming' | 'outgoing';
+	paymentStatus?: 'pending' | 'completed' | 'failed' | 'cancelled';
+	paymentMethod?: string;
+	
+	// Related entities
+	contactId?: string;
+	contactName?: string;
+	voucherId?: string;
+	voucherType?: string;
+	voucherNumber?: string;
+	
+	// Payment items
+	paymentItems?: Array<{
+		id?: string;
+		type: 'receivable' | 'payable' | 'irrecoverableReceivable';
+		amount: number;
+		currency: string;
+		description?: string;
+		voucherId?: string;
+		voucherType?: string;
+		voucherNumber?: string;
+		lineItemId?: string;
+		taxAmount?: number;
+		discountAmount?: number;
+		netAmount?: number;
+		grossAmount?: number;
+	}>;
+	
+	// Bank account information
+	bankAccount?: {
+		accountHolder?: string;
+		iban?: string;
+		bic?: string;
+		bankName?: string;
+		accountNumber?: string;
+		bankCode?: string;
+	};
+	
+	// Additional metadata
+	note?: string;
+	tags?: string[];
+	customFields?: Record<string, any>;
+	
+	// Transaction details
+	transactionId?: string;
+	reference?: string;
+	clearingDate?: string;
+	
+	// Tax and financial information
+	taxAmount?: number;
+	discountAmount?: number;
+	netAmount?: number;
+	grossAmount?: number;
+	
+	// Exchange rate information
+	exchangeRate?: number;
+	originalCurrency?: string;
+	originalAmount?: number;
+}
+
 export interface ILexwareEventSubscription {
 	id: string;
 	eventType: string;
@@ -745,6 +821,7 @@ export type LexwareResource =
 	| 'profile'
 	| 'country'
 	| 'paymentCondition'
+	| 'payment'
 	| 'eventSubscription';
 
 export type LexwareOperation = 'create' | 'get' | 'getAll' | 'update';

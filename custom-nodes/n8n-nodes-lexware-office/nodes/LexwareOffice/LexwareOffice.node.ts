@@ -1067,6 +1067,182 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'The ID of the payment condition',
 			},
+			// Payment specific fields
+			{
+				displayName: 'Payment ID',
+				name: 'paymentId',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET],
+					},
+				},
+				description: 'The ID of the payment',
+			},
+			{
+				displayName: 'Payment Type',
+				name: 'paymentType',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Types', value: '' },
+					{ name: 'Incoming', value: 'incoming' },
+					{ name: 'Outgoing', value: 'outgoing' },
+				],
+				description: 'Filter by payment type',
+			},
+			{
+				displayName: 'Payment Status',
+				name: 'paymentStatus',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Statuses', value: '' },
+					{ name: 'Pending', value: 'pending' },
+					{ name: 'Completed', value: 'completed' },
+					{ name: 'Failed', value: 'failed' },
+					{ name: 'Cancelled', value: 'cancelled' },
+				],
+				description: 'Filter by payment status',
+			},
+			{
+				displayName: 'Paid Date Start',
+				name: 'paidDateStart',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start paid date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Paid Date End',
+				name: 'paidDateEnd',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End paid date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Clearing Date Start',
+				name: 'clearingDateStart',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Start clearing date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Clearing Date End',
+				name: 'clearingDateEnd',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'End clearing date for filtering (YYYY-MM-DD)',
+			},
+			{
+				displayName: 'Payment Method',
+				name: 'paymentMethod',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by payment method',
+			},
+			{
+				displayName: 'Payment Item Type',
+				name: 'paymentItemType',
+				type: 'options',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				options: [
+					{ name: 'All Types', value: '' },
+					{ name: 'Receivable', value: 'receivable' },
+					{ name: 'Payable', value: 'payable' },
+					{ name: 'Irrecoverable Receivable', value: 'irrecoverableReceivable' },
+				],
+				description: 'Filter by payment item type',
+			},
+			{
+				displayName: 'Transaction ID',
+				name: 'transactionId',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by transaction ID',
+			},
+			{
+				displayName: 'Reference',
+				name: 'reference',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by reference',
+			},
+			{
+				displayName: 'IBAN',
+				name: 'iban',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.PAYMENT],
+						operation: [LEXWARE_OPERATIONS.GET_ALL],
+					},
+				},
+				description: 'Filter by IBAN',
+			},
 			// Event Subscription specific fields
 			{
 				displayName: 'Event Subscription ID',
@@ -1775,6 +1951,32 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 		case LEXWARE_RESOURCE_TYPES.PAYMENT_CONDITION:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.paymentConditionId = this.getNodeParameter('paymentConditionId', i) as string;
+			}
+			break;
+		case LEXWARE_RESOURCE_TYPES.PAYMENT:
+			if (operation === LEXWARE_OPERATIONS.GET) {
+				params.paymentId = this.getNodeParameter('paymentId', i) as string;
+			}
+			if (operation === LEXWARE_OPERATIONS.GET_ALL) {
+				params.paymentType = this.getNodeParameter('paymentType', i, '') as string;
+				params.paymentStatus = this.getNodeParameter('paymentStatus', i, '') as string;
+				params.contactId = this.getNodeParameter('contactId', i, '') as string;
+				params.voucherId = this.getNodeParameter('voucherId', i, '') as string;
+				params.startDate = this.getNodeParameter('startDate', i, '') as string;
+				params.endDate = this.getNodeParameter('endDate', i, '') as string;
+				params.paidDateStart = this.getNodeParameter('paidDateStart', i, '') as string;
+				params.paidDateEnd = this.getNodeParameter('paidDateEnd', i, '') as string;
+				params.clearingDateStart = this.getNodeParameter('clearingDateStart', i, '') as string;
+				params.clearingDateEnd = this.getNodeParameter('clearingDateEnd', i, '') as string;
+				params.minAmount = this.getNodeParameter('minAmount', i, 0) as number;
+				params.maxAmount = this.getNodeParameter('maxAmount', i, 0) as number;
+				params.currency = this.getNodeParameter('currency', i, '') as string;
+				params.paymentMethod = this.getNodeParameter('paymentMethod', i, '') as string;
+				params.paymentItemType = this.getNodeParameter('paymentItemType', i, '') as string;
+				params.searchTerm = this.getNodeParameter('searchTerm', i, '') as string;
+				params.transactionId = this.getNodeParameter('transactionId', i, '') as string;
+				params.reference = this.getNodeParameter('reference', i, '') as string;
+				params.iban = this.getNodeParameter('iban', i, '') as string;
 			}
 			break;
 			

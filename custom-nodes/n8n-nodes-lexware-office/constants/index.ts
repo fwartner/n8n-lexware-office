@@ -14,6 +14,7 @@ export const LEXWARE_API_ENDPOINTS = {
 	PROFILE: '/v1/profile',
 	COUNTRIES: '/v1/countries',
 	PAYMENT_CONDITIONS: '/v1/payment-conditions',
+	PAYMENTS: '/v1/payments',
 	EVENT_SUBSCRIPTIONS: '/v1/event-subscriptions',
 } as const;
 
@@ -32,6 +33,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	PROFILE: 'profile',
 	COUNTRY: 'country',
 	PAYMENT_CONDITION: 'paymentCondition',
+	PAYMENT: 'payment',
 	EVENT_SUBSCRIPTION: 'eventSubscription',
 } as const;
 
@@ -458,4 +460,10 @@ export const LEXWARE_COMMON_COUNTRY_CODES = {
 	MEXICO: 'MX',
 	RUSSIA: 'RU',
 	SOUTH_AFRICA: 'ZA',
+} as const;
+
+export const LEXWARE_PAYMENT_ITEM_TYPES = {
+	RECEIVABLE: 'receivable',
+	PAYABLE: 'payable',
+	IRRECOVERABLE_RECEIVABLE: 'irrecoverableReceivable',
 } as const;
