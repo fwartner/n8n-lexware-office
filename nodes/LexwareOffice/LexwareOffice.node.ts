@@ -4881,3 +4881,6 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 
 	return params;
 }
+
+// Export an instance of the node for n8n
+export const LexwareOfficeNode = new LexwareOffice();

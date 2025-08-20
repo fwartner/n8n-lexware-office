@@ -1,0 +1,31 @@
+{
+  "name": "Test Lexware Office Node Validation",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "create"
+      },
+      "id": "1",
+      "name": "Test Lexware Office Node",
+      "type": "n8n-nodes-lexware-office.lexwareOffice",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "credentials": {
+        "lexwareOfficeApi": {
+          "id": "test-credential",
+          "name": "Test Lexware Office API"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "active": false,
+  "settings": {},
+  "versionId": "1",
+  "meta": {
+    "instanceId": "test-instance"
+  },
+  "id": "test-workflow",
+  "tags": []
+}
