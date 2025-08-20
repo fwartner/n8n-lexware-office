@@ -3,7 +3,20 @@ export interface ILexwareCredentials {
 	resourceUrl: string;
 }
 
-export interface ILexwareContact {
+/**
+ * Base interface for all Lexware resources with optimistic locking support
+ * Based on the official Lexware API documentation for optimistic locking
+ */
+export interface ILexwareBaseResource extends ILexwareOptimisticLocking {
+	id?: string;
+	organizationId?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	createdBy?: string;
+	updatedBy?: string;
+}
+
+export interface ILexwareContact extends ILexwareBaseResource {
 	id?: string;
 	version: number;
 	roles: {
@@ -88,9 +101,9 @@ export interface ILexwareContact {
 	updatedAt?: string;
 }
 
-export interface ILexwareArticle {
+export interface ILexwareArticle extends ILexwareBaseResource {
 	id?: string;
-	version?: number;
+	version: number;
 	title: string;
 	type: 'service' | 'material' | 'custom';
 	unitName: string;
@@ -126,7 +139,7 @@ export interface ILexwareArticle {
 	};
 }
 
-export interface ILexwareVoucher {
+export interface ILexwareVoucher extends ILexwareBaseResource {
 	id?: string;
 	voucherType: string;
 	voucherDate: string;
@@ -164,7 +177,7 @@ export interface ILexwareInvoice extends ILexwareVoucher {
 	dueDate?: string;
 	
 	// Enhanced properties from the official API
-	version?: number;
+	version: number;
 	organizationId?: string;
 	createdAt?: string;
 	updatedAt?: string;
@@ -292,7 +305,7 @@ export interface ILexwareDownPaymentInvoice extends ILexwareVoucher {
 	downPaymentAmount?: number;
 	remainingAmount?: number;
 	// Additional properties from the official API
-	version?: number;
+	version: number;
 	organizationId?: string;
 	createdAt?: string;
 	updatedAt?: string;
@@ -360,7 +373,7 @@ export interface ILexwareQuotation extends ILexwareVoucher {
 	cancelledDate?: string;
 	
 	// Enhanced properties from the official API
-	version?: number;
+	version: number;
 	organizationId?: string;
 	createdAt?: string;
 	updatedAt?: string;
@@ -1612,6 +1625,40 @@ export interface ILexwarePaginationMetadata {
 export interface ILexwarePaginationResponse<T> {
 	data: T[];
 	pagination?: ILexwarePaginationMetadata;
+}
+
+/**
+ * Optimistic Locking Interface
+ * Based on the official Lexware API documentation for optimistic locking
+ */
+export interface ILexwareOptimisticLocking {
+	version: number;
+	lastModified?: string;
+	lastModifiedBy?: string;
+}
+
+/**
+ * Optimistic Locking Error Response
+ */
+export interface ILexwareOptimisticLockingError {
+	error: string;
+	code: string;
+	message: string;
+	currentVersion?: number;
+	requestedVersion?: number;
+	timestamp: string;
+	resourceId?: string;
+	resourceType?: string;
+}
+
+/**
+ * Optimistic Locking Update Request
+ */
+export interface ILexwareOptimisticLockingUpdateRequest<T> {
+	data: T;
+	version: number;
+	forceUpdate?: boolean;
+	skipVersionCheck?: boolean;
 }
 
 export interface ILexwareVoucherListParams extends ILexwarePaginationParams {

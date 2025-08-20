@@ -21,7 +21,14 @@ import {
 	RecurringTemplateResource,
 	VoucherlistResource
 } from './index';
-import { LEXWARE_RESOURCE_TYPES, LEXWARE_PAGINATION_LIMITS, LEXWARE_PAGINATION_PARAMS, LEXWARE_DEFAULT_SORT_OPTIONS } from '../constants';
+import { 
+	LEXWARE_RESOURCE_TYPES, 
+	LEXWARE_PAGINATION_LIMITS, 
+	LEXWARE_PAGINATION_PARAMS, 
+	LEXWARE_DEFAULT_SORT_OPTIONS,
+	LEXWARE_OPTIMISTIC_LOCKING,
+	LEXWARE_OPTIMISTIC_LOCKING_MESSAGES
+} from '../constants';
 
 export class ResourceFactory {
 	private credentials: ILexwareCredentials;

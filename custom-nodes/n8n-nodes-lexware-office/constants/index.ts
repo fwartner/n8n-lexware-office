@@ -223,6 +223,31 @@ export const LEXWARE_DEFAULT_VALUES = {
 } as const;
 
 /**
+ * Optimistic Locking Constants
+ * Based on the official Lexware API documentation for optimistic locking
+ */
+export const LEXWARE_OPTIMISTIC_LOCKING = {
+	VERSION_FIELD: 'version',
+	VERSION_INCREMENT: 1,
+	MIN_VERSION: 0,
+	MAX_VERSION: 999999,
+	VERSION_CONFLICT_ERROR: 'VERSION_CONFLICT',
+	VERSION_MISMATCH_ERROR: 'VERSION_MISMATCH',
+	CONCURRENT_UPDATE_ERROR: 'CONCURRENT_UPDATE',
+} as const;
+
+/**
+ * Optimistic Locking Error Messages
+ */
+export const LEXWARE_OPTIMISTIC_LOCKING_MESSAGES = {
+	VERSION_REQUIRED: 'Version field is required for optimistic locking',
+	VERSION_MISMATCH: 'Version mismatch detected. The resource has been modified by another process.',
+	CONCURRENT_UPDATE: 'Concurrent update detected. Please refresh and try again.',
+	VERSION_OUT_OF_RANGE: 'Version number is out of valid range',
+	UPDATE_FAILED: 'Update failed due to version conflict',
+} as const;
+
+/**
  * Pagination limits per endpoint as documented in the Lexware API
  * Based on the official documentation updated on 09.02.2022
  */
