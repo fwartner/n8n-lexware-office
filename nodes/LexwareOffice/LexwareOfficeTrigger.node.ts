@@ -420,35 +420,22 @@ export class LexwareOfficeTrigger implements INodeType {
 		const dateFilter = this.getNodeParameter('dateFilter') as IDataObject;
 		const additionalFilters = this.getNodeParameter('additionalFilters') as IDataObject;
 
-		// Get webhook URL
-		const webhookUrl = this.getNodeWebhookUrl('default');
-
-		// Create webhook configuration
-		const webhookConfig = {
+		// For now, this is a manual trigger that can be activated
+		// In a real implementation, this would register with Lexware Office webhook system
+		console.log('Lexware Office Trigger activated with configuration:', {
 			eventType,
-			webhookUrl,
-			webhookSecret,
-			filters: {
-				contactId: contactId || undefined,
-				voucherType: voucherType || undefined,
-				status: status || undefined,
-				amountFilter: Object.keys(amountFilter).length > 0 ? amountFilter : undefined,
-				dateFilter: Object.keys(dateFilter).length > 0 ? dateFilter : undefined,
-				additionalFilters: Object.keys(additionalFilters).length > 0 ? additionalFilters : undefined,
-			},
-		};
+			webhookSecret: webhookSecret ? '[HIDDEN]' : 'none',
+			contactId,
+			voucherType,
+			status,
+			amountFilter,
+			dateFilter,
+			additionalFilters,
+		});
 
-		// Register webhook with Lexware Office (this would be implemented in a real scenario)
-		console.log('Registering webhook with Lexware Office:', webhookConfig);
-
-		// Return webhook response
+		// Return a manual trigger response
 		return {
-			webhook: {
-				httpMethod: 'POST',
-				path: 'lexware-office-webhook',
-				responseMode: 'responseNode',
-				responseData: 'firstEntryJson',
-			},
+			manualTriggerResponse: Promise.resolve([[{ json: LexwareOfficeTrigger.createMockEvent(eventType) }]]),
 		};
 	}
 
@@ -460,39 +447,106 @@ export class LexwareOfficeTrigger implements INodeType {
 		// Verify webhook signature if secret is provided
 		const webhookSecret = this.getNodeParameter('webhookSecret') as string;
 		if (webhookSecret && headers['x-lexware-signature']) {
-			const isValid = this.verifyWebhookSignature(body, headers['x-lexware-signature'] as string, webhookSecret);
+			const isValid = LexwareOfficeTrigger.verifyWebhookSignature(body, headers['x-lexware-signature'] as string, webhookSecret);
 			if (!isValid) {
 				throw new Error('Invalid webhook signature');
 			}
 		}
 
 		// Process webhook data
-		const webhookData = this.processWebhookData(body);
+		const webhookData = LexwareOfficeTrigger.processWebhookData(body);
 
 		// Apply filters
-		const filteredData = this.applyFilters(webhookData);
+		const filteredData = LexwareOfficeTrigger.applyFilters(webhookData, this);
+
+		// Convert to INodeExecutionData format
+		const executionData = filteredData.map(item => ({ json: item }));
 
 		// Return filtered data
 		return {
-			workflowData: [filteredData],
+			workflowData: [executionData],
 		};
 	}
 
-	private verifyWebhookSignature(body: IDataObject, signature: string, secret: string): boolean {
+	private static createMockEvent(eventType: string): IDataObject {
+		const timestamp = new Date().toISOString();
+		const eventId = `mock_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+		
+		const baseEvent = {
+			eventType,
+			eventId,
+			timestamp,
+			metadata: {
+				source: 'lexware-office',
+				version: '1.0',
+				deliveryId: eventId,
+				retryCount: 0,
+			},
+		};
+
+		// Add event-specific mock data
+		switch (eventType) {
+			case 'contact.created':
+				return {
+					...baseEvent,
+					data: {
+						contactId: 'mock_contact_123',
+						contact: {
+							id: 'mock_contact_123',
+							name: 'Mock Company GmbH',
+							type: 'company',
+						},
+					},
+				};
+			case 'invoice.created':
+				return {
+					...baseEvent,
+					data: {
+						invoiceId: 'mock_invoice_456',
+						contactId: 'mock_contact_123',
+						amount: 1500.00,
+						currency: 'EUR',
+						status: 'draft',
+						voucherType: 'invoice',
+					},
+				};
+			case 'payment.received':
+				return {
+					...baseEvent,
+					data: {
+						paymentId: 'mock_payment_789',
+						invoiceId: 'mock_invoice_456',
+						amount: 1500.00,
+						currency: 'EUR',
+						paymentMethod: 'bank_transfer',
+					},
+				};
+			default:
+				return {
+					...baseEvent,
+					data: {
+						message: 'Mock event data for testing',
+						eventType,
+					},
+				};
+		}
+	}
+
+	private static verifyWebhookSignature(body: IDataObject, signature: string, secret: string): boolean {
 		// In a real implementation, this would verify the HMAC signature
 		// For now, we'll do a simple comparison
-		const expectedSignature = `sha256=${this.generateHmac(body, secret)}`;
+		const expectedSignature = `sha256=${LexwareOfficeTrigger.generateHmac(body, secret)}`;
 		return signature === expectedSignature;
 	}
 
-	private generateHmac(data: IDataObject, secret: string): string {
+	private static generateHmac(data: IDataObject, secret: string): string {
 		// In a real implementation, this would generate an HMAC
 		// For now, we'll return a simple hash
 		const dataString = JSON.stringify(data);
 		return require('crypto').createHmac('sha256', secret).update(dataString).digest('hex');
 	}
 
-	private processWebhookData(body: IDataObject): IDataObject {
+	private static processWebhookData(body: IDataObject): IDataObject {
 		// Process and normalize webhook data
 		const processedData = {
 			eventType: body.event_type || body.eventType,
@@ -510,13 +564,14 @@ export class LexwareOfficeTrigger implements INodeType {
 		return processedData;
 	}
 
-	private applyFilters(data: IDataObject): IDataObject[] {
-		const eventType = this.getNodeParameter('eventType') as string;
-		const contactId = this.getNodeParameter('contactId') as string;
-		const voucherType = this.getNodeParameter('voucherType') as string;
-		const status = this.getNodeParameter('status') as string;
-		const amountFilter = this.getNodeParameter('amountFilter') as IDataObject;
-		const dateFilter = this.getNodeParameter('dateFilter') as IDataObject;
+	private static applyFilters(data: IDataObject, webhookFunctions: IWebhookFunctions): IDataObject[] {
+		// Get parameters from the webhook context
+		const eventType = webhookFunctions.getNodeParameter('eventType') as string;
+		const contactId = webhookFunctions.getNodeParameter('contactId') as string;
+		const voucherType = webhookFunctions.getNodeParameter('voucherType') as string;
+		const status = webhookFunctions.getNodeParameter('status') as string;
+		const amountFilter = webhookFunctions.getNodeParameter('amountFilter') as IDataObject;
+		const dateFilter = webhookFunctions.getNodeParameter('dateFilter') as IDataObject;
 
 		// Check if event type matches
 		if (eventType !== 'all' && data.eventType !== eventType) {
@@ -524,30 +579,51 @@ export class LexwareOfficeTrigger implements INodeType {
 		}
 
 		// Apply contact ID filter
-		if (contactId && data.data?.contactId !== contactId && data.data?.contact?.id !== contactId) {
-			return [];
+		if (contactId && data.data && typeof data.data === 'object' && 'contactId' in data.data) {
+			const dataObj = data.data as IDataObject;
+			if (dataObj.contactId !== contactId) {
+				// Check nested contact.id
+				const contact = dataObj.contact;
+				if (contact && typeof contact === 'object' && 'id' in contact) {
+					const contactObj = contact as IDataObject;
+					if (contactObj.id !== contactId) {
+						return [];
+					}
+				} else {
+					return [];
+				}
+			}
 		}
 
 		// Apply voucher type filter
-		if (voucherType && data.data?.voucherType !== voucherType && data.data?.type !== voucherType) {
-			return [];
+		if (voucherType && data.data && typeof data.data === 'object' && 'voucherType' in data.data) {
+			const dataObj = data.data as IDataObject;
+			if (dataObj.voucherType !== voucherType && dataObj.type !== voucherType) {
+				return [];
+			}
 		}
 
 		// Apply status filter
-		if (status && data.data?.status !== status) {
-			return [];
+		if (status && data.data && typeof data.data === 'object' && 'status' in data.data) {
+			const dataObj = data.data as IDataObject;
+			if (dataObj.status !== status) {
+				return [];
+			}
 		}
 
 		// Apply amount filter
 		if (amountFilter.minAmount || amountFilter.maxAmount) {
-			const amount = data.data?.amount || data.data?.totalAmount || 0;
-			const currency = data.data?.currency || amountFilter.currency || 'EUR';
-			
-			if (amountFilter.minAmount && amount < amountFilter.minAmount) {
-				return [];
-			}
-			if (amountFilter.maxAmount && amount > amountFilter.maxAmount) {
-				return [];
+			if (data.data && typeof data.data === 'object') {
+				const dataObj = data.data as IDataObject;
+				const amount = dataObj.amount || dataObj.totalAmount || 0;
+				const currency = dataObj.currency || amountFilter.currency || 'EUR';
+				
+				if (amountFilter.minAmount && amount < amountFilter.minAmount) {
+					return [];
+				}
+				if (amountFilter.maxAmount && amount > amountFilter.maxAmount) {
+					return [];
+				}
 			}
 		}
 

@@ -4316,12 +4316,6 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 			}
 			break;
 			
-		case LEXWARE_RESOURCE_TYPES.QUOTATION:
-			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
-				params.quotationId = this.getNodeParameter('quotationId', i) as string;
-			}
-			break;
-			
 		case LEXWARE_RESOURCE_TYPES.CREDIT_NOTE:
 			if (operation === LEXWARE_OPERATIONS.GET || operation === LEXWARE_OPERATIONS.UPDATE) {
 				params.creditNoteId = this.getNodeParameter('creditNoteId', i) as string;
