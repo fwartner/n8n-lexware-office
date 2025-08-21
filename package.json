@@ -1,6 +1,6 @@
 {
   "name": "@pixelandprocess_de/n8n-nodes-lexware-office",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "n8n node for Lexware Office API integration",
   "main": "dist/index.js",
   "scripts": {
@@ -24,7 +24,8 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "nodes": [
-      "dist/nodes/LexwareOffice/LexwareOffice.node.js"
+      "dist/nodes/LexwareOffice/LexwareOffice.node.js",
+      "dist/nodes/LexwareOffice/LexwareOfficeTrigger.node.js"
     ],
     "credentials": [
       "dist/credentials/LexwareOfficeApi.credentials.js"

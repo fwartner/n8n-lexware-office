@@ -109,6 +109,7 @@ See [GitHub Installation Guide](GITHUB_INSTALLATION.md) for detailed instruction
 | 🎨 **Print Layouts** | CRUD + Specialized | Document formatting and templates |
 | 👤 **Profiles** | CRUD + Specialized | User and system profiles |
 | 🔄 **Recurring Templates** | CRUD + Specialized | Automated recurring operations |
+| 🚀 **Triggers** | Webhook Events | Real-time event monitoring and webhooks |
 
 ## 🎯 Available Operations
 
@@ -120,6 +121,34 @@ See [GitHub Installation Guide](GITHUB_INSTALLATION.md) for detailed instruction
 | **Update** | Modify existing resources | All resources |
 | **Delete** | Remove resources | All resources |
 | **Specialized** | Resource-specific operations | Varies by resource |
+| **Webhook Triggers** | Real-time event monitoring | All business events |
+
+## 🔔 Webhook Triggers & Events
+
+The Lexware Office Trigger Node provides real-time event monitoring capabilities for your workflows:
+
+### **Event Types Supported**
+- **Contact Events**: `contact.created`, `contact.updated`, `contact.deleted`
+- **Invoice Events**: `invoice.created`, `invoice.status.changed`, `invoice.paid`, `invoice.overdue`
+- **Quotation Events**: `quotation.created`, `quotation.accepted`, `quotation.rejected`
+- **Payment Events**: `payment.received`, `payment.processed`
+- **Article Events**: `article.created`, `article.updated`, `article.deleted`
+- **File Events**: `file.uploaded`
+- **Dunning Events**: `dunning.created`, `dunning.status.changed`
+
+### **Advanced Features**
+- **Smart Filtering**: Filter by contact ID, voucher type, status, amount, and date ranges
+- **Webhook Security**: HMAC-SHA256 signature verification
+- **Retry Mechanism**: Automatic retry of failed deliveries
+- **Event Logging**: Comprehensive monitoring and statistics
+
+### **Use Cases**
+- **Automated Customer Communication**: Welcome emails, payment confirmations
+- **Invoice Processing**: Status updates, payment reconciliation
+- **Sales Follow-up**: Quotation management, opportunity tracking
+- **Document Management**: File processing, automated workflows
+
+📖 **[Complete Trigger Documentation](TRIGGER_README.md)** - Detailed webhook trigger guide
 
 ## 🏗️ Project Structure
 
@@ -128,6 +157,8 @@ n8n-lexware-office/
 ├── 📁 dist/                    # Compiled JavaScript files
 ├── 📁 nodes/                   # Node implementations
 │   └── 📁 LexwareOffice/      # Main node with SVG icon
+│       ├── LexwareOffice.node.ts      # Main node implementation
+│       └── LexwareOfficeTrigger.node.ts # Webhook trigger node
 ├── 📁 credentials/             # Credential types
 ├── 📁 resources/               # API resource handlers
 ├── 📁 utils/                   # Utility functions
@@ -172,6 +203,7 @@ n8n-lexware-office/
 - 🚀 **[Quick Start](README.md#-quick-start)** - Get up and running fast
 - 🏗️ **[Project Structure](README.md#-project-structure)** - Code organization
 - 📋 **[Supported Resources](README.md#-supported-resources)** - Available functionality
+- 🔔 **[Webhook Triggers](TRIGGER_README.md)** - Complete trigger and event documentation
 
 ## 🛠️ Development
 
@@ -249,6 +281,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **12+ Business Resources** supported
 - **50+ Operations** available
+- **25+ Event Types** for webhook triggers
 - **100% TypeScript** codebase
 - **MIT License** for maximum flexibility
 - **Active Development** with regular updates
