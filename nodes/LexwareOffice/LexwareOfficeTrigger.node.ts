@@ -4,6 +4,8 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	IDataObject,
+	IWebhookResponseData,
+	IWebhookFunctions,
 } from 'n8n-workflow';
 import { ILexwareCredentials } from '../../types';
 
@@ -450,7 +452,7 @@ export class LexwareOfficeTrigger implements INodeType {
 		};
 	}
 
-	async webhook(this: ITriggerFunctions): Promise<IDataObject[]> {
+	async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
 		// Get webhook data
 		const body = this.getBodyData() as IDataObject;
 		const headers = this.getHeaderData() as IDataObject;
@@ -471,7 +473,9 @@ export class LexwareOfficeTrigger implements INodeType {
 		const filteredData = this.applyFilters(webhookData);
 
 		// Return filtered data
-		return filteredData.length > 0 ? filteredData : [];
+		return {
+			workflowData: [filteredData],
+		};
 	}
 
 	private verifyWebhookSignature(body: IDataObject, signature: string, secret: string): boolean {
@@ -549,7 +553,7 @@ export class LexwareOfficeTrigger implements INodeType {
 
 		// Apply date filter
 		if (dateFilter.startDate || dateFilter.endDate) {
-			const eventDate = new Date(data.timestamp);
+			const eventDate = new Date(data.timestamp as string);
 			
 			if (dateFilter.startDate && eventDate < new Date(dateFilter.startDate as string)) {
 				return [];
