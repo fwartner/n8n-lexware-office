@@ -21,6 +21,17 @@ export class QuotationResource {
 	}
 
 	/**
+	 * Helper method to ensure all voucherlist calls include required parameters
+	 */
+	private ensureVoucherlistParams(params: Record<string, any>): Record<string, any> {
+		return {
+			...params,
+			voucherType: 'quotation',
+			voucherStatus: params?.voucherStatus || '', // Always include voucherStatus as it's required
+		};
+	}
+
+	/**
 	 * Retrieve a quotation by ID
 	 * @param quotationId - The quotation ID
 	 * @returns Promise<ILexwareQuotation> - The quotation data
@@ -36,10 +47,7 @@ export class QuotationResource {
 	 */
 	async getAll(params?: Record<string, any>): Promise<ILexwareQuotation[]> {
 		// Use voucherlist endpoint with quotation filter
-		const queryParams = {
-			...params,
-			voucherType: 'quotation',
-		};
+		const queryParams = this.ensureVoucherlistParams(params);
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -183,11 +191,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByStatus(status: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			quotationStatus: status,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -198,11 +205,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByType(type: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			quotationType: type,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -213,11 +219,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByPriority(priority: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			priority: priority,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -229,12 +234,11 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByDateRange(startDate: string, endDate: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			startDate: startDate,
 			endDate: endDate,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -245,11 +249,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByContact(contactId: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			contactId: contactId,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -260,11 +263,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getBySalesPerson(salesPerson: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			salesPerson: salesPerson,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -275,11 +277,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByCampaign(campaign: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			campaign: campaign,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -291,12 +292,11 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByValueRange(minValue: number, maxValue: number, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			minValue: minValue,
 			maxValue: maxValue,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -308,12 +308,11 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByProbability(minProbability: number, maxProbability: number, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			minProbability: minProbability,
 			maxProbability: maxProbability,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -323,11 +322,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getRequiringApproval(params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			approvalRequired: true,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -337,11 +335,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getWithReminders(params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			reminderEnabled: true,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -351,11 +348,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getExpired(params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			quotationStatus: LEXWARE_QUOTATION_STATUSES.EXPIRED,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -366,11 +362,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getExpiringSoon(days: number = 7, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			expiringWithinDays: days,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -381,11 +376,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByLanguage(language: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			language: language,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -396,11 +390,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByCurrency(currency: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			currency: currency,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -410,11 +403,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getWithXRechnung(params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			xrechnungEnabled: true,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -425,11 +417,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByPrintLayout(printLayout: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			printLayout: printLayout,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -440,11 +431,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByTag(tag: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			tag: tag,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -455,11 +445,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async search(searchTerm: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			search: searchTerm,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -469,11 +458,10 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getWithAttachments(params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			hasAttachments: true,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 
@@ -485,12 +473,11 @@ export class QuotationResource {
 	 * @returns Promise<ILexwareQuotation[]> - Array of quotations
 	 */
 	async getByExternalReference(externalId: string, externalSystem: string, params?: Record<string, any>): Promise<ILexwareQuotation[]> {
-		const queryParams = {
+		const queryParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'quotation',
 			externalId: externalId,
 			externalSystem: externalSystem,
-		};
+		});
 		return this.apiClient.get<ILexwareQuotation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, queryParams);
 	}
 

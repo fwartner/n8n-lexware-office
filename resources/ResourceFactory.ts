@@ -61,6 +61,7 @@ export class ResourceFactory {
 		this.resources.set(LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION, new EventSubscriptionResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE, new RecurringTemplateResource(this.credentials));
 		this.resources.set(LEXWARE_RESOURCE_TYPES.VOUCHERLIST, new VoucherlistResource(this.credentials));
+		this.resources.set(LEXWARE_RESOURCE_TYPES.TRIGGER, {}); // Triggers are handled directly in ResourceFactory
 	}
 
 	getResource(resourceType: string): any {
@@ -105,6 +106,8 @@ export class ResourceFactory {
 				return this.executeDeleteFile(resource, resourceType, params);
 			case 'getCategoryIds':
 				return this.executeGetCategoryIds(resource, resourceType, params);
+			case 'trigger':
+				return this.executeTrigger(resource, resourceType, params);
 			default:
 				throw new Error(`Unsupported operation: ${operation}`);
 		}
@@ -1191,6 +1194,30 @@ export class ResourceFactory {
 				return resource.getCategoryIds();
 			default:
 				throw new Error(`Get category IDs operation not supported for resource type: ${resourceType}`);
+		}
+	}
+
+	private async executeTrigger(resource: any, resourceType: string, params: Record<string, any>): Promise<any> {
+		switch (resourceType) {
+			case LEXWARE_RESOURCE_TYPES.TRIGGER:
+				// For trigger operations, we'll simulate webhook events
+				// In a real implementation, this would integrate with the actual webhook system
+				const triggerData = {
+					eventType: params.eventType,
+					webhookUrl: params.webhookUrl,
+					webhookSecret: params.webhookSecret,
+					timestamp: new Date().toISOString(),
+					eventId: `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+					status: 'triggered',
+					message: `Event ${params.eventType} has been triggered successfully`,
+				};
+				
+				// Simulate sending webhook (in real implementation, this would make an HTTP request)
+				console.log('Triggering webhook:', triggerData);
+				
+				return triggerData;
+			default:
+				throw new Error(`Trigger operation not supported for resource type: ${resourceType}`);
 		}
 	}
 

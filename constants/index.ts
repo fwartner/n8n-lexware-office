@@ -43,6 +43,7 @@ export const LEXWARE_RESOURCE_TYPES = {
 	EVENT_SUBSCRIPTION: 'eventSubscription',
 	RECURRING_TEMPLATE: 'recurringTemplate',
 	VOUCHERLIST: 'voucherlist',
+	TRIGGER: 'trigger',
 } as const;
 
 export const LEXWARE_OPERATIONS = {
@@ -55,6 +56,7 @@ export const LEXWARE_OPERATIONS = {
 	PURSUE: 'pursue',
 	DOCUMENT: 'document',
 	DOWNLOAD_FILE: 'downloadFile',
+	TRIGGER: 'trigger',
 } as const;
 
 export const LEXWARE_VOUCHER_TYPES = {

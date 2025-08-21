@@ -117,6 +117,10 @@ export class LexwareOffice implements INodeType {
 						name: 'Voucherlist',
 						value: LEXWARE_RESOURCE_TYPES.VOUCHERLIST,
 					},
+					{
+						name: 'Trigger',
+						value: LEXWARE_RESOURCE_TYPES.TRIGGER,
+					},
 				],
 				default: LEXWARE_RESOURCE_TYPES.CONTACT,
 			},
@@ -140,6 +144,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.FILE,
 							LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
 							LEXWARE_RESOURCE_TYPES.VOUCHERLIST,
+							LEXWARE_RESOURCE_TYPES.TRIGGER,
 						],
 					},
 				},
@@ -201,6 +206,17 @@ export class LexwareOffice implements INodeType {
 							},
 						},
 					},
+					{
+						name: 'Trigger',
+						value: LEXWARE_OPERATIONS.TRIGGER,
+						description: 'Trigger webhook events',
+						action: 'Trigger webhook events',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.TRIGGER],
+							},
+						},
+					},
 				],
 				default: LEXWARE_OPERATIONS.GET,
 			},
@@ -218,6 +234,7 @@ export class LexwareOffice implements INodeType {
 							LEXWARE_RESOURCE_TYPES.EVENT_SUBSCRIPTION,
 							LEXWARE_RESOURCE_TYPES.RECURRING_TEMPLATE,
 							LEXWARE_RESOURCE_TYPES.VOUCHERLIST,
+							LEXWARE_RESOURCE_TYPES.TRIGGER,
 						],
 					},
 				},
@@ -233,6 +250,17 @@ export class LexwareOffice implements INodeType {
 						value: LEXWARE_OPERATIONS.GET_ALL,
 						description: 'Get all resources',
 						action: 'Get all resources',
+					},
+					{
+						name: 'Trigger',
+						value: LEXWARE_OPERATIONS.TRIGGER,
+						description: 'Trigger webhook events',
+						action: 'Trigger webhook events',
+						displayOptions: {
+							show: {
+								resource: [LEXWARE_RESOURCE_TYPES.TRIGGER],
+							},
+						},
 					},
 				],
 				default: LEXWARE_OPERATIONS.GET,
@@ -3883,6 +3911,86 @@ export class LexwareOffice implements INodeType {
 				},
 				description: 'Filter by tag',
 			},
+			// Trigger-specific fields
+			{
+				displayName: 'Event Type',
+				name: 'eventType',
+				type: 'options',
+				options: [
+					{
+						name: 'Contact Created',
+						value: 'contact.created',
+					},
+					{
+						name: 'Contact Updated',
+						value: 'contact.updated',
+					},
+					{
+						name: 'Contact Deleted',
+						value: 'contact.deleted',
+					},
+					{
+						name: 'Invoice Created',
+						value: 'invoice.created',
+					},
+					{
+						name: 'Invoice Updated',
+						value: 'invoice.updated',
+					},
+					{
+						name: 'Invoice Deleted',
+						value: 'invoice.deleted',
+					},
+					{
+						name: 'Article Created',
+						value: 'article.created',
+					},
+					{
+						name: 'Article Updated',
+						value: 'article.updated',
+					},
+					{
+						name: 'Article Deleted',
+						value: 'article.deleted',
+					},
+				],
+				default: 'contact.created',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.TRIGGER],
+						operation: [LEXWARE_OPERATIONS.TRIGGER],
+					},
+				},
+				description: 'Type of event to trigger',
+			},
+			{
+				displayName: 'Webhook URL',
+				name: 'webhookUrl',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.TRIGGER],
+						operation: [LEXWARE_OPERATIONS.TRIGGER],
+					},
+				},
+				description: 'URL to send webhook notifications to',
+			},
+			{
+				displayName: 'Webhook Secret',
+				name: 'webhookSecret',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: [LEXWARE_RESOURCE_TYPES.TRIGGER],
+						operation: [LEXWARE_OPERATIONS.TRIGGER],
+					},
+				},
+				description: 'Secret key for webhook security',
+			},
 			// Generic additional fields for creation/update
 			{
 				displayName: 'Additional Fields',
@@ -4575,6 +4683,14 @@ function buildParameters(this: IExecuteFunctions, i: number): Record<string, any
 				if (params.voucherStatus === undefined) params.voucherStatus = '';
 				if (params.voucherType === undefined) params.voucherType = '';
 				if (params.archived === undefined) params.archived = '';
+			}
+			break;
+			
+		case LEXWARE_RESOURCE_TYPES.TRIGGER:
+			if (operation === LEXWARE_OPERATIONS.TRIGGER) {
+				params.eventType = this.getNodeParameter('eventType', i) as string;
+				params.webhookUrl = this.getNodeParameter('webhookUrl', i) as string;
+				params.webhookSecret = this.getNodeParameter('webhookSecret', i, '') as string;
 			}
 			break;
 	}

@@ -265,11 +265,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Recurring order confirmations
 	 */
 	async getRecurringOrderConfirmations(params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const recurringParams = {
+		const recurringParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			isRecurring: true,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, recurringParams);
 	}
 
@@ -280,11 +279,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByTaxType(taxType: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const taxParams = {
+		const taxParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			taxType,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, taxParams);
 	}
 
@@ -295,11 +293,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByCurrency(currency: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const currencyParams = {
+		const currencyParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			currency,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, currencyParams);
 	}
 
@@ -310,11 +307,10 @@ export class OrderConfirmationResource {
 	 * @returns Promise<ILexwareOrderConfirmation[]> - Filtered order confirmations
 	 */
 	async getByLanguage(language: string, params?: Record<string, any>): Promise<ILexwareOrderConfirmation[]> {
-		const languageParams = {
+		const languageParams = this.ensureVoucherlistParams({
 			...params,
-			voucherType: 'orderconfirmation',
 			language,
-		};
+		});
 		return this.apiClient.get<ILexwareOrderConfirmation[]>(LEXWARE_API_ENDPOINTS.VOUCHER_LIST, languageParams);
 	}
 
